@@ -26,6 +26,9 @@ connectDB();
 const app = express();
 const server = http.createServer(app);
 
+// Trust Render's reverse proxy for correct IP identification in rate limiting
+app.set("trust proxy", 1);
+
 // Initialize Socket.IO
 initSocket(server);
 
