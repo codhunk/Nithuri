@@ -17,7 +17,11 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (isAuthenticated && user) {
-      const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL || "http://localhost:5000";
+      // Derive socket URL from API URL if not explicitly provided (e.g. for Production)
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/v1";
+      const derivedUrl = apiUrl.replace("/api/v1", "");
+      const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL || derivedUrl;
+      
       const token = typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
       
       const newSocket = io(socketUrl, {

@@ -10,7 +10,7 @@ let io;
 const initSocket = (server) => {
   io = new Server(server, {
     cors: {
-      origin: process.env.CLIENT_URL || "http://localhost:3000",
+      origin: [process.env.CLIENT_URL || "http://localhost:3000", process.env.CLIENT_URL_2],
       credentials: true,
     },
   });
@@ -19,7 +19,7 @@ const initSocket = (server) => {
   io.use(async (socket, next) => {
     try {
       let token = socket.handshake.auth?.token || socket.handshake.headers?.authorization?.split(" ")[1];
-      
+
       // Try to get from cookies (for httpOnly support)
       if (!token && socket.handshake.headers.cookie) {
         const cookies = cookie.parse(socket.handshake.headers.cookie);
@@ -116,9 +116,9 @@ const initSocket = (server) => {
         { status: "seen" }
       );
       // Notify everyone in the conversation that messages were seen
-      io.to(conversationId.toString()).emit("messages_seen", { 
-        conversationId, 
-        seenBy: user._id.toString() 
+      io.to(conversationId.toString()).emit("messages_seen", {
+        conversationId,
+        seenBy: user._id.toString()
       });
     });
 
