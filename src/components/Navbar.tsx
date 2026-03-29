@@ -88,7 +88,7 @@ export default function Navbar() {
           </nav>
 
           {/* ── Dark / Light toggle pill ── */}
-          <button
+          {/* <button
             onClick={toggleTheme}
             aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
             className="relative flex items-center w-14 h-7 rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary/50 cursor-pointer bg-slate-200 dark:bg-primary/20"
@@ -98,7 +98,7 @@ export default function Navbar() {
             >
               {isDark ? <MoonIcon size={12} /> : <SunIcon size={12} />}
             </div>
-          </button>
+          </button> */}
 
           <div className="flex items-center gap-3">
             {user ? (

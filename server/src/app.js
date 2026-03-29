@@ -36,7 +36,7 @@ initSocket(server);
 // ─── Middleware ───────────────────────────────────────────────────────────────
 app.use(helmet());
 app.use(cors({
-  origin: process.env.CLIENT_URL || "http://localhost:3000",
+  origin: [process.env.CLIENT_URL || "http://localhost:3000", process.env.CLIENT_URL_2],
   credentials: true,
 }));
 app.use(express.json({ limit: "10mb" }));
