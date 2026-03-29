@@ -30,7 +30,7 @@ interface ChatPopupProps {
 }
 
 export default function ChatPopup({ conversationId, onClose, receiver }: ChatPopupProps) {
-  const { user } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const { socket, isConnected } = useSocket();
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState("");
@@ -38,13 +38,15 @@ export default function ChatPopup({ conversationId, onClose, receiver }: ChatPop
   const [isMinimized, setIsMinimized] = useState(false);
 
   useEffect(() => {
-    if (!conversationId) return;
+    // ONLY fetch if we have a valid conversationId, socket, and a confirmed user
+    if (!conversationId || !isAuthenticated || !user) return;
     
     const fetchMessages = async () => {
       try {
         console.log("💬 Fetching messages for conversation:", conversationId);
         const res = await chatApi.getMessages(conversationId);
         setMessages(res.data);
+        
         if (socket && isConnected) {
           console.log("🔌 Joining room:", conversationId);
           socket.emit("join_conversation", conversationId);
@@ -55,10 +57,11 @@ export default function ChatPopup({ conversationId, onClose, receiver }: ChatPop
       }
     };
     fetchMessages();
-  }, [conversationId, socket, isConnected, receiver._id]);
+  }, [conversationId, socket, isConnected, isAuthenticated, user, receiver._id]);
 
   useEffect(() => {
-    if (!socket) return;
+    // Guard against missing socket or user
+    if (!socket || !user || !isAuthenticated) return;
 
     const handleReceiveMessage = (msg: Message) => {
       console.log("📩 New message received:", msg);
@@ -74,7 +77,7 @@ export default function ChatPopup({ conversationId, onClose, receiver }: ChatPop
           return [...prev, msg];
         });
         
-        if (msg.sender._id !== user?._id) {
+        if (msg.sender._id !== user._id) {
           socket.emit("message_seen", { conversationId, senderId: msg.sender._id });
         }
       }
@@ -95,14 +98,14 @@ export default function ChatPopup({ conversationId, onClose, receiver }: ChatPop
       socket.off("receive_message", handleReceiveMessage);
       socket.off("messages_seen", handleMessagesSeen);
     };
-  }, [socket, conversationId, user]);
+  }, [socket, conversationId, user, isAuthenticated]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   const sendMessage = () => {
-    if (!newMessage.trim() || !socket || !isConnected) {
+    if (!newMessage.trim() || !socket || !isConnected || !user) {
       if (!isConnected) console.error("❌ Socket not connected");
       return;
     }
@@ -118,7 +121,7 @@ export default function ChatPopup({ conversationId, onClose, receiver }: ChatPop
     setNewMessage("");
   };
 
-  if (!user) return null;
+  if (!user || !isAuthenticated) return null;
 
   return (
     <div className={`fixed bottom-6 right-6 w-[400px] max-w-[calc(100vw-48px)] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.7)] rounded-3xl overflow-hidden border border-white/20 dark:border-primary/20 z-50 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] transform ${isMinimized ? "h-16 translate-y-0" : "h-[550px]"} flex flex-col`}>
