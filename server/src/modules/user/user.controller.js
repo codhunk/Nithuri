@@ -14,7 +14,7 @@ exports.updateMe = async (req, res, next) => {
   try {
     const { name, phone, bio } = req.body;
     const updates = { name, phone, bio };
-    if (req.file) updates.avatar = `/uploads/avatars/${req.file.filename}`;
+    if (req.file) updates.avatar = req.file.path;
 
     const user = await User.findByIdAndUpdate(req.user._id, updates, { new: true, runValidators: true });
     res.json({ success: true, data: user });

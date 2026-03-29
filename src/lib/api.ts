@@ -23,6 +23,12 @@ export async function api<T = any>(endpoint: string, options: ApiOptions = {}): 
   const headers: Record<string, string> = {};
   if (!formData) headers["Content-Type"] = "application/json";
 
+  // Fallback to Bearer token if cookies are blocked on localhost
+  if (typeof window !== "undefined") {
+    const token = localStorage.getItem("accessToken");
+    if (token) headers["Authorization"] = `Bearer ${token}`;
+  }
+
   const res = await fetch(`${API_BASE}${endpoint}`, {
     method,
     headers,
@@ -51,7 +57,7 @@ export const authApi = {
     api("/auth/resend-otp", { method: "POST", body: { email } }),
 
   login: (payload: { email: string; password: string }) =>
-    api<{ data: AuthUser; requiresVerification?: boolean; email?: string }>(
+    api<{ data: AuthUser; requiresVerification?: boolean; email?: string; accessToken?: string }>(
       "/auth/login", { method: "POST", body: payload }
     ),
 
@@ -92,6 +98,19 @@ export const chatApi = {
   getConversations: () => api("/chat/conversations"),
   getMessages: (conversationId: string, page = 1) =>
     api(`/chat/conversations/${conversationId}/messages?page=${page}`),
+};
+
+// ─── Admin API ────────────────────────────────────────────────────────────────
+export const adminApi = {
+  getStats: () => api<{ data: any }>("/admin/stats"),
+  getUsers: (params?: Record<string, string>) => {
+    const q = params ? "?" + new URLSearchParams(params).toString() : "";
+    return api(`/admin/users${q}`);
+  },
+  blockUser: (id: string, isBlocked: boolean) => api(`/admin/users/${id}/block`, { method: "PUT", body: { isBlocked } }),
+  getProperties: (status?: string) => api(`/admin/properties${status ? `?status=${status}` : ""}`),
+  approveProperty: (id: string, payload: { status: "approved" | "rejected"; rejectionReason?: string }) =>
+    api(`/admin/properties/${id}/approve`, { method: "PUT", body: payload }),
 };
 
 // ─── Types ────────────────────────────────────────────────────────────────────

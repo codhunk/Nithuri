@@ -131,7 +131,7 @@ export default function ContactPage() {
             <h2 className="text-3xl font-black mb-3">Visit our Office</h2>
             <p className="text-slate-500 font-medium">Find us at our central regional headquarters in Siddharthnagar.</p>
           </div>
-          <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-2xl shadow-primary/5 overflow-hidden ring-1 ring-slate-200/50">
+          <div className="bg-white rounded-xl border border-slate-100 shadow-2xl shadow-primary/5 overflow-hidden ring-1 ring-slate-200/50">
             <div className="h-[450px] w-full relative">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3550.458647328952!2d83.49229667523274!3d27.141856076511374!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3996af00288b6a7f%3A0x82128d57629f0452!2sNithuri%20singh%20and%20sons%20associates!5e0!3m2!1sen!2sin!4v1774702432877!5m2!1sen!2sin"
@@ -145,8 +145,8 @@ export default function ContactPage() {
             </div>
             <div className="p-8 bg-slate-50 flex flex-col sm:flex-row justify-between items-center gap-6 border-t border-slate-100">
               <div className="text-center sm:text-left">
-                 <p className="font-black text-slate-900 text-lg">Nithuri Singh & Sons Associates</p>
-                 <p className="text-sm text-slate-500 font-medium italic">Tetari Bazar, Siddharthnagar, Uttar Pradesh 272202</p>
+                <p className="font-black text-slate-900 text-lg">Nithuri Singh & Sons Associates</p>
+                <p className="text-sm text-slate-500 font-medium italic">Tetari Bazar, Siddharthnagar, Uttar Pradesh 272202</p>
               </div>
               <a
                 href="https://www.google.com/maps/dir//Nithuri+singh+and+sons+associates/@27.1418561,83.4922967,17z/data=!4m8!4m7!1m0!1m5!1m1!1s0x3996af00288b6a7f:0x82128d57629f0452!2m2!1d83.4948716!2d27.1418561?entry=ttu"

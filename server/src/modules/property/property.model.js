@@ -56,5 +56,6 @@ propertySchema.index({ status: 1, isDeleted: 1 });
 propertySchema.index({ price: 1 });
 propertySchema.index({ "address.city": 1 });
 propertySchema.index({ propertyType: 1, listingType: 1 });
+propertySchema.index({ title: "text", description: "text", "address.city": "text", "address.state": "text" });
 
 module.exports = mongoose.model("Property", propertySchema);

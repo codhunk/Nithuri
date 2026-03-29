@@ -11,6 +11,7 @@ require("dotenv").config();
 const connectDB = require("./config/db");
 const { initSocket } = require("./config/socket");
 const errorHandler = require("./middlewares/errorHandler");
+const seedAdmin = require("./utils/seed");
 
 // Route Imports
 const authRoutes = require("./modules/auth/auth.routes");
@@ -20,8 +21,8 @@ const inquiryRoutes = require("./modules/inquiry/inquiry.routes");
 const chatRoutes = require("./modules/chat/chat.routes");
 const adminRoutes = require("./modules/admin/admin.routes");
 
-// Connect to DB
-connectDB();
+// Connect to DB and seed admin
+connectDB().then(seedAdmin);
 
 const app = express();
 const server = http.createServer(app);

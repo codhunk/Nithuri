@@ -29,7 +29,7 @@ export default function AddPropertyPage() {
     if (e.target.files) {
       const newFiles = Array.from(e.target.files);
       setFiles((prev) => [...prev, ...newFiles]);
-      
+
       const newPreviews = newFiles.map(file => URL.createObjectURL(file));
       setPreviews((prev) => [...prev, ...newPreviews]);
     }
@@ -54,16 +54,16 @@ export default function AddPropertyPage() {
       formData.append("price", form.price);
       formData.append("propertyType", form.propertyType);
       formData.append("listingType", form.listingType);
-      
+
       // Map address fields
       formData.append("address[street]", form.address);
       formData.append("address[city]", form.city);
       formData.append("address[state]", form.state);
-      
+
       // Map area fields
       formData.append("area[size]", form.areaSize);
       formData.append("area[unit]", form.areaUnit);
-      
+
       formData.append("bedrooms", form.bedrooms);
       formData.append("bathrooms", form.bathrooms);
 
@@ -116,40 +116,40 @@ export default function AddPropertyPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-               <div className="flex flex-col gap-3">
-                  <label className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest pl-1">Property Type</label>
-                  <select
-                    className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-2xl px-5 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary transition-all dark:text-white appearance-none"
-                    value={form.propertyType}
-                    onChange={(e) => setForm({ ...form, propertyType: e.target.value })}
-                  >
-                    {[
-                      { val: "plot", lab: "Land / Plot" },
-                      { val: "house", lab: "House / Villa" },
-                      { val: "apartment", lab: "Flat / Apartment" },
-                      { val: "commercial", lab: "Commercial Space" },
-                      { val: "farmhouse", lab: "Farmhouse" }
-                    ].map(t => (
-                      <option key={t.val} value={t.val} className="dark:bg-slate-900">{t.lab}</option>
-                    ))}
-                  </select>
-               </div>
-               <div className="flex flex-col gap-3">
-                  <label className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest pl-1">Listing Type</label>
-                  <select
-                    className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-2xl px-5 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary transition-all dark:text-white appearance-none"
-                    value={form.listingType}
-                    onChange={(e) => setForm({ ...form, listingType: e.target.value })}
-                  >
-                    {[
-                      { val: "sell", lab: "For Sale" },
-                      { val: "rent", lab: "For Rent" },
-                      { val: "lease", lab: "For Lease" }
-                    ].map(t => (
-                      <option key={t.val} value={t.val} className="dark:bg-slate-900">{t.lab}</option>
-                    ))}
-                  </select>
-               </div>
+              <div className="flex flex-col gap-3">
+                <label className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest pl-1">Property Type</label>
+                <select
+                  className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-2xl px-5 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary transition-all dark:text-white appearance-none"
+                  value={form.propertyType}
+                  onChange={(e) => setForm({ ...form, propertyType: e.target.value })}
+                >
+                  {[
+                    { val: "plot", lab: "Land / Plot" },
+                    { val: "house", lab: "House / Villa" },
+                    { val: "apartment", lab: "Flat / Apartment" },
+                    { val: "commercial", lab: "Commercial Space" },
+                    { val: "farmhouse", lab: "Farmhouse" }
+                  ].map(t => (
+                    <option key={t.val} value={t.val} className="dark:bg-slate-900">{t.lab}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex flex-col gap-3">
+                <label className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest pl-1">Listing Type</label>
+                <select
+                  className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-2xl px-5 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary transition-all dark:text-white appearance-none"
+                  value={form.listingType}
+                  onChange={(e) => setForm({ ...form, listingType: e.target.value })}
+                >
+                  {[
+                    { val: "sell", lab: "For Sale" },
+                    { val: "rent", lab: "For Rent" },
+                    { val: "lease", lab: "For Lease" }
+                  ].map(t => (
+                    <option key={t.val} value={t.val} className="dark:bg-slate-900">{t.lab}</option>
+                  ))}
+                </select>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -168,29 +168,29 @@ export default function AddPropertyPage() {
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3">
-                 <div className="flex flex-col gap-3">
-                    <label className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest pl-1">Area Size</label>
-                    <input
-                      required
-                      type="number"
-                      placeholder="e.g. 1500"
-                      className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-2xl px-5 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary transition-all dark:text-white"
-                      value={form.areaSize}
-                      onChange={(e) => setForm({ ...form, areaSize: e.target.value })}
-                    />
-                 </div>
-                 <div className="flex flex-col gap-3">
-                    <label className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest pl-1">Unit</label>
-                    <select
-                      className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-2xl px-5 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary transition-all dark:text-white appearance-none"
-                      value={form.areaUnit}
-                      onChange={(e) => setForm({ ...form, areaUnit: e.target.value })}
-                    >
-                      {["sqft", "sqm", "bigha", "acre", "marla"].map(u => (
-                        <option key={u} value={u} className="dark:bg-slate-900">{u}</option>
-                      ))}
-                    </select>
-                 </div>
+                <div className="flex flex-col gap-3">
+                  <label className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest pl-1">Area Size</label>
+                  <input
+                    required
+                    type="number"
+                    placeholder="e.g. 1500"
+                    className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-2xl px-5 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary transition-all dark:text-white"
+                    value={form.areaSize}
+                    onChange={(e) => setForm({ ...form, areaSize: e.target.value })}
+                  />
+                </div>
+                <div className="flex flex-col gap-3">
+                  <label className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest pl-1">Unit</label>
+                  <select
+                    className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-2xl px-5 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary transition-all dark:text-white appearance-none"
+                    value={form.areaUnit}
+                    onChange={(e) => setForm({ ...form, areaUnit: e.target.value })}
+                  >
+                    {["sqft", "sqm", "bigha", "acre", "marla"].map(u => (
+                      <option key={u} value={u} className="dark:bg-slate-900">{u}</option>
+                    ))}
+                  </select>
+                </div>
               </div>
             </div>
 
@@ -218,7 +218,7 @@ export default function AddPropertyPage() {
           </div>
 
           <div className="space-y-6">
-            <label className="block border-2 border-dashed border-slate-200 dark:border-primary/20 rounded-[2.5rem] p-16 text-center hover:border-primary/50 transition-all cursor-pointer bg-slate-50/50 dark:bg-primary/5 group">
+            <label className="block border-2 border-dashed border-slate-200 dark:border-primary/20 rounded-xl p-16 text-center hover:border-primary/50 transition-all cursor-pointer bg-slate-50/50 dark:bg-primary/5 group">
               <input type="file" multiple accept="image/*" className="hidden" onChange={handleFileChange} />
               <div className="w-20 h-20 bg-white dark:bg-slate-800 rounded-[2rem] flex items-center justify-center mx-auto mb-6 shadow-xl group-hover:scale-110 transition-transform">
                 <span className="material-symbols-outlined text-4xl text-primary">add_photo_alternate</span>
@@ -232,8 +232,8 @@ export default function AddPropertyPage() {
                 {previews.map((src, i) => (
                   <div key={i} className="relative aspect-square rounded-3xl overflow-hidden group border-2 border-slate-100 dark:border-primary/10 shadow-lg">
                     <img src={src} alt="Preview" className="w-full h-full object-cover transition-transform group-hover:scale-110" />
-                    <button 
-                      type="button" 
+                    <button
+                      type="button"
                       onClick={() => removeFile(i)}
                       className="absolute top-2 right-2 w-8 h-8 bg-red-500/90 text-white rounded-xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-xl backdrop-blur-sm"
                     >
@@ -257,53 +257,53 @@ export default function AddPropertyPage() {
           </div>
 
           <div className="space-y-8">
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-               <div className="flex flex-col gap-3">
-                  <label className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest pl-1">City</label>
-                  <input
-                    required
-                    type="text"
-                    className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-2xl px-5 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary transition-all dark:text-white"
-                    value={form.city}
-                    onChange={(e) => setForm({ ...form, city: e.target.value })}
-                  />
-               </div>
-               <div className="flex flex-col gap-3">
-                  <label className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest pl-1">State / Region</label>
-                  <input
-                    required
-                    type="text"
-                    className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-2xl px-5 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary transition-all dark:text-white"
-                    value={form.state}
-                    onChange={(e) => setForm({ ...form, state: e.target.value })}
-                  />
-               </div>
-             </div>
-
-             <div className="flex flex-col gap-3">
-                <label className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest pl-1">Street / Landmark</label>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="flex flex-col gap-3">
+                <label className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest pl-1">City</label>
                 <input
                   required
                   type="text"
-                  placeholder="Street name, Village name or Landmark"
                   className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-2xl px-5 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary transition-all dark:text-white"
-                  value={form.address}
-                  onChange={(e) => setForm({ ...form, address: e.target.value })}
+                  value={form.city}
+                  onChange={(e) => setForm({ ...form, city: e.target.value })}
                 />
-             </div>
+              </div>
+              <div className="flex flex-col gap-3">
+                <label className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest pl-1">State / Region</label>
+                <input
+                  required
+                  type="text"
+                  className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-2xl px-5 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary transition-all dark:text-white"
+                  value={form.state}
+                  onChange={(e) => setForm({ ...form, state: e.target.value })}
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <label className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest pl-1">Street / Landmark</label>
+              <input
+                required
+                type="text"
+                placeholder="Street name, Village name or Landmark"
+                className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-2xl px-5 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary transition-all dark:text-white"
+                value={form.address}
+                onChange={(e) => setForm({ ...form, address: e.target.value })}
+              />
+            </div>
           </div>
         </div>
 
         <div className="flex justify-end gap-6 items-center pb-20">
-          <button 
-            type="button" 
-            onClick={() => router.back()} 
+          <button
+            type="button"
+            onClick={() => router.back()}
             className="px-8 py-3 rounded-2xl font-black text-sm text-slate-500 hover:bg-slate-100 dark:hover:bg-primary/10 transition-all"
           >
             Go Back
           </button>
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             disabled={isLoading}
             className="bg-primary hover:bg-primary/90 text-white px-12 py-4 rounded-2xl font-black shadow-2xl shadow-primary/30 hover:shadow-primary/40 transition-all active:scale-95 flex items-center gap-3 disabled:opacity-50 text-lg"
           >

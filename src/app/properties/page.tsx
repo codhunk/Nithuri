@@ -1,224 +1,249 @@
+"use client";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Link from "next/link";
-
-const properties = [
-  {
-    id: 1,
-    title: "Azure Modern Villa",
-    price: "₹580,000",
-    location: "Kilimani, KE",
-    type: "Villa",
-    area: "4,200 sq ft",
-    beds: 5,
-    baths: 4,
-    tag: "Featured",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuC7MSs1lZXAako3P-lJhYt1psBGoOmDCc8Cy6jfQ4HqK9MPxPFQ3fBafmJTowcnQgR1OpiU_bH5jEK-7FDBMwuAuwX1rWB7ut384SlgkEDfh1LrqCm03TeCxq4wbyLF9QNdr_mEjZU3rlJaec3FJvkVZddxC00ms5GjWSiAJm5YAlvBhRd0pBxRWZua2IyTRlNjTqz9ZPqvnhGUXvlTHTcYQWhmN6mD880ChEJqZYqwBodBrMeFJ5E7JIxCnPZT-qIPV0ohCzxi8ag",
-  },
-  {
-    id: 2,
-    title: "Elite Loft Apartments",
-    price: "₹320,000",
-    location: "Westlands, KE",
-    type: "Apartment",
-    area: "1,800 sq ft",
-    beds: 3,
-    baths: 2,
-    tag: "Hot Deal",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCMhdUXrh9kemtPd-I2-mAgqN0-G6010BLyQk2OPLNMaQ2H-7nE9GY4Fqhc0-lH8QzixA0kOlJx8V9QHLacueqVCzl6PUV0Rpk5QZJJ58-VytrvLuRVApwL4IUx6_YOtCR2itbxIKb1O96Uww1zl2slxw_sRCiMH95Y60Cfh-mGmF63ysljTycdOSh_lBmJylwjbwYYr_C3QpwPwqhuaYrZ7r-6thQAfjvZNIv7chIMSqsn9AgwwavvKEFge-b4qSxUyL7Eon7L_Rc",
-  },
-  {
-    id: 3,
-    title: "Rustic Cedar Cottage",
-    price: "₹195,000",
-    location: "Karen, KE",
-    type: "Cottage",
-    area: "2,100 sq ft",
-    beds: 3,
-    baths: 2,
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDsZRtyw9lbgqPSmfhGXRwF3m1Y6ix-JBAcBnDC4PyFn4slchtEzLudwoejrQAS9EirSh8AI8k7Y--NHnUaEW_F46R85SVkWn9OqPCsmNyo4FuhFXfmhajF5au5D_pndDrpxn7kFfcEdFDJy-AOXJRslwZtyoifGNnMCI2gm8I5kL-k-n7CU54FCFaswlDFqVDusSTG-jMCjaW6kc-kCouRfQJZQHI6pWSy_ue2AKMV01JtOs0pfaSXwa8oALE3M_jRiI7_Td2JUZ0",
-  },
-  {
-    id: 4,
-    title: "Midtown Corporate Hub",
-    price: "₹1,200,000",
-    location: "Nairobi CBD, KE",
-    type: "Commercial",
-    area: "8,500 sq ft",
-    beds: 0,
-    baths: 6,
-    tag: "Commercial",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBWVWh301ONDY1GSlZk85eI2cwMRuWGRsbM0m4DlYyBh_NbdkWNuUXrdivaYzd7N7PAAtovrUKE11fz1V7C_Qvp_5vH0Lj_q3n7bk9cNl5qZC4QVcnM9kshMmf5DH8xWS95iuA1OoYPS4FYGGHevi1f4Vudz7CBnzB_6lIpfIgcPh53zbjMLGEPlp2pgRe_XCnDhlFqAA2RbalJUvAUjLPFOHk_X0tLtnC_r05DkBmySFakXNm2uWLUz4sWcL8gvrZlufHr7eicrG4",
-  },
-  {
-    id: 5,
-    title: "Skyline Penthouse",
-    price: "₹890,000",
-    location: "Upper Hill, KE",
-    type: "Penthouse",
-    area: "3,200 sq ft",
-    beds: 4,
-    baths: 3,
-    tag: "New Listing",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBE8tOOBHXLb6T1Q1LTBlj-XoI9fbMbS6zrJGboT2gqxo8KEwsdVHXRzEDiVQz6ZhJiKKbBB6VmTpMeVnVviulZ4A7NoS5GTGCEd-MWGZ3aXzJaHddBhSo42wOF6hYdDpGaedb9QRlSRMd5flWyOtdl9_yi0WXVpDyrDyFYroJ2oJTnREYYyVMUdqkJyr9HK3dSnt-tGEVgdDsq5pjqhf_Ha0r30KUWmXrNmIl4Co3jSVxQYGwhaw7I4p3ucfEI-UbudrhD7ba__Ls",
-  },
-  {
-    id: 6,
-    title: "Suburban Family Haven",
-    price: "₹420,000",
-    location: "Runda, KE",
-    type: "House",
-    area: "3,600 sq ft",
-    beds: 4,
-    baths: 3,
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCKBC4_FtrQhQz56aFCT-s-diTWg8vdwC5ugplmY-JmnBAfJ3SMTf2ynznYCxJL7dqJSZofkj1ZLgV5XBgpUOi_Q_cQij6keYhjZzx3NDAm2DtJP2ogRk-OHZYxWgcNEj6E7Z1LHtfaHUxuoUgJ8zxqU5zo0M9rzqdMtO8h5wEUukfcXxIwMTTTbzzsvGPfq6DutSucFn6N525ivwpKwqLEu--Z7rkDZhxKBiVdd4eC8MbTeRXBhYedTnSAi6fp0vYUZXsg6FWSEa8",
-  },
-  {
-    id: 7,
-    title: "Suburban Family Haven",
-    price: "₹420,000",
-    location: "Runda, KE",
-    type: "House",
-    area: "3,600 sq ft",
-    beds: 4,
-    baths: 3,
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCKBC4_FtrQhQz56aFCT-s-diTWg8vdwC5ugplmY-JmnBAfJ3SMTf2ynznYCxJL7dqJSZofkj1ZLgV5XBgpUOi_Q_cQij6keYhjZzx3NDAm2DtJP2ogRk-OHZYxWgcNEj6E7Z1LHtfaHUxuoUgJ8zxqU5zo0M9rzqdMtO8h5wEUukfcXxIwMTTTbzzsvGPfq6DutSucFn6N525ivwpKwqLEu--Z7rkDZhxKBiVdd4eC8MbTeRXBhYedTnSAi6fp0vYUZXsg6FWSEa8",
-  },
-  {
-    id: 8,
-    title: "Suburban Family Haven",
-    price: "₹420,000",
-    location: "Runda, KE",
-    type: "House",
-    area: "3,600 sq ft",
-    beds: 4,
-    baths: 3,
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCKBC4_FtrQhQz56aFCT-s-diTWg8vdwC5ugplmY-JmnBAfJ3SMTf2ynznYCxJL7dqJSZofkj1ZLgV5XBgpUOi_Q_cQij6keYhjZzx3NDAm2DtJP2ogRk-OHZYxWgcNEj6E7Z1LHtfaHUxuoUgJ8zxqU5zo0M9rzqdMtO8h5wEUukfcXxIwMTTTbzzsvGPfq6DutSucFn6N525ivwpKwqLEu--Z7rkDZhxKBiVdd4eC8MbTeRXBhYedTnSAi6fp0vYUZXsg6FWSEa8",
-  },
-  {
-    id: 9,
-    title: "Suburban Family Haven",
-    price: "₹420,000",
-    location: "Runda, KE",
-    type: "House",
-    area: "3,600 sq ft",
-    beds: 4,
-    baths: 3,
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCKBC4_FtrQhQz56aFCT-s-diTWg8vdwC5ugplmY-JmnBAfJ3SMTf2ynznYCxJL7dqJSZofkj1ZLgV5XBgpUOi_Q_cQij6keYhjZzx3NDAm2DtJP2ogRk-OHZYxWgcNEj6E7Z1LHtfaHUxuoUgJ8zxqU5zo0M9rzqdMtO8h5wEUukfcXxIwMTTTbzzsvGPfq6DutSucFn6N525ivwpKwqLEu--Z7rkDZhxKBiVdd4eC8MbTeRXBhYedTnSAi6fp0vYUZXsg6FWSEa8",
-  },
-  {
-    id: 10,
-    title: "Suburban Family Haven",
-    price: "₹420,000",
-    location: "Runda, KE",
-    type: "House",
-    area: "3,600 sq ft",
-    beds: 4,
-    baths: 3,
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCKBC4_FtrQhQz56aFCT-s-diTWg8vdwC5ugplmY-JmnBAfJ3SMTf2ynznYCxJL7dqJSZofkj1ZLgV5XBgpUOi_Q_cQij6keYhjZzx3NDAm2DtJP2ogRk-OHZYxWgcNEj6E7Z1LHtfaHUxuoUgJ8zxqU5zo0M9rzqdMtO8h5wEUukfcXxIwMTTTbzzsvGPfq6DutSucFn6N525ivwpKwqLEu--Z7rkDZhxKBiVdd4eC8MbTeRXBhYedTnSAi6fp0vYUZXsg6FWSEa8",
-  },
-];
+import { formatAddress } from "@/lib/utils";
+import { propertiesApi, ApiError } from "@/lib/api";
 
 export default function PropertiesPage() {
+  const [properties, setProperties] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [pagination, setPagination] = useState({ page: 1, pages: 1 });
+
+  // Filters state
+  const [filters, setFilters] = useState({
+    search: "",
+    city: "",
+    type: "",
+    listingType: "",
+    minPrice: "",
+    maxPrice: "",
+    sort: "newest"
+  });
+
+  const fetchProperties = async (page = 1) => {
+    setIsLoading(true);
+    try {
+      const queryParams: any = {
+        page: String(page),
+        sort: filters.sort
+      };
+
+      if (filters.search) queryParams.search = filters.search;
+      if (filters.city) queryParams.city = filters.city;
+      if (filters.type) queryParams.type = filters.type;
+      if (filters.listingType) queryParams.listingType = filters.listingType;
+      if (filters.minPrice) queryParams.minPrice = filters.minPrice;
+      if (filters.maxPrice) queryParams.maxPrice = filters.maxPrice;
+
+      const res = await propertiesApi.getAll(queryParams);
+      setProperties(res.data);
+      if (res.pagination) {
+        setPagination({ page: res.pagination.page, pages: res.pagination.pages });
+      }
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : "Failed to load properties.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProperties(1);
+  }, [filters.sort, filters.listingType, filters.type]);
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    fetchProperties(1);
+  };
+
   return (
-    <div className="flex h-full grow flex-col min-h-screen">
+    <div className="flex h-full grow flex-col min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
       <Navbar />
       <main>
-        {/* Page Header */}
-        <section className="bg-primary/5 py-16 px-6 md:px-20">
+        {/* Page Header & Search */}
+        <section className="bg-white dark:bg-slate-900 pt-16 pb-12 px-6 md:px-20 border-b border-slate-100 dark:border-primary/5">
           <div className="max-w-[1400px] mx-auto">
-            <p className="text-primary font-bold tracking-widest uppercase text-sm mb-2">Browse</p>
-            <h1 className="text-4xl md:text-5xl font-black mb-4">Property Listings</h1>
-            <p className="text-slate-600 text-lg">Discover premium land, homes, and commercial spaces across India.</p>
-          </div>
-        </section>
-
-        {/* Filter Bar */}
-        <section className="sticky top-[72px] z-40 bg-white border-b border-slate-100 py-4 px-6 md:px-20 shadow-sm">
-          <div className="max-w-[1400px] mx-auto flex flex-wrap gap-3 items-center">
-            <div className="flex items-center bg-primary/5 rounded-lg px-3 h-10 gap-2">
-              <span className="material-symbols-outlined text-primary text-base">location_on</span>
-              <input className="bg-transparent border-none outline-none text-sm w-32" placeholder="Location" type="text" />
+            <div className="mb-12">
+              <p className="text-primary font-bold tracking-widest uppercase text-xs mb-2">Advanced Search</p>
+              <h1 className="text-4xl md:text-5xl font-bold mb-4 dark:text-white leading-tight">Find Your <span className="text-primary">Perfect</span> Space</h1>
             </div>
-            <select className="bg-primary/5 border-none outline-none rounded-lg px-3 h-10 text-sm text-slate-700">
-              <option>All Types</option>
-              <option>Land</option>
-              <option>Villa</option>
-              <option>Apartment</option>
-              <option>Commercial</option>
-            </select>
-            <select className="bg-primary/5 border-none outline-none rounded-lg px-3 h-10 text-sm text-slate-700">
-              <option>Any Price</option>
-              <option>Under ₹200k</option>
-              <option>₹200k–₹500k</option>
-              <option>₹500k+</option>
-            </select>
-            <button className="ml-auto bg-primary text-white rounded-lg h-10 px-5 font-bold text-sm flex items-center gap-2 hover:bg-primary/90 transition-colors">
-              <span className="material-symbols-outlined text-base">tune</span> Filter
-            </button>
+
+            {/* Filter Bar */}
+            <form onSubmit={handleSearch} className="bg-white dark:bg-slate-800 p-4 md:p-2 rounded-[2rem] border border-slate-200 dark:border-primary/20 shadow-2xl shadow-primary/5 flex flex-col md:flex-row gap-2">
+              <div className="flex-1 flex items-center gap-3 px-6 py-3 border-r border-slate-100 dark:border-primary/10">
+                <span className="material-symbols-outlined text-slate-400">search</span>
+                <input
+                  type="text"
+                  placeholder="Search by title or keywords..."
+                  className="w-full bg-transparent outline-none text-sm font-bold dark:text-white"
+                  value={filters.search}
+                  onChange={(e) => setFilters({ ...filters, search: e.target.value })}
+                />
+              </div>
+              <div className="flex-1 flex items-center gap-3 px-6 py-3 border-r border-slate-100 dark:border-primary/10">
+                <span className="material-symbols-outlined text-slate-400">location_on</span>
+                <input
+                  type="text"
+                  placeholder="Enter City..."
+                  className="w-full bg-transparent outline-none text-sm font-bold dark:text-white"
+                  value={filters.city}
+                  onChange={(e) => setFilters({ ...filters, city: e.target.value })}
+                />
+              </div>
+              <div className="grid grid-cols-2 lg:flex items-center gap-2 p-2">
+                <select
+                  className="bg-slate-50 dark:bg-slate-900 px-4 py-3 rounded-2xl text-[10px] font-bold uppercase tracking-widest dark:text-gray-300 border-none outline-none"
+                  value={filters.type}
+                  onChange={(e) => setFilters({ ...filters, type: e.target.value })}
+                >
+                  <option value="">Any Type</option>
+                  <option value="apartment">Apartment</option>
+                  <option value="house">House</option>
+                  <option value="villa">Villa</option>
+                  <option value="plot">Plot</option>
+                  <option value="farmhouse">Farmhouse</option>
+                </select>
+                <select
+                  className="bg-slate-50 dark:bg-slate-900 px-4 py-3 rounded-2xl text-[10px] font-bold uppercase tracking-widest dark:text-gray-300 border-none outline-none"
+                  value={filters.listingType}
+                  onChange={(e) => setFilters({ ...filters, listingType: e.target.value })}
+                >
+                  <option value="">Any Offer</option>
+                  <option value="sell">For Sale</option>
+                  <option value="rent">For Rent</option>
+                </select>
+                <button type="submit" className="bg-primary text-white col-span-2 lg:w-32 py-3 rounded-2xl font-bold text-xs uppercase tracking-widest shadow-lg shadow-primary/20 hover:scale-105 transition-transform text-center flex justify-center items-center">
+                  Search
+                </button>
+              </div>
+            </form>
           </div>
         </section>
 
         {/* Listings Grid */}
-        <section className="py-16 px-6 md:px-20 max-w-[1400px] mx-auto">
-          <div className="flex justify-between items-center mb-8">
-            <p className="text-slate-500 text-sm">{properties.length} properties found</p>
-            <select className="border border-slate-200 rounded-lg px-3 h-9 text-sm text-slate-700 outline-none">
-              <option>Sort: Newest</option>
-              <option>Price: Low to High</option>
-              <option>Price: High to Low</option>
-            </select>
+        <section className="py-12 px-6 md:px-20 max-w-[1400px] mx-auto min-h-[400px]">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10 pb-6 border-b border-slate-100 dark:border-primary/5">
+            <div>
+              <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">
+                Found {properties.length} Active Listings
+              </p>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Sort By:</span>
+              <select
+                className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-primary/20 rounded-xl px-4 py-2 text-xs font-bold text-slate-700 dark:text-gray-300 outline-none hover:border-primary transition-colors cursor-pointer"
+                value={filters.sort}
+                onChange={(e) => setFilters({ ...filters, sort: e.target.value })}
+              >
+                <option value="newest">Newest First</option>
+                <option value="price_asc">Price: Low to High</option>
+                <option value="price_desc">Price: High to Low</option>
+                <option value="oldest">Oldest First</option>
+              </select>
+            </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {properties.map((p) => (
-              <div key={p.id} className="group bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow border border-slate-100">
-                <div
-                  className="h-56 bg-cover bg-center relative"
-                  style={{ backgroundImage: `url("${p.image}")` }}
-                >
-                  {p.tag && (
-                    <div className="absolute top-4 right-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">
-                      {p.tag}
-                    </div>
-                  )}
-                  <div className="absolute top-4 left-4 bg-white/90 text-slate-700 text-xs font-semibold px-2 py-1 rounded-full">
-                    {p.type}
-                  </div>
-                </div>
-                <div className="p-5">
-                  <div className="flex justify-between items-start mb-1">
-                    <h3 className="text-lg font-bold group-hover:text-primary transition-colors">{p.title}</h3>
-                    <p className="text-primary font-black">{p.price}</p>
-                  </div>
-                  <p className="text-slate-500 flex items-center gap-1 text-sm mb-4">
-                    <span className="material-symbols-outlined text-sm">location_on</span> {p.location}
-                  </p>
-                  <div className="flex items-center gap-4 py-3 border-t border-slate-100 text-sm text-slate-600">
-                    <span className="flex items-center gap-1"><span className="material-symbols-outlined text-slate-400 text-sm">square_foot</span>{p.area}</span>
-                    {p.beds > 0 && <span className="flex items-center gap-1"><span className="material-symbols-outlined text-slate-400 text-sm">bed</span>{p.beds} Beds</span>}
-                    <span className="flex items-center gap-1"><span className="material-symbols-outlined text-slate-400 text-sm">bathtub</span>{p.baths} Baths</span>
-                  </div>
-                  <Link
-                    href={`/properties/${p.id}`}
-                    className="block w-full mt-3 py-2.5 text-center border-2 border-primary text-primary font-bold rounded-lg hover:bg-primary hover:text-white transition-colors text-sm"
-                  >
-                    View Details
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-          {/* Pagination */}
-          <div className="flex justify-center gap-2 mt-12">
-            {[1, 2, 3, 4].map((n) => (
-              <button key={n} className={`w-10 h-10 rounded-lg font-bold text-sm transition-colors ${n === 1 ? "bg-primary text-white" : "bg-white border border-slate-200 text-slate-600 hover:border-primary hover:text-primary"}`}>
-                {n}
+
+          {isLoading ? (
+            <div className="flex justify-center items-center py-20">
+              <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
+            </div>
+          ) : error ? (
+            <div className="py-20 text-center">
+              <span className="material-symbols-outlined text-4xl text-red-500 mb-4">error_outline</span>
+              <p className="text-slate-600 dark:text-slate-400 font-bold">{error}</p>
+            </div>
+          ) : properties.length === 0 ? (
+            <div className="py-20 text-center bg-white dark:bg-slate-900 rounded-[3rem] border-2 border-dashed border-slate-100 dark:border-primary/5 shadow-sm">
+              <span className="material-symbols-outlined text-4xl text-slate-200 mb-4">search_off</span>
+              <h3 className="text-xl font-bold dark:text-white uppercase tracking-tight">No Matching Properties</h3>
+              <p className="text-slate-500 dark:text-slate-400 mt-2 text-sm max-w-xs mx-auto">We couldn't find any listings matching your current filters. Try loosening your search criteria.</p>
+              <button
+                onClick={() => setFilters({ search: "", city: "", type: "", listingType: "", minPrice: "", maxPrice: "", sort: "newest" })}
+                className="mt-6 text-primary font-bold text-xs uppercase tracking-widest hover:underline"
+              >
+                Clear All Filters
               </button>
-            ))}
-            <button className="w-10 h-10 rounded-lg font-bold text-sm bg-white border border-slate-200 text-slate-600 hover:border-primary hover:text-primary">
-              <span className="material-symbols-outlined text-sm">chevron_right</span>
-            </button>
-          </div>
+            </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                {properties.map((p) => (
+                  <div key={p._id} className="group bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-2xl shadow-black/5 hover:shadow-primary/10 transition-all border border-slate-100 dark:border-primary/5 flex flex-col hover:-translate-y-2 duration-500">
+                    <div className="h-64 relative overflow-hidden">
+                      <img
+                        src={p.images?.[0]?.url || "/placeholder.jpg"}
+                        alt={p.title}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
+                      <div className="absolute top-4 left-4 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md text-slate-800 dark:text-white text-[10px] font-bold tracking-widest px-3 py-1 rounded-full uppercase">
+                        {p.propertyType}
+                      </div>
+                      <div className="absolute top-4 right-4 bg-primary text-white text-[10px] font-bold tracking-widest px-3 py-1 rounded-full uppercase shadow-xl shadow-primary/20">
+                        {p.listingType === "sell" ? "For Sale" : "For Rent"}
+                      </div>
+                    </div>
+
+                    <div className="p-8 flex-1 flex flex-col justify-between">
+                      <div>
+                        <div className="flex justify-between items-start gap-4 mb-3">
+                          <h3 className="text-xl font-bold dark:text-white group-hover:text-primary transition-colors leading-tight line-clamp-1">{p.title}</h3>
+                          <p className="text-primary font-bold text-xl whitespace-nowrap">₹{(p.price / 10000000).toFixed(2)} Cr</p>
+                        </div>
+                        <p className="text-slate-500 dark:text-slate-400 flex items-center gap-1.5 text-xs font-bold mb-6">
+                          <span className="material-symbols-outlined text-primary text-base">location_on</span> {formatAddress(p.address)}
+                        </p>
+                      </div>
+
+                      <div>
+                        <div className="flex items-center gap-6 py-4 border-y border-slate-50 dark:border-primary/5 text-[10px] font-bold uppercase text-slate-400 dark:text-slate-500 overflow-x-auto whitespace-nowrap scrollbar-hide">
+                          <span className="flex items-center gap-2">
+                            <span className="material-symbols-outlined text-lg opacity-40">square_foot</span>
+                            {p.area?.size} {p.area?.unit}
+                          </span>
+                          <span className="flex items-center gap-2">
+                            <span className="material-symbols-outlined text-lg opacity-40">bed</span>
+                            {p.bedrooms || 0} BHK
+                          </span>
+                          <span className="flex items-center gap-2">
+                            <span className="material-symbols-outlined text-lg opacity-40">bathtub</span>
+                            {p.bathrooms || 0}
+                          </span>
+                        </div>
+
+                        <Link
+                          href={`/properties/${p._id}`}
+                          className="mt-6 block w-full text-center bg-primary text-white py-4 rounded-2xl font-bold hover:bg-primary/90 transition-all shadow-xl shadow-primary/10 hover:shadow-primary/30 uppercase tracking-widest text-xs active:scale-95"
+                        >
+                          View Full Details
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Pagination */}
+              {pagination.pages > 1 && (
+                <div className="flex justify-center items-center gap-3 mt-16">
+                  {Array.from({ length: pagination.pages }, (_, i) => i + 1).map((n) => (
+                    <button
+                      key={n}
+                      onClick={() => fetchProperties(n)}
+                      className={`w-12 h-12 rounded-2xl font-bold text-sm transition-all shadow-lg ${n === pagination.page
+                        ? "bg-primary text-white shadow-primary/20"
+                        : "bg-white dark:bg-slate-900 border border-slate-100 dark:border-primary/10 text-slate-500 hover:border-primary hover:text-primary shadow-black/5"
+                        }`}
+                    >
+                      {n}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </>
+          )}
         </section>
       </main>
       <Footer />

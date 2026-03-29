@@ -70,7 +70,7 @@ export default function AboutPage() {
                 <div className="absolute -top-10 -left-10 w-72 h-72 bg-white/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                 <div className="absolute -bottom-10 -right-10 w-32 h-32 border-2 border-white/20 rounded-3xl -z-0 transform rotate-12" />
 
-                <div className="w-full h-[350px] md:h-[450px] lg:h-[550px] rounded-[2.5rem] overflow-hidden shadow-2xl relative z-10 ring-8 ring-white/5 transition-transform duration-500 hover:scale-[1.02]">
+                <div className="w-full h-[350px] md:h-[450px] lg:h-[550px] rounded-xl overflow-hidden shadow-2xl relative z-10 ring-8 ring-white/5 transition-transform duration-500 hover:scale-[1.02]">
                   <img
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     src="/director.png"

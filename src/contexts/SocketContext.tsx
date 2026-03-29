@@ -18,10 +18,11 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (isAuthenticated && user) {
       const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL || "http://localhost:5000";
+      const token = typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
       
       const newSocket = io(socketUrl, {
-        withCredentials: true, // Crucial for httpOnly cookies
-        transports: ["websocket"],
+        withCredentials: true,
+        auth: { token },
       });
 
       newSocket.on("connect", () => {

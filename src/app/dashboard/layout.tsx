@@ -37,6 +37,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     { icon: "person", label: "Profile", href: "/dashboard/profile" },
   ];
 
+  if (user.role === "admin") {
+    navItems.push({ icon: "admin_panel_settings", label: "Admin Portal", href: "/dashboard/admin" });
+  }
+
   return (
     <div className="flex h-screen bg-slate-50 dark:bg-background-dark overflow-hidden transition-colors duration-300">
       {/* Sidebar */}

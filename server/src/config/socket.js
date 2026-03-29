@@ -78,14 +78,19 @@ const initSocket = (server) => {
 
         const populatedMessage = await newMessage.populate("sender", "name avatar");
 
-        // Emit to both participants in the conversation room
-        io.to(conversationId).emit("receive_message", populatedMessage);
+        // 1. Emit to the specific conversation room (for anyone already inside looking)
+        io.to(conversationId.toString()).emit("receive_message", populatedMessage);
 
-        // Also notify receiver's personal room (for notification badge)
-        socket.to(receiverId).emit("new_message_notification", {
-          conversationId,
-          message: populatedMessage,
-        });
+        // 2. Emit to the receiver's personal room (important for sidebar updates if they aren't in conversation room)
+        io.to(receiverId.toString()).emit("receive_message", populatedMessage);
+
+        // Notify receiver's personal room for UI notifications/badge
+        if (receiverId.toString() !== user._id.toString()) {
+          socket.to(receiverId.toString()).emit("new_message_notification", {
+            conversationId,
+            message: populatedMessage,
+          });
+        }
 
         // Acknowledge delivery
         socket.emit("message_delivered", { messageId: newMessage._id });
@@ -110,7 +115,11 @@ const initSocket = (server) => {
         { conversation: conversationId, receiver: user._id, status: { $ne: "seen" } },
         { status: "seen" }
       );
-      io.to(senderId).emit("messages_seen", { conversationId, seenBy: user._id });
+      // Notify everyone in the conversation that messages were seen
+      io.to(conversationId.toString()).emit("messages_seen", { 
+        conversationId, 
+        seenBy: user._id.toString() 
+      });
     });
 
     // ─── Disconnect ──────────────────────────────────────────────────────

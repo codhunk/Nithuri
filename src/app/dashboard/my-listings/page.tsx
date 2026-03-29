@@ -3,13 +3,14 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { propertiesApi, ApiError } from "@/lib/api";
+import { formatAddress } from "@/lib/utils";
 
 interface Property {
   _id: string;
   title: string;
   price: number;
-  address: string;
-  images: string[];
+  address: any; // Could be string (mock) or object (real)
+  images: { url: string; public_id?: string }[];
   status: string;
   views: number;
   createdAt: string;
@@ -113,7 +114,7 @@ export default function MyListingsPage() {
               <div className="w-full lg:w-48 h-32 rounded-xl overflow-hidden relative flex-shrink-0">
                 <img 
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
-                  src={listing.images[0] || "/placeholder.jpg"} 
+                  src={listing.images[0]?.url || "/placeholder.jpg"} 
                   alt={listing.title} 
                 />
                 <div className={`absolute top-2 left-2 px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest text-white shadow-lg ${
@@ -131,7 +132,7 @@ export default function MyListingsPage() {
                     <p className="font-black text-primary text-lg whitespace-nowrap">₹{(listing.price / 100000).toFixed(2)} Lac</p>
                   </div>
                   <p className="text-slate-500 dark:text-slate-400 text-sm flex items-center gap-1 mb-4">
-                    <span className="material-symbols-outlined text-sm">location_on</span> {listing.address}
+                    <span className="material-symbols-outlined text-sm">location_on</span> {formatAddress(listing.address)}
                   </p>
                 </div>
 

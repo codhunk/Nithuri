@@ -80,39 +80,52 @@ exports.getPropertyById = async (req, res, next) => {
 // @route   POST /api/v1/properties
 exports.createProperty = async (req, res, next) => {
   try {
-    // Multer doesn't nest objects like 'address[city]', so we restructure manually
+    const body = req.body;
+
+    // Helper to get nested values or bracketed values
+    const getVal = (obj, key, nestedKey) => {
+      // If nested object exists (e.g. req.body.address.city)
+      if (obj[key] && typeof obj[key] === "object" && obj[key][nestedKey]) {
+        return obj[key][nestedKey];
+      }
+      // If flat bracket key exists (e.g. req.body["address[city]"])
+      return obj[`${key}[${nestedKey}]`];
+    };
+
     const data = {
       owner: req.user._id,
-      title: req.body.title,
-      description: req.body.description,
-      price: Number(req.body.price),
-      propertyType: req.body.propertyType,
-      listingType: req.body.listingType,
-      bedrooms: Number(req.body.bedrooms || 0),
-      bathrooms: Number(req.body.bathrooms || 0),
+      title: body.title,
+      description: body.description,
+      price: Number(body.price || 0),
+      propertyType: body.propertyType,
+      listingType: body.listingType,
+      bedrooms: Number(body.bedrooms || 0),
+      bathrooms: Number(body.bathrooms || 0),
       address: {
-        street: req.body["address[street]"] || req.body.address,
-        city: req.body["address[city]"],
-        state: req.body["address[state]"],
-        pincode: req.body["address[pincode]"],
+        street: getVal(body, "address", "street") || body.address || "",
+        city: getVal(body, "address", "city") || body.city || "",
+        state: getVal(body, "address", "state") || body.state || "",
+        pincode: getVal(body, "address", "pincode") || body.pincode || "",
       },
       area: {
-        size: Number(req.body["area[size]"] || req.body.areaSize),
-        unit: req.body["area[unit]"] || "sqft",
+        size: Number(getVal(body, "area", "size") || body.areaSize || 0),
+        unit: getVal(body, "area", "unit") || body.areaUnit || "sqft",
       },
+      furnished: body.furnished || "unfurnished",
     };
 
     if (req.files?.length) {
       data.images = req.files.map((f, i) => ({
-        url: `/uploads/properties/${f.filename}`,
+        url: f.path,
+        public_id: f.filename,
         isCover: i === 0,
       }));
     }
 
-    if (req.body.latitude && req.body.longitude) {
+    if (body.latitude && body.longitude) {
       data.location = {
         type: "Point",
-        coordinates: [parseFloat(req.body.longitude), parseFloat(req.body.latitude)],
+        coordinates: [parseFloat(body.longitude), parseFloat(body.latitude)],
       };
     }
 
@@ -135,24 +148,31 @@ exports.updateProperty = async (req, res, next) => {
       return res.status(403).json({ success: false, message: "Not authorized" });
     }
 
+    const body = req.body;
+    const getVal = (obj, key, nestedKey) => {
+      if (obj[key] && typeof obj[key] === "object" && obj[key][nestedKey]) return obj[key][nestedKey];
+      return obj[`${key}[${nestedKey}]`];
+    };
+
     const updates = {
-      title: req.body.title,
-      description: req.body.description,
-      price: req.body.price ? Number(req.body.price) : undefined,
-      propertyType: req.body.propertyType,
-      listingType: req.body.listingType,
-      bedrooms: req.body.bedrooms ? Number(req.body.bedrooms) : undefined,
-      bathrooms: req.body.bathrooms ? Number(req.body.bathrooms) : undefined,
+      title: body.title,
+      description: body.description,
+      price: body.price ? Number(body.price) : undefined,
+      propertyType: body.propertyType,
+      listingType: body.listingType,
+      bedrooms: body.bedrooms ? Number(body.bedrooms) : undefined,
+      bathrooms: body.bathrooms ? Number(body.bathrooms) : undefined,
       address: {
-        street: req.body["address[street]"] || req.body.address,
-        city: req.body["address[city]"],
-        state: req.body["address[state]"],
-        pincode: req.body["address[pincode]"],
+        street: getVal(body, "address", "street") || body.address,
+        city: getVal(body, "address", "city") || body.city,
+        state: getVal(body, "address", "state") || body.state,
+        pincode: getVal(body, "address", "pincode") || body.pincode,
       },
       area: {
-        size: req.body["area[size]"] ? Number(req.body["area[size]"]) : (req.body.areaSize ? Number(req.body.areaSize) : undefined),
-        unit: req.body["area[unit]"],
+        size: getVal(body, "area", "size") ? Number(getVal(body, "area", "size")) : (body.areaSize ? Number(body.areaSize) : undefined),
+        unit: getVal(body, "area", "unit") || body.areaUnit,
       },
+      furnished: body.furnished,
     };
 
     // Remove undefined fields for update
@@ -168,7 +188,10 @@ exports.updateProperty = async (req, res, next) => {
 
     if (req.files?.length) {
       if (!updates.$push) updates.$push = {};
-      updates.$push.images = req.files.map((f) => ({ url: `/uploads/properties/${f.filename}` }));
+      updates.$push.images = req.files.map((f) => ({ 
+        url: f.path,
+        public_id: f.filename 
+      }));
     }
 
     const updated = await Property.findByIdAndUpdate(req.params.id, updates, { new: true, runValidators: true });

@@ -1,13 +1,37 @@
+"use client";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Link from "next/link";
+import { propertiesApi, ApiError } from "@/lib/api";
+import { formatAddress } from "@/lib/utils";
 
 export default function Home() {
+  const [featured, setFeatured] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchFeatured = async () => {
+      try {
+        const res = await propertiesApi.getAll({ limit: "3" });
+        setFeatured(res.data);
+      } catch (err) {
+        console.error("Failed to load featured properties", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchFeatured();
+  }, []);
+
   return (
     <div className="layout-container flex h-full grow flex-col min-h-screen dark:bg-background-dark transition-colors duration-300">
       <Navbar />
 
       <main>
+        {/* ... Hero and Search ... */}
+        {/* Skipping unchanged Hero and Search content for brevity in this tool call, but you'll apply it in the file. */}
+        {/* I'll use the placeholder for the hero/search part below since replace_file_content needs exact match. */}
         {/* ── Hero Section ──────────────────────────────────────── */}
         <section className="relative">
           <div
@@ -99,38 +123,29 @@ export default function Home() {
             </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <PropertyCard
-              title="Green Valley Acres"
-              price="₹145,000"
-              location="Riverside Drive, Sector 12"
-              tag="New Listing"
-              features={[
-                { icon: "square_foot", label: "5.2 Acres" },
-                { icon: "water_drop", label: "Well Access" },
-              ]}
-              image="https://lh3.googleusercontent.com/aida-public/AB6AXuC7MSs1lZXAako3P-lJhYt1psBGoOmDCc8Cy6jfQ4HqK9MPxPFQ3fBafmJTowcnQgR1OpiU_bH5jEK-7FDBMwuAuwX1rWB7ut384SlgkEDfh1LrqCm03TeCxq4wbyLF9QNdr_mEjZU3rlJaec3FJvkVZddxC00ms5GjWSiAJm5YAlvBhRd0pBxRWZua2IyTRlNjTqz9ZPqvnhGUXvlTHTcYQWhmN6mD880ChEJqZYqwBodBrMeFJ5E7JIxCnPZT-qIPV0ohCzxi8ag"
-            />
-            <PropertyCard
-              title="Peak Horizon Estate"
-              price="₹210,000"
-              location="Hillcrest Highlands"
-              tag="Hot Deal"
-              features={[
-                { icon: "square_foot", label: "8.0 Acres" },
-                { icon: "mountain_flag", label: "High Elevation" },
-              ]}
-              image="https://lh3.googleusercontent.com/aida-public/AB6AXuCMhdUXrh9kemtPd-I2-mAgqN0-G6010BLyQk2OPLNMaQ2H-7nE9GY4Fqhc0-lH8QzixA0kOlJx8V9QHLacueqVCzl6PUV0Rpk5QZJJ58-VytrvLuRVApwL4IUx6_YOtCR2itbxIKb1O96Uww1zl2slxw_sRCiMH95Y60Cfh-mGmF63ysljTycdOSh_lBmJylwjbwYYr_C3QpwPwqhuaYrZ7r-6thQAfjvZNIv7chIMSqsn9AgwwavvKEFge-b4qSxUyL7Eon7L_Rc"
-            />
-            <PropertyCard
-              title="Blue Mirror Lakeside"
-              price="₹350,000"
-              location="Clear Lake Basin"
-              features={[
-                { icon: "square_foot", label: "3.5 Acres" },
-                { icon: "waves", label: "Waterfront" },
-              ]}
-              image="https://lh3.googleusercontent.com/aida-public/AB6AXuDsZRtyw9lbgqPSmfhGXRwF3m1Y6ix-JBAcBnDC4PyFn4slchtEzLudwoejrQAS9EirSh8AI8k7Y--NHnUaEW_F46R85SVkWn9OqPCsmNyo4FuhFXfmhajF5au5D_pndDrpxn7kFfcEdFDJy-AOXJRslwZtyoifGNnMCI2gm8I5kL-k-n7CU54FCFaswlDFqVDusSTG-jMCjaW6kc-kCouRfQJZQHI6pWSy_ue2AKMV01JtOs0pfaSXwa8oALE3M_jRiI7_Td2JUZ0"
-            />
+            {loading ? (
+              Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="h-96 bg-slate-100 dark:bg-slate-800 rounded-3xl animate-pulse" />
+              ))
+            ) : featured.length === 0 ? (
+              <div className="col-span-full py-12 text-center text-slate-500">No properties available yet.</div>
+            ) : (
+              featured.map((p) => (
+                <PropertyCard
+                  key={p._id}
+                  id={p._id}
+                  title={p.title}
+                  price={`₹${(p.price / 10000000).toFixed(2)} Cr`}
+                  location={formatAddress(p.address)}
+                  tag={p.listingType}
+                  features={[
+                    { icon: "square_foot", label: `${p.area?.size} ${p.area?.unit}` },
+                    { icon: "bed", label: `${p.bedrooms || 0} BHK` },
+                  ]}
+                  image={p.images?.[0]?.url || "/placeholder.jpg"}
+                />
+              ))
+            )}
           </div>
         </section>
 
@@ -315,6 +330,7 @@ export default function Home() {
 /* ── Sub-components ─────────────────────────────────────────── */
 
 function PropertyCard({
+  id,
   title,
   price,
   location,
@@ -322,6 +338,7 @@ function PropertyCard({
   features,
   image,
 }: {
+  id: string;
   title: string;
   price: string;
   location: string;
@@ -336,30 +353,33 @@ function PropertyCard({
         style={{ backgroundImage: `url("${image}")` }}
       >
         {tag && (
-          <div className="absolute top-4 right-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">
+          <div className="absolute top-4 right-4 bg-primary text-white text-[10px] font-black tracking-widest px-3 py-1 rounded-full uppercase">
             {tag}
           </div>
         )}
       </div>
       <div className="p-6">
         <div className="flex justify-between items-start mb-2">
-          <h3 className="text-xl font-bold group-hover:text-primary transition-colors dark:text-white">{title}</h3>
-          <p className="text-primary font-black text-lg">{price}</p>
+          <h3 className="text-xl font-bold group-hover:text-primary transition-colors dark:text-white line-clamp-1">{title}</h3>
+          <p className="text-primary font-bold text-lg">{price}</p>
         </div>
         <p className="text-slate-500 dark:text-slate-400 flex items-center gap-1 text-sm mb-4">
           <span className="material-symbols-outlined text-sm">location_on</span> {location}
         </p>
-        <div className="flex items-center gap-4 py-4 border-t border-slate-100 dark:border-slate-700">
+        <div className="flex items-center gap-4 py-4 border-t border-slate-100 dark:border-slate-700 overflow-x-auto whitespace-nowrap scrollbar-hide">
           {features.map((f) => (
-            <div key={f.label} className="flex items-center gap-1 text-sm font-medium dark:text-slate-200">
+            <div key={f.label} className="flex items-center gap-1 text-xs font-bold dark:text-slate-200 uppercase tracking-tighter">
               <span className="material-symbols-outlined text-slate-400 text-sm">{f.icon}</span>
               {f.label}
             </div>
           ))}
         </div>
-        <button className="w-full mt-2 py-3 border-2 border-primary text-primary font-bold rounded-lg hover:bg-primary hover:text-white transition-colors">
+        <Link
+          href={`/properties/${id}`}
+          className="block w-full mt-2 py-3 border-2 border-primary text-primary text-center font-black text-sm rounded-lg hover:bg-primary hover:text-white transition-colors uppercase tracking-widest"
+        >
           View Details
-        </button>
+        </Link>
       </div>
     </div>
   );

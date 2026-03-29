@@ -47,6 +47,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (res.requiresVerification) {
       return { requiresVerification: true, email: res.email };
     }
+    if (res.accessToken) {
+      localStorage.setItem("accessToken", res.accessToken);
+    }
     setUser(res.data);
     return {};
   };
@@ -55,6 +58,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       await authApi.logout(); // backend clears the cookies server-side
     } catch { /* ignore network errors */ }
+    localStorage.removeItem("accessToken");
     setUser(null);
     window.location.href = "/";
   };
