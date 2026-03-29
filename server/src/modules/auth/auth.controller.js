@@ -20,11 +20,24 @@ const generateTokens = (userId) => {
 
 const setCookies = (res, accessToken, refreshToken) => {
   const isProd = process.env.NODE_ENV === "production";
+  
+  // sameSite: "none" is required for cross-domain cookies (Vercel -> Render)
+  // But it also REQUIRES secure: true
+  const cookieOptions = {
+    httpOnly: true,
+    secure: isProd,
+    sameSite: isProd ? "none" : "lax",
+    path: "/",
+  };
+
   res.cookie("accessToken", accessToken, {
-    httpOnly: true, secure: isProd, sameSite: "strict", maxAge: 15 * 60 * 1000,
+    ...cookieOptions,
+    maxAge: 15 * 60 * 1000, // 15 min
   });
+  
   res.cookie("refreshToken", refreshToken, {
-    httpOnly: true, secure: isProd, sameSite: "strict", maxAge: 7 * 24 * 60 * 60 * 1000,
+    ...cookieOptions,
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   });
 };
 
@@ -210,9 +223,20 @@ exports.refreshToken = async (req, res, next) => {
 // @route POST /api/v1/auth/logout
 exports.logout = async (req, res, next) => {
   try {
-    await User.findByIdAndUpdate(req.user._id, { refreshToken: "" });
-    res.clearCookie("accessToken");
-    res.clearCookie("refreshToken");
+    const isProd = process.env.NODE_ENV === "production";
+    const cookieOptions = {
+      httpOnly: true,
+      secure: isProd,
+      sameSite: isProd ? "none" : "lax",
+      path: "/",
+    };
+
+    if (req.user) {
+      await User.findByIdAndUpdate(req.user._id, { refreshToken: "" });
+    }
+
+    res.clearCookie("accessToken", cookieOptions);
+    res.clearCookie("refreshToken", cookieOptions);
     res.json({ success: true, message: "Logged out successfully" });
   } catch (err) { next(err); }
 };
