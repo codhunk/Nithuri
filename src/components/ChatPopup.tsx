@@ -38,28 +38,39 @@ export default function ChatPopup({ conversationId, onClose, receiver }: ChatPop
   const [isMinimized, setIsMinimized] = useState(false);
 
   useEffect(() => {
+    if (!conversationId) return;
+    
     const fetchMessages = async () => {
       try {
+        console.log("💬 Fetching messages for conversation:", conversationId);
         const res = await chatApi.getMessages(conversationId);
         setMessages(res.data);
-        if (socket) {
+        if (socket && isConnected) {
+          console.log("🔌 Joining room:", conversationId);
           socket.emit("join_conversation", conversationId);
           socket.emit("message_seen", { conversationId, senderId: receiver._id });
         }
       } catch (err) {
-        console.error("Failed to fetch messages", err);
+        console.error("❌ Failed to fetch messages", err);
       }
     };
     fetchMessages();
-  }, [conversationId, socket, receiver._id]);
+  }, [conversationId, socket, isConnected, receiver._id]);
 
   useEffect(() => {
     if (!socket) return;
 
     const handleReceiveMessage = (msg: Message) => {
-      if ((msg as any).conversation === conversationId) {
+      console.log("📩 New message received:", msg);
+      // Ensure conversation ID matches (handle string or object)
+      const msgConvId = typeof (msg as any).conversation === 'string' 
+        ? (msg as any).conversation 
+        : (msg as any).conversation?._id || (msg as any).conversation;
+
+      if (msgConvId === conversationId) {
         setMessages(prev => {
           if (prev.find(m => m._id === msg._id)) return prev;
+          console.log("✅ Adding message to list");
           return [...prev, msg];
         });
         
@@ -91,7 +102,10 @@ export default function ChatPopup({ conversationId, onClose, receiver }: ChatPop
   }, [messages]);
 
   const sendMessage = () => {
-    if (!newMessage.trim() || !socket) return;
+    if (!newMessage.trim() || !socket || !isConnected) {
+      if (!isConnected) console.error("❌ Socket not connected");
+      return;
+    }
 
     const data = {
       conversationId,
@@ -99,6 +113,7 @@ export default function ChatPopup({ conversationId, onClose, receiver }: ChatPop
       message: newMessage,
     };
 
+    console.log("📤 Sending message:", data);
     socket.emit("send_message", data);
     setNewMessage("");
   };
@@ -106,7 +121,7 @@ export default function ChatPopup({ conversationId, onClose, receiver }: ChatPop
   if (!user) return null;
 
   return (
-    <div className={`fixed bottom-6 right-6 w-[360px] max-w-[calc(100vw-48px)] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.7)] rounded-3xl overflow-hidden border border-white/20 dark:border-primary/20 z-50 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] transform ${isMinimized ? "h-16 translate-y-0" : "h-[550px]"} flex flex-col`}>
+    <div className={`fixed bottom-6 right-6 w-[400px] max-w-[calc(100vw-48px)] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.7)] rounded-3xl overflow-hidden border border-white/20 dark:border-primary/20 z-50 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] transform ${isMinimized ? "h-16 translate-y-0" : "h-[550px]"} flex flex-col`}>
       {/* Header */}
       <div 
         className="bg-primary p-4 flex items-center justify-between cursor-pointer group" 
@@ -114,14 +129,14 @@ export default function ChatPopup({ conversationId, onClose, receiver }: ChatPop
       >
         <div className="flex items-center gap-3">
           <div className="relative">
-            <div className="w-10 h-10 rounded-xl bg-white/20 text-white flex items-center justify-center font-bold overflow-hidden shadow-inner">
-              {receiver.avatar ? <img src={receiver.avatar} className="w-full h-full object-cover" /> : receiver.name.charAt(0)}
+            <div className="w-10 h-10 rounded-xl bg-white/20 text-white flex items-center justify-center font-bold overflow-hidden shadow-inner font-mono">
+              {receiver.avatar ? <img src={receiver.avatar} className="w-full h-full object-cover" /> : receiver.name?.charAt(0)}
             </div>
-            <span className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-primary ${isConnected ? "bg-green-400" : "bg-slate-400"} ring-2 ring-primary/20`} />
+            <span className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-primary ${isConnected ? "bg-green-400" : "bg-red-400"} ring-2 ring-primary/20`} />
           </div>
           <div>
-            <h3 className="text-white font-black text-sm leading-tight group-hover:underline underline-offset-2">{receiver.name}</h3>
-            <p className="text-white/60 text-[10px] font-bold uppercase tracking-widest">{isConnected ? "Online" : "Connecting..."}</p>
+            <h3 className="text-white font-black text-xs leading-tight group-hover:underline underline-offset-2">{receiver.name}</h3>
+            <p className="text-white/60 text-[9px] font-bold uppercase tracking-widest">{isConnected ? "Online" : "Connecting..."}</p>
           </div>
         </div>
         <div className="flex items-center gap-1">
@@ -129,7 +144,7 @@ export default function ChatPopup({ conversationId, onClose, receiver }: ChatPop
             onClick={(e) => { e.stopPropagation(); setIsMinimized(!isMinimized); }}
             className="w-8 h-8 rounded-lg hover:bg-white/10 flex items-center justify-center text-white transition-all transform active:scale-90"
           >
-            <span className="material-symbols-outlined text-xl transition-transform duration-300" style={{ transform: isMinimized ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+            <span className="material-symbols-outlined text-lg transition-transform duration-300" style={{ transform: isMinimized ? 'rotate(180deg)' : 'rotate(0deg)' }}>
               keyboard_arrow_down
             </span>
           </button>
@@ -137,7 +152,7 @@ export default function ChatPopup({ conversationId, onClose, receiver }: ChatPop
             onClick={(e) => { e.stopPropagation(); onClose(); }}
             className="w-8 h-8 rounded-lg hover:bg-white/10 flex items-center justify-center text-white transition-all transform hover:rotate-90 active:scale-90"
           >
-            <span className="material-symbols-outlined text-xl">close</span>
+            <span className="material-symbols-outlined text-lg">close</span>
           </button>
         </div>
       </div>
@@ -157,12 +172,12 @@ export default function ChatPopup({ conversationId, onClose, receiver }: ChatPop
             <div className="space-y-4">
               {messages.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full text-center py-10 opacity-30">
-                  <span className="material-symbols-outlined text-4xl mb-2">chat</span>
-                  <p className="text-xs font-bold uppercase tracking-[0.2em]">Start a conversation</p>
+                  <span className="material-symbols-outlined text-4xl mb-2 text-primary">chat_bubble</span>
+                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">Nithuri Secure Messaging</p>
                 </div>
               ) : (
                 messages.map((msg) => {
-                  const isMe = msg.sender._id === user._id;
+                  const isMe = msg.sender?._id === user._id;
                   return (
                     <div key={msg._id} className={`flex ${isMe ? "justify-end" : "justify-start"}`}>
                       <div className={`max-w-[85%] p-3.5 rounded-2xl shadow-sm relative group/msg ${
@@ -203,12 +218,15 @@ export default function ChatPopup({ conversationId, onClose, receiver }: ChatPop
               />
               <button 
                 onClick={sendMessage}
-                disabled={!newMessage.trim()}
+                disabled={!newMessage.trim() || !isConnected}
                 className="w-9 h-9 bg-primary text-white rounded-full flex items-center justify-center hover:scale-105 active:scale-95 shadow-lg shadow-primary/20 transition-all disabled:opacity-30 disabled:scale-100"
               >
                 <span className="material-symbols-outlined text-[20px]">send</span>
               </button>
             </div>
+            {!isConnected && (
+              <p className="text-[9px] text-red-500 font-bold uppercase tracking-wider text-center mt-2 animate-pulse">Disconnected from server</p>
+            )}
           </div>
         </>
       )}
