@@ -42,18 +42,18 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }
 
   return (
-    <div className="flex h-screen bg-slate-50 overflow-hidden transition-colors duration-300">
+    <div className="flex h-screen bg-slate-100 overflow-hidden transition-colors duration-300">
       {/* Sidebar */}
-      <aside className={`${isSidebarOpen ? "w-64" : "w-20"} bg-white border-r border-slate-100 flex flex-col shadow-sm transition-all duration-300 z-50`}>
-        <div className="p-6 border-b border-slate-100 flex items-center justify-between">
+      <aside className={`${isSidebarOpen ? "w-64" : "w-20"} bg-primary text-white flex flex-col shadow-2xl transition-all duration-300 z-50`}>
+        <div className="p-6 border-b border-white/5 flex items-center justify-between">
           <Link href="/" className={`overflow-hidden transition-all duration-300 ${isSidebarOpen ? "w-auto" : "w-0"}`}>
-             <span className="font-black text-primary text-xl whitespace-nowrap">NITHURI</span>
+            <span className="font-black text-white text-xl whitespace-nowrap tracking-tight">NITHURI</span>
           </Link>
-          <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="text-slate-400 hover:text-primary transition-colors">
+          <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="text-white/50 hover:text-white transition-colors">
             <span className="material-symbols-outlined">{isSidebarOpen ? "menu_open" : "menu"}</span>
           </button>
         </div>
-        
+
         <nav className="flex-1 p-4 space-y-2 overflow-y-auto scrollbar-hide">
           {navItems.map((item) => {
             const isActive = pathname === item.href;
@@ -61,11 +61,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <Link
                 key={item.label}
                 href={item.href}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${
-                  isActive
-                    ? "bg-primary text-white shadow-lg shadow-primary/20"
-                    : "text-slate-500 hover:bg-primary/5 hover:text-primary"
-                }`}
+                className={`flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-bold transition-all ${isActive
+                  ? "bg-white text-primary shadow-xl shadow-black/10 scale-[1.02]"
+                  : "text-white/70 hover:bg-white/10 hover:text-white"
+                  }`}
               >
                 <span className="material-symbols-outlined text-xl">{item.icon}</span>
                 {isSidebarOpen && <span className="flex-1">{item.label}</span>}
@@ -74,13 +73,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           })}
         </nav>
 
-        <div className="p-4 border-t border-slate-100">
-          <button 
+        <div className="p-4 border-t border-white/5">
+          <button
             onClick={logout}
-            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-slate-500 hover:bg-red-50 hover:text-red-600 transition-all"
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-white/60 hover:bg-white/10 hover:text-white transition-all"
           >
             <span className="material-symbols-outlined text-xl">logout</span>
-            {isSidebarOpen && <span>Logout</span>}
+            {isSidebarOpen && <span>Logout Session</span>}
           </button>
         </div>
       </aside>
@@ -88,25 +87,25 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Top Bar */}
-        <header className="bg-white border-b border-slate-100 px-8 py-4 flex items-center justify-between transition-colors duration-300">
+        <header className="bg-primary px-6 py-3 flex items-center justify-between text-white shadow-lg relative z-40">
           <div>
-            <h1 className="text-xl font-black capitalize">
+            <h1 className="text-xl font-black capitalize tracking-tight">
               {pathname.split("/").pop()?.replace("-", " ") || "Dashboard"}
             </h1>
-            <p className="text-slate-500 text-sm hidden sm:block">Welcome back, {user.name}</p>
+            <p className="text-white/60 text-xs hidden sm:block font-medium">Estate Management • {user.name}</p>
           </div>
           <div className="flex items-center gap-4">
-             <div className="text-right hidden sm:block">
-                <p className="text-xs font-black text-slate-900 uppercase tracking-tight">{user.name}</p>
-                <p className="text-[10px] font-bold text-primary uppercase">{user.role}</p>
-             </div>
-             <div className="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center font-black text-sm shadow-lg shadow-primary/20">
-                {user.avatar ? (
-                   <img src={user.avatar} alt={user.name} className="w-full h-full rounded-xl object-cover" />
-                ) : (
-                   user.name.charAt(0).toUpperCase()
-                )}
-             </div>
+            <div className="text-right hidden sm:block">
+              <p className="text-xs font-black text-white uppercase tracking-tight">{user.name}</p>
+              <p className="text-[10px] font-bold text-white/50 uppercase tracking-widest">{user.role}</p>
+            </div>
+            <div className="w-10 h-10 rounded-xl bg-white text-primary flex items-center justify-center font-black text-sm shadow-xl shadow-black/10 cursor-pointer hover:scale-105 transition-transform">
+              {user.avatar ? (
+                <img src={user.avatar} alt={user.name} className="w-full h-full rounded-xl object-cover" />
+              ) : (
+                user.name.charAt(0).toUpperCase()
+              )}
+            </div>
           </div>
         </header>
 

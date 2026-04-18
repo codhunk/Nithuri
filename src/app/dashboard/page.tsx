@@ -10,12 +10,12 @@ export default function DashboardPage() {
 
   useEffect(() => {
     const fetchStats = async () => {
-       try {
-          const res = await propertiesApi.myListings();
-          setListingCount(res.data.length);
-       } catch (err) {
-          setListingCount(0);
-       }
+      try {
+        const res = await propertiesApi.myListings();
+        setListingCount(res.data.length);
+      } catch (err) {
+        setListingCount(0);
+      }
     };
     fetchStats();
   }, []);
@@ -30,7 +30,7 @@ export default function DashboardPage() {
   ];
 
   return (
-    <div className="p-8">
+    <div className="p-4">
       {/* Stat Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {stats.map((card) => (
@@ -56,7 +56,7 @@ export default function DashboardPage() {
             <h2 className="font-black text-lg">Recent Listings Activity</h2>
             <Link href="/dashboard/my-listings" className="text-primary text-sm font-bold hover:underline">View All</Link>
           </div>
-          
+
           <div className="flex flex-col items-center justify-center py-12 text-center">
             <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-4">
               <span className="material-symbols-outlined text-slate-300 text-4xl">inventory_2</span>
