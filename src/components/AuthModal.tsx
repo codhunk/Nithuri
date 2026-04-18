@@ -19,6 +19,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = "login" }: Au
 
   const [mode, setMode] = useState<"login" | "signup">(initialMode);
   const [step, setStep] = useState<Step>("form");
+  const [flow, setFlow] = useState<"auth" | "forgot">("auth");
   const [isVisible, setIsVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -110,8 +111,20 @@ export default function AuthModal({ isOpen, onClose, initialMode = "login" }: Au
         onClose();
         router.push("/dashboard");
       }
-    } catch (err) {
-      setError(err instanceof ApiError ? err.message : "Login failed. Check your credentials.");
+    } catch (err: any) {
+      if (err instanceof ApiError && err.status === 404) {
+        setMode("signup");
+        setStep("form");
+        setError("This account doesn't exist yet. Join us by creating one!");
+      } else if (err instanceof ApiError && err.status === 403 && err.data?.requiresVerification) {
+        // Handle unverified user redirect to OTP
+        setOtpEmail(err.data.email || email);
+        setOtpResendTimer(60);
+        setStep("otp");
+        setSuccessMsg(`Your account needs verification. We've sent a code to ${err.data.email || email}`);
+      } else {
+        setError(err instanceof ApiError ? err.message : "Login failed. Check your credentials.");
+      }
     } finally { setIsLoading(false); }
   };
 
@@ -125,6 +138,9 @@ export default function AuthModal({ isOpen, onClose, initialMode = "login" }: Au
       const res = await authApi.verifyOtp({ email: otpEmail, otp: code });
       // Backend already set the httpOnly cookie — just update React state
       setUser(res.data);
+      if (flow === "forgot") {
+        alert("Verification successful! You are now logged in. Please change your password in your profile settings for security.");
+      }
       onClose();
       router.push("/dashboard");
     } catch (err) {
@@ -141,9 +157,21 @@ export default function AuthModal({ isOpen, onClose, initialMode = "login" }: Au
     setError(""); setIsLoading(true);
     try {
       await authApi.forgotPassword(email);
-      setSuccessMsg("Reset link sent! Check your email.");
+      setFlow("forgot");
+      setOtpEmail(email);
+      setOtpResendTimer(60);
+      setStep("otp");
+      setSuccessMsg("We've sent a 6-digit code to your email.");
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : "Failed to send reset link.");
+      if (err instanceof ApiError && err.status === 404) {
+        // If not registered, switch to signup flow as requested
+        setMode("signup");
+        setStep("form");
+        setError("This email is not registered yet. Please create an account below.");
+        setSuccessMsg("");
+      } else {
+        setError(err instanceof ApiError ? err.message : "Failed to send reset link.");
+      }
     } finally { setIsLoading(false); }
   };
 

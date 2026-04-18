@@ -83,6 +83,12 @@ exports.createProperty = async (req, res, next) => {
   try {
     const body = req.body;
 
+    // Descriptive Validation
+    if (!body.title) return res.status(400).json({ success: false, message: "Property title is required" });
+    if (!body.price || isNaN(Number(body.price))) return res.status(400).json({ success: false, message: "A valid property price is required" });
+    if (!body.propertyType) return res.status(400).json({ success: false, message: "Property type (e.g. plot, house) is required" });
+    if (!body.listingType) return res.status(400).json({ success: false, message: "Listing type (e.g. sell, rent) is required" });
+
     // Helper to get nested values or bracketed values
     const getVal = (obj, key, nestedKey) => {
       // If nested object exists (e.g. req.body.address.city)
@@ -147,7 +153,7 @@ exports.createProperty = async (req, res, next) => {
 // @route   PUT /api/v1/properties/:id
 exports.updateProperty = async (req, res, next) => {
   try {
-    const property = await Property.findOne({ _id: req.params.id, isDeleted: false });
+    let property = await Property.findOne({ _id: req.params.id, isDeleted: false });
     if (!property) return res.status(404).json({ success: false, message: "Property not found" });
 
     // Only owner or admin can update
@@ -156,9 +162,31 @@ exports.updateProperty = async (req, res, next) => {
     }
 
     const body = req.body;
+
+    // --- Image Deletion Logic ---
+    if (body.deletedImages) {
+      try {
+        const deletedIds = JSON.parse(body.deletedImages); // Array of public_ids or urls
+        if (Array.isArray(deletedIds)) {
+          // 1. Remove from database
+          property.images = property.images.filter(img => 
+             !deletedIds.includes(img.public_id) && !deletedIds.includes(img.url)
+          );
+
+          // 2. Remove from Cloudinary (optional/async)
+          const { cloudinary } = require("../../config/cloudinary");
+          deletedIds.forEach(id => {
+            if (id && !id.startsWith("http")) { // Likely a public_id
+              cloudinary.uploader.destroy(id).catch(e => console.error("Cloudinary Delete Error:", e));
+            }
+          });
+        }
+      } catch (e) { console.error("Deleted Images Parse Error:", e); }
+    }
+
     const getVal = (obj, key, nestedKey) => {
       if (obj[key] && typeof obj[key] === "object" && obj[key][nestedKey]) return obj[key][nestedKey];
-      return obj[`${key}[${nestedKey}]`];
+      return obj[`${key}[${nestedKey}]` ];
     };
 
     const updates = {
@@ -169,6 +197,8 @@ exports.updateProperty = async (req, res, next) => {
       listingType: body.listingType,
       bedrooms: body.bedrooms ? Number(body.bedrooms) : undefined,
       bathrooms: body.bathrooms ? Number(body.bathrooms) : undefined,
+      furnished: body.furnished,
+      images: property.images, // Start with existing (already filtered) images
       address: {
         street: getVal(body, "address", "street") || body.address,
         city: getVal(body, "address", "city") || body.city,
@@ -179,7 +209,6 @@ exports.updateProperty = async (req, res, next) => {
         size: getVal(body, "area", "size") ? Number(getVal(body, "area", "size")) : (body.areaSize ? Number(body.areaSize) : undefined),
         unit: getVal(body, "area", "unit") || body.areaUnit,
       },
-      furnished: body.furnished,
     };
 
     // Remove undefined fields for update
@@ -193,16 +222,18 @@ exports.updateProperty = async (req, res, next) => {
        if (Object.keys(updates.area).length === 0) delete updates.area;
     }
 
+    const updated = await Property.findByIdAndUpdate(req.params.id, updates, { new: true, runValidators: true });
+
+    // Handle new images after updating basic info
     if (req.files?.length) {
-      if (!updates.$push) updates.$push = {};
-      updates.$push.images = req.files.map((f) => ({ 
+      const newImages = req.files.map((f) => ({ 
         url: f.path,
         public_id: f.filename 
       }));
+      await Property.findByIdAndUpdate(req.params.id, { $push: { images: { $each: newImages } } });
     }
 
-    const updated = await Property.findByIdAndUpdate(req.params.id, updates, { new: true, runValidators: true });
-    res.json({ success: true, data: updated });
+    res.json({ success: true, message: "Property updated successfully" });
   } catch (err) {
     console.error("Property Update Error:", err);
     next(err);

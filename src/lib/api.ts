@@ -10,9 +10,11 @@ interface ApiOptions {
 
 class ApiError extends Error {
   status: number;
-  constructor(message: string, status: number) {
+  data: any;
+  constructor(message: string, status: number, data?: any) {
     super(message);
     this.status = status;
+    this.data = data;
     this.name = "ApiError";
   }
 }
@@ -39,7 +41,7 @@ export async function api<T = any>(endpoint: string, options: ApiOptions = {}): 
   const data = await res.json().catch(() => ({ message: "Invalid server response" }));
 
   if (!res.ok) {
-    throw new ApiError(data.message || "Request failed", res.status);
+    throw new ApiError(data.message || "Request failed", res.status, data);
   }
 
   return data as T;

@@ -87,8 +87,6 @@ exports.verifyOtp = async (req, res, next) => {
       .select("+emailOtp +emailOtpExpires +emailOtpAttempts +refreshToken");
 
     if (!user) return res.status(404).json({ success: false, message: "User not found" });
-    if (user.isVerified) return res.status(400).json({ success: false, message: "Email already verified" });
-
     // Too many attempts
     if (user.emailOtpAttempts >= 5) {
       return res.status(429).json({ success: false, message: "Too many attempts. Request a new OTP." });
@@ -137,7 +135,6 @@ exports.resendOtp = async (req, res, next) => {
 
     const user = await User.findOne({ email });
     if (!user) return res.status(404).json({ success: false, message: "User not found" });
-    if (user.isVerified) return res.status(400).json({ success: false, message: "Email already verified" });
 
     const otp = generateOtp();
     const hashedOtp = crypto.createHash("sha256").update(otp).digest("hex");
@@ -162,7 +159,10 @@ exports.login = async (req, res, next) => {
     if (!email || !password) return res.status(400).json({ success: false, message: "Email and password required" });
 
     const user = await User.findOne({ email }).select("+password +refreshToken");
-    if (!user || !(await user.comparePassword(password))) {
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+    if (!(await user.comparePassword(password))) {
       return res.status(401).json({ success: false, message: "Invalid credentials" });
     }
     if (user.isBlocked) return res.status(403).json({ success: false, message: "Account suspended. Contact support." });
@@ -249,18 +249,19 @@ exports.forgotPassword = async (req, res, next) => {
     const user = await User.findOne({ email });
     if (!user) return res.status(404).json({ success: false, message: "No account with this email" });
 
-    const resetToken = crypto.randomBytes(32).toString("hex");
-    const hashedToken = crypto.createHash("sha256").update(resetToken).digest("hex");
+    // Using OTP instead of Link for better consistency
+    const otp = generateOtp();
+    const hashedOtp = crypto.createHash("sha256").update(otp).digest("hex");
 
     await User.findByIdAndUpdate(user._id, {
-      passwordResetToken: hashedToken,
-      passwordResetExpires: Date.now() + 10 * 60 * 1000,
+      emailOtp: hashedOtp,
+      emailOtpExpires: Date.now() + 10 * 60 * 1000,
+      emailOtpAttempts: 0,
     });
 
-    const resetUrl = `${process.env.CLIENT_URL}/reset-password/${resetToken}`;
-    await sendPasswordResetEmail({ to: email, name: user.name, resetUrl });
+    await sendOtpEmail({ to: email, name: user.name, otp });
 
-    res.json({ success: true, message: "Password reset link sent to your email" });
+    res.json({ success: true, message: "A 6-digit verification code has been sent to your email" });
   } catch (err) { next(err); }
 };
 

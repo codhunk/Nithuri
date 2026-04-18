@@ -19,9 +19,10 @@ interface Property {
 export default function MyListingsPage() {
   const router = useRouter();
   const [listings, setListings] = useState<Property[]>([]);
+  const [viewMode, setViewMode] = useState<"list" | "grid">("list");
+  const [filter, setFilter] = useState("All");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
-  const [filter, setFilter] = useState("All");
 
   const fetchListings = async () => {
     setIsLoading(true);
@@ -56,32 +57,50 @@ export default function MyListingsPage() {
   return (
     <div className="p-4 md:p-8 max-w-6xl mx-auto space-y-8 pb-12">
       {/* Filters & Action */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 overflow-x-auto pb-4 scrollbar-hide">
-        <div className="flex gap-2">
-          {["All", "Pending", "Approved", "Sold"].map((f) => (
-            <button
-              key={f}
-              onClick={() => setFilter(f)}
-              className={`px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-tight transition-all ${
-                filter === f
-                  ? "bg-primary text-white shadow-lg shadow-primary/20"
-                  : "bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 border border-slate-100 dark:border-primary/10 hover:border-primary hover:text-primary"
-              }`}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 overflow-x-auto pb-4 scrollbar-hide">
+        <div className="flex items-center gap-4">
+          <div className="flex gap-1 bg-slate-100 dark:bg-primary/10 p-1 rounded-xl">
+            {["All", "Pending", "Approved", "Sold"].map((f) => (
+              <button
+                key={f}
+                onClick={() => setFilter(f)}
+                className={`px-5 py-2 rounded-lg text-[10px] font-black uppercase tracking-tight transition-all ${
+                  filter === f
+                    ? "bg-white dark:bg-primary text-primary dark:text-white shadow-sm"
+                    : "text-slate-500 hover:text-primary transition-colors"
+                }`}
+              >
+                {f}
+              </button>
+            ))}
+          </div>
+
+          <div className="hidden sm:flex items-center gap-1 bg-slate-100 dark:bg-primary/10 p-1 rounded-xl">
+            <button 
+              onClick={() => setViewMode("grid")}
+              className={`p-2 rounded-lg transition-all ${viewMode === "grid" ? "bg-white dark:bg-primary text-primary dark:text-white shadow-sm" : "text-slate-400"}`}
             >
-              {f}
+              <span className="material-symbols-outlined text-xl">grid_view</span>
             </button>
-          ))}
+            <button 
+              onClick={() => setViewMode("list")}
+              className={`p-2 rounded-lg transition-all ${viewMode === "list" ? "bg-white dark:bg-primary text-primary dark:text-white shadow-sm" : "text-slate-400"}`}
+            >
+              <span className="material-symbols-outlined text-xl">view_list</span>
+            </button>
+          </div>
         </div>
-        <Link href="/dashboard/add-property" className="bg-primary text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all flex items-center justify-center gap-2">
+
+        <Link href="/dashboard/add-property" className="bg-primary text-white px-6 py-3 rounded-xl font-bold text-sm shadow-xl shadow-primary/20 hover:shadow-primary/30 transition-all flex items-center justify-center gap-2 active:scale-95">
           <span className="material-symbols-outlined text-lg">add</span>
           Add New Property
         </Link>
       </div>
 
       {isLoading ? (
-        <div className="grid grid-cols-1 gap-4">
+        <div className={viewMode === "grid" ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" : "grid grid-cols-1 gap-4"}>
           {[1, 2, 3].map(i => (
-            <div key={i} className="h-40 bg-white dark:bg-slate-900 rounded-2xl animate-pulse border border-slate-100 dark:border-primary/10" />
+            <div key={i} className={`bg-white dark:bg-slate-900 rounded-2xl animate-pulse border border-slate-100 dark:border-primary/10 ${viewMode === "grid" ? "aspect-[4/5]" : "h-40"}`} />
           ))}
         </div>
       ) : error ? (
@@ -105,68 +124,79 @@ export default function MyListingsPage() {
            )}
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-4">
+        <div className={viewMode === "grid" ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" : "grid grid-cols-1 gap-6"}>
           {filtered.map((listing) => (
             <div 
               key={listing._id} 
-              className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-primary/10 rounded-2xl p-4 md:p-6 flex flex-col lg:flex-row gap-6 hover:shadow-xl hover:shadow-primary/5 transition-all group overflow-hidden"
+              className={`bg-white dark:bg-slate-900 border border-slate-100 dark:border-primary/10 rounded-2xl p-4 md:p-5 flex transition-all group overflow-hidden ${
+                viewMode === "list" ? "flex-col lg:flex-row gap-6 hover:shadow-xl hover:shadow-primary/5" : "flex-col gap-4 hover:shadow-2xl hover:-translate-y-1"
+              }`}
             >
-              <div className="w-full lg:w-48 h-32 rounded-xl overflow-hidden relative flex-shrink-0">
+              {/* Image Section */}
+              <div className={`rounded-xl overflow-hidden relative flex-shrink-0 ${
+                viewMode === "list" ? "w-full lg:w-52 h-36" : "w-full aspect-[4/3]"
+              }`}>
                 <img 
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
                   src={listing.images[0]?.url || "/placeholder.jpg"} 
                   alt={listing.title} 
                 />
-                <div className={`absolute top-2 left-2 px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest text-white shadow-lg ${
-                  listing.status === "approved" ? "bg-green-500" :
-                  listing.status === "pending" ? "bg-amber-500" : "bg-slate-500"
+                <div className={`absolute top-3 left-3 px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest text-white shadow-lg backdrop-blur-md ${
+                  listing.status === "approved" ? "bg-green-500/90" :
+                  listing.status === "pending" ? "bg-amber-500/90" : "bg-slate-500/90"
                 }`}>
                   {listing.status}
                 </div>
               </div>
               
+              {/* Content Section */}
               <div className="flex-1 flex flex-col justify-between py-1">
                 <div>
-                  <div className="flex justify-between items-start gap-4 mb-2">
-                    <h3 className="font-black text-lg dark:text-white group-hover:text-primary transition-colors line-clamp-1">{listing.title}</h3>
-                    <p className="font-black text-primary text-lg whitespace-nowrap">₹{(listing.price / 100000).toFixed(2)} Lac</p>
+                  <div className={`flex justify-between items-start gap-4 ${viewMode === "list" ? "mb-2" : "mb-3"}`}>
+                    <h3 className="font-black text-base dark:text-white group-hover:text-primary transition-colors line-clamp-1">{listing.title}</h3>
+                    <p className="font-black text-primary text-base whitespace-nowrap">₹{(listing.price / 100000).toFixed(2)} Lac</p>
                   </div>
-                  <p className="text-slate-500 dark:text-slate-400 text-sm flex items-center gap-1 mb-4">
+                  <p className="text-slate-500 dark:text-slate-400 text-xs flex items-center gap-1 mb-4">
                     <span className="material-symbols-outlined text-sm">location_on</span> {formatAddress(listing.address)}
                   </p>
                 </div>
 
-                <div className="flex flex-wrap gap-6 pt-4 border-t border-slate-50 dark:border-primary/5">
+                <div className="flex flex-wrap gap-4 pt-4 border-t border-slate-50 dark:border-primary/5">
                   <div className="flex items-center gap-2">
                      <span className="material-symbols-outlined text-slate-400 text-lg">visibility</span>
-                     <div>
-                       <p className="text-sm font-black dark:text-white">{listing.views || 0}</p>
-                       <p className="text-[10px] text-slate-400 uppercase font-bold tracking-tighter">Views</p>
+                     <div className="leading-none">
+                       <p className="text-xs font-black dark:text-white">{listing.views || 0}</p>
+                       <p className="text-[9px] text-slate-400 uppercase font-black tracking-tighter">Views</p>
                      </div>
                   </div>
                   <div className="flex items-center gap-2">
                      <span className="material-symbols-outlined text-slate-400 text-lg">event</span>
-                     <div>
-                       <p className="text-sm font-black dark:text-white">{new Date(listing.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}</p>
-                       <p className="text-[10px] text-slate-400 uppercase font-bold tracking-tighter">Listed On</p>
+                     <div className="leading-none">
+                       <p className="text-xs font-black dark:text-white">{new Date(listing.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}</p>
+                       <p className="text-[9px] text-slate-400 uppercase font-black tracking-tighter">Listed On</p>
                      </div>
                   </div>
                 </div>
               </div>
 
-              <div className="flex lg:flex-col gap-2 justify-center lg:border-l lg:border-slate-50 lg:dark:border-primary/5 lg:pl-6">
+              {/* Actions Section */}
+              <div className={`flex lg:flex-col gap-2 justify-center ${
+                viewMode === "list" 
+                  ? "lg:border-l lg:border-slate-50 lg:dark:border-primary/5 lg:pl-6" 
+                  : "pt-4 border-t border-slate-50 dark:border-primary/5"
+              }`}>
                 <button 
                   onClick={() => router.push(`/dashboard/edit-property/${listing._id}`)}
-                  className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-5 py-2.5 bg-primary/5 dark:bg-primary/20 text-primary rounded-xl font-black text-xs uppercase hover:bg-primary hover:text-white transition-all"
+                  className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-6 py-2.5 bg-primary/5 dark:bg-primary/20 text-primary rounded-xl font-black text-[10px] uppercase hover:bg-primary hover:text-white transition-all active:scale-95"
                 >
-                  <span className="material-symbols-outlined text-base">edit</span>
+                  <span className="material-symbols-outlined text-sm">edit</span>
                   Edit
                 </button>
                 <button 
                   onClick={() => handleDelete(listing._id)}
-                  className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-5 py-2.5 bg-red-50 dark:bg-red-900/20 text-red-500 rounded-xl font-black text-xs uppercase hover:bg-red-500 hover:text-white transition-all"
+                  className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-6 py-2.5 bg-red-50 dark:bg-red-900/20 text-red-500 rounded-xl font-black text-[10px] uppercase hover:bg-red-500 hover:text-white transition-all active:scale-95"
                 >
-                  <span className="material-symbols-outlined text-base">delete</span>
+                  <span className="material-symbols-outlined text-sm">delete</span>
                   Remove
                 </button>
               </div>

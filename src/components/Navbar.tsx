@@ -145,9 +145,9 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile: icon toggle + hamburger */}
+        {/* Mobile: icon toggle + hamburger (Toggle commented out) */}
         <div className="flex lg:hidden items-center gap-3">
-          <button
+          {/* <button
             onClick={toggleTheme}
             aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
             className="w-9 h-9 rounded-full flex items-center justify-center transition-colors duration-300 cursor-pointer"
@@ -157,7 +157,7 @@ export default function Navbar() {
             }}
           >
             {isDark ? <MoonIcon size={18} /> : <SunIcon size={18} />}
-          </button>
+          </button> */}
           <button
             className="text-primary dark:text-primary"
             onClick={() => setMenuOpen(!menuOpen)}
