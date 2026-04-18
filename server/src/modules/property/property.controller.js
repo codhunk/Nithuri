@@ -1,4 +1,5 @@
 const Property = require("./property.model");
+const User = require("../user/user.model");
 
 // Build query helper for filters
 const buildFilter = (query) => {
@@ -130,6 +131,12 @@ exports.createProperty = async (req, res, next) => {
     }
 
     const property = await Property.create(data);
+
+    // Reliable Role Management: Auto-upgrade 'user' to 'owner' if they just posted a property
+    if (req.user.role === "user") {
+      await User.findByIdAndUpdate(req.user._id, { role: "owner" });
+    }
+
     res.status(201).json({ success: true, message: "Property submitted for approval", data: property });
   } catch (err) {
     console.error("Property Creation Error:", err);

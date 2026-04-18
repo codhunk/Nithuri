@@ -66,6 +66,9 @@ export const authApi = {
   forgotPassword: (email: string) =>
     api("/auth/forgot-password", { method: "POST", body: { email } }),
 
+  resetPassword: (token: string, password: string) =>
+    api(`/auth/reset-password/${token}`, { method: "PUT", body: { password } }),
+
   refreshToken: () =>
     api<{ success: boolean }>("/auth/refresh", { method: "POST" }),
 };

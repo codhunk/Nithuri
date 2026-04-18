@@ -11,7 +11,7 @@ interface AuthModalProps {
   initialMode?: "login" | "signup";
 }
 
-type Step = "form" | "otp";
+type Step = "form" | "otp" | "forgot";
 
 export default function AuthModal({ isOpen, onClose, initialMode = "login" }: AuthModalProps) {
   const router = useRouter();
@@ -134,6 +134,19 @@ export default function AuthModal({ isOpen, onClose, initialMode = "login" }: Au
     } finally { setIsLoading(false); }
   };
 
+  // ─── Submit: Forgot Password ─────────────────────────────────────────────
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) { setError("Please enter your email"); return; }
+    setError(""); setIsLoading(true);
+    try {
+      await authApi.forgotPassword(email);
+      setSuccessMsg("Reset link sent! Check your email.");
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : "Failed to send reset link.");
+    } finally { setIsLoading(false); }
+  };
+
   // ─── Resend OTP ──────────────────────────────────────────────────────────
   const handleResendOtp = async () => {
     if (otpResendTimer > 0) return;
@@ -175,18 +188,20 @@ export default function AuthModal({ isOpen, onClose, initialMode = "login" }: Au
             <span className="font-black text-lg">Nithuri Singh &amp; Sons</span>
           </div>
           <h2 className="text-3xl font-black mb-1 relative z-10">
-            {step === "otp" ? "Verify Email" : mode === "login" ? "Welcome Back" : "Start Your Journey"}
+            {step === "otp" ? "Verify Email" : step === "forgot" ? "Reset Access" : mode === "login" ? "Welcome Back" : "Start Your Journey"}
           </h2>
           <p className="text-white/70 text-sm relative z-10 font-medium">
             {step === "otp"
               ? `Enter the 6-digit code sent to ${otpEmail}`
+              : step === "forgot"
+              ? "We'll send a reset link to your email"
               : mode === "login"
               ? "Access your dashboard and listings"
               : "Create an account to list and invest"}
           </p>
         </div>
 
-        {/* Tabs — hidden on OTP step */}
+        {/* Tabs — hidden on OTP or Forgot step */}
         {step === "form" && (
           <div className="flex border-b border-slate-100 dark:border-primary/5 bg-slate-50 dark:bg-primary/5">
             <button onClick={() => switchMode("login")} className={`flex-1 py-4 text-sm font-bold transition-all border-b-2 ${mode === "login" ? "border-primary text-primary" : "border-transparent text-slate-400"}`}>
@@ -257,6 +272,30 @@ export default function AuthModal({ isOpen, onClose, initialMode = "login" }: Au
               </button>
             </form>
 
+          ) : step === "forgot" ? (
+            /* ── Forgot Step ─────────────────────────────────────────────── */
+            <form onSubmit={handleForgotPassword} className="space-y-6">
+              <div className="flex flex-col gap-1">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Email Address</label>
+                <div className="relative">
+                  <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary/40 text-sm">mail</span>
+                  <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="name@example.com"
+                    className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-100 dark:border-primary/20 rounded-xl pl-11 pr-4 py-3 text-sm outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all dark:text-white" />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-primary text-white py-3.5 rounded-xl font-bold text-sm shadow-xl shadow-primary/20 hover:shadow-primary/30 active:scale-[0.98] transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {isLoading ? "Sending..." : "Send Reset Link"}
+              </button>
+
+              <button type="button" onClick={() => { setStep("form"); setError(""); setSuccessMsg(""); }} className="w-full text-center text-xs text-slate-400 hover:text-slate-600 transition-colors">
+                ← Back to login
+              </button>
+            </form>
           ) : (
           // ── Form Step ────────────────────────────────────────────────────
             <form className="space-y-4" onSubmit={mode === "login" ? handleLogin : handleRegister}>
@@ -309,7 +348,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = "login" }: Au
 
               {mode === "login" && (
                 <div className="flex justify-end">
-                  <button type="button" className="text-[10px] font-black text-primary uppercase hover:underline">Forgot Password?</button>
+                  <button type="button" onClick={() => setStep("forgot")} className="text-[10px] font-black text-primary uppercase hover:underline cursor-pointer">Forgot Password?</button>
                 </div>
               )}
 

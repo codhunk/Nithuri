@@ -9,10 +9,10 @@ const upload = require("../../middlewares/upload.middleware");
 router.use((req, res, next) => { req.uploadFolder = "properties"; next(); });
 
 router.get("/", getAllProperties);
-router.get("/my-listings", protect, authorize("owner", "admin"), getMyListings);
+router.get("/my-listings", protect, authorize("user", "owner", "admin"), getMyListings);
 router.get("/:id", getPropertyById);
-router.post("/", protect, authorize("owner", "admin"), upload.array("images", 10), createProperty);
-router.put("/:id", protect, authorize("owner", "admin"), upload.array("images", 10), updateProperty);
-router.delete("/:id", protect, authorize("owner", "admin"), deleteProperty);
+router.post("/", protect, authorize("user", "owner", "admin"), upload.array("images", 10), createProperty);
+router.put("/:id", protect, authorize("user", "owner", "admin"), upload.array("images", 10), updateProperty);
+router.delete("/:id", protect, authorize("user", "owner", "admin"), deleteProperty);
 
 module.exports = router;

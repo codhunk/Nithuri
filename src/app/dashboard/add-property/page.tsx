@@ -3,8 +3,11 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { propertiesApi, ApiError } from "@/lib/api";
 
+import { useAuth } from "@/contexts/AuthContext";
+
 export default function AddPropertyPage() {
   const router = useRouter();
+  const { refreshUser } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [files, setFiles] = useState<File[]>([]);
@@ -72,6 +75,7 @@ export default function AddPropertyPage() {
       });
 
       await propertiesApi.create(formData);
+      await refreshUser(); // Update role from user to owner on the frontend
       router.push("/dashboard/my-listings");
     } catch (err: any) {
       setError(err instanceof ApiError ? err.message : err.message || "Failed to create listing.");
