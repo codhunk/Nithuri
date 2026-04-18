@@ -1,14 +1,10 @@
 @import "tailwindcss";
 
-/* ── Tailwind v4 class-based dark mode (Commented out) ──────────────────── */
-/* @custom-variant dark (&:where(.dark, .dark *)); */
-
 /* ── Design tokens ──────────────────────────────────────── */
 @theme {
   --color-primary: #004c40;
   --color-primary-light: #00695c;
   --color-background-light: #f5f8f8;
-  --color-background-dark: #0d1f1c;
   --font-family-sans: 'Public Sans', system-ui, -apple-system, sans-serif;
   --font-family-display: 'Public Sans', system-ui, -apple-system, sans-serif;
 }
@@ -45,10 +41,4 @@
     color: #0f172a;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
-  /* Dark mode styles commented out
-  html.dark body {
-    background-color: #0d1f1c;
-    color: #ecfdf5;
-  }
-  */
 }

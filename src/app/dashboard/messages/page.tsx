@@ -161,21 +161,21 @@ export default function MessagesPage() {
   return (
     <div className="flex-1 flex h-[calc(100vh-80px)] overflow-hidden transition-all duration-300 relative">
       {/* Sidebar - Hidden on mobile if a chat is selected */}
-      <div className={`w-full md:w-80 lg:w-[400px] flex-shrink-0 bg-white dark:bg-slate-900 border-r border-slate-100 dark:border-primary/10 flex flex-col overflow-hidden transition-all ${
+      <div className={`w-full md:w-80 lg:w-[400px] flex-shrink-0 bg-white border-r border-slate-100 flex flex-col overflow-hidden transition-all ${
         selectedConv ? "hidden md:flex" : "flex"
       }`}>
-         <div className="p-4 border-b border-slate-50 dark:border-primary/5">
-            <h1 className="text-xl font-black mb-4 dark:text-white px-2">Messages</h1>
+         <div className="p-4 border-b border-slate-50">
+            <h1 className="text-xl font-black mb-4 px-2">Messages</h1>
             <div className="relative">
                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
                <input
                  type="text"
                  placeholder="Search chats..."
-                 className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-2xl pl-10 pr-4 py-3 text-sm outline-none focus:ring-2 focus:ring-primary/40 transition-all dark:text-white"
+                 className="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-10 pr-4 py-3 text-sm outline-none focus:ring-2 focus:ring-primary/40 transition-all"
                />
             </div>
          </div>
-         <div className="flex-1 overflow-y-auto divide-y divide-slate-50 dark:divide-primary/5 scrollbar-hide">
+         <div className="flex-1 overflow-y-auto divide-y divide-slate-50 scrollbar-hide">
            {isLoading ? (
              [1, 2, 3, 4, 5].map(i => <div key={i} className="p-6 animate-pulse border-b border-slate-50 h-24" />)
            ) : conversations.length === 0 ? (
@@ -191,17 +191,17 @@ export default function MessagesPage() {
                  <div 
                    key={conv._id}
                    onClick={() => setSelectedConv(conv)}
-                   className={`p-5 cursor-pointer transition-all hover:bg-slate-50 dark:hover:bg-primary/5 relative group ${
+                   className={`p-5 cursor-pointer transition-all hover:bg-slate-50 relative group ${
                      isActive ? "bg-primary/5 border-l-4 border-primary" : ""
                    }`}
                  >
                    <div className="flex gap-4">
-                     <div className="w-14 h-14 rounded-2xl bg-slate-100 dark:bg-slate-800 flex flex-shrink-0 items-center justify-center font-bold text-xl overflow-hidden shadow-inner">
+                     <div className="w-14 h-14 rounded-2xl bg-slate-100 flex flex-shrink-0 items-center justify-center font-bold text-xl overflow-hidden shadow-inner">
                        {other?.avatar ? <img src={other.avatar} className="w-full h-full object-cover" /> : other?.name.charAt(0)}
                      </div>
                      <div className="flex-1 min-w-0">
                        <div className="flex justify-between items-center mb-1">
-                         <p className="font-black text-sm dark:text-white truncate">{other?.name}</p>
+                         <p className="font-black text-sm truncate">{other?.name}</p>
                          <p className="text-[10px] text-slate-400 font-bold uppercase whitespace-nowrap">
                             {conv.lastMessageTime ? new Date(conv.lastMessageTime).toLocaleDateString([], { month: 'short', day: 'numeric' }) : ""}
                          </p>
@@ -211,7 +211,7 @@ export default function MessagesPage() {
                            {conv.property.title}
                          </p>
                        )}
-                       <p className={`text-xs truncate ${conv.unreadCount > 0 ? "font-black text-slate-900 dark:text-white" : "text-slate-500"}`}>
+                       <p className={`text-xs truncate ${conv.unreadCount > 0 ? "font-black text-slate-900" : "text-slate-500"}`}>
                          {conv.lastMessage || "Start chatting..."}
                        </p>
                      </div>
@@ -224,17 +224,17 @@ export default function MessagesPage() {
       </div>
 
       {/* Main Chat Area - Full screen on mobile if selected */}
-      <div className={`flex-1 flex flex-col bg-slate-50 dark:bg-slate-950 overflow-hidden ${
+      <div className={`flex-1 flex flex-col bg-slate-50 overflow-hidden ${
         selectedConv ? "flex" : "hidden md:flex"
       }`}>
         {selectedConv ? (
           <>
-            <div className="bg-white dark:bg-slate-900 px-6 py-4 flex items-center justify-between border-b border-slate-100 dark:border-primary/10 shadow-sm z-10 sticky top-0">
+            <div className="bg-white px-6 py-4 flex items-center justify-between border-b border-slate-100 shadow-sm z-10 sticky top-0">
                <div className="flex items-center gap-4">
                   {/* Mobile Back Button */}
                   <button 
                     onClick={() => setSelectedConv(null)}
-                    className="md:hidden w-10 h-10 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-600 transition-colors"
+                    className="md:hidden w-10 h-10 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-600 transition-colors"
                   >
                     <span className="material-symbols-outlined">arrow_back</span>
                   </button>
@@ -243,7 +243,7 @@ export default function MessagesPage() {
                     {getOtherParticipant(selectedConv)?.avatar ? <img src={getOtherParticipant(selectedConv)?.avatar} className="w-full h-full object-cover" /> : getOtherParticipant(selectedConv)?.name.charAt(0)}
                   </div>
                   <div>
-                    <h2 className="font-black text-base dark:text-white leading-tight">{getOtherParticipant(selectedConv)?.name}</h2>
+                    <h2 className="font-black text-base leading-tight">{getOtherParticipant(selectedConv)?.name}</h2>
                     <div className="flex items-center gap-2">
                        <span className={`w-2 h-2 rounded-full ${isConnected ? "bg-green-500" : "bg-slate-300"}`} />
                        <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest">{isConnected ? "Online" : "Away"}</p>
@@ -251,10 +251,10 @@ export default function MessagesPage() {
                   </div>
                </div>
                <div className="flex items-center gap-2">
-                 <button className="w-10 h-10 rounded-xl border border-slate-100 dark:border-primary/10 flex items-center justify-center text-slate-400 hover:text-primary transition-all">
+                 <button className="w-10 h-10 rounded-xl border border-slate-100 flex items-center justify-center text-slate-400 hover:text-primary transition-all">
                    <span className="material-symbols-outlined text-xl">call</span>
                  </button>
-                 <button className="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-400 hover:text-red-500 transition-all">
+                 <button className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 hover:text-red-500 transition-all">
                    <span className="material-symbols-outlined text-xl">more_vert</span>
                  </button>
                </div>
@@ -262,7 +262,7 @@ export default function MessagesPage() {
 
             {/* Chat Messages */}
             <div 
-               className="flex-1 overflow-y-auto p-6 md:p-8 space-y-6 scrollbar-hide relative bg-[#e5ddd5] dark:bg-slate-950"
+               className="flex-1 overflow-y-auto p-6 md:p-8 space-y-6 scrollbar-hide relative bg-[#e5ddd5]"
                style={{
                   backgroundImage: "url('https://i.pinimg.com/originals/ab/ab/60/abab60f06ab52fa784665855c3ab27f4.png')",
                   backgroundSize: "400px",
@@ -275,8 +275,8 @@ export default function MessagesPage() {
                    <div key={msg._id} className={`flex ${isMe ? "justify-end" : "justify-start"}`}>
                       <div className={`max-w-[85%] md:max-w-[70%] p-4 rounded-2xl shadow-sm relative ${
                         isMe 
-                        ? "bg-[#dcf8c6] dark:bg-primary text-slate-900 dark:text-white rounded-tr-none" 
-                        : "bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-tl-none border border-black/5"
+                        ? "bg-[#dcf8c6] text-slate-900 rounded-tr-none" 
+                        : "bg-white text-slate-900 rounded-tl-none border border-black/5"
                       }`}>
                         <p className="text-sm leading-relaxed pr-2">{msg.message}</p>
                         <div className={`flex items-center justify-end gap-1 mt-1 opacity-60`}>
@@ -297,16 +297,16 @@ export default function MessagesPage() {
             </div>
 
             {/* Message Input */}
-            <div className="p-4 md:p-6 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-primary/10">
+            <div className="p-4 md:p-6 bg-white border-t border-slate-100">
                <div className="flex gap-3 items-end max-w-5xl mx-auto">
-                  <div className="flex-1 flex gap-2 p-2 bg-slate-50 dark:bg-primary/5 rounded-[1.5rem] border border-slate-100 dark:border-primary/10 items-center">
+                  <div className="flex-1 flex gap-2 p-2 bg-slate-50 rounded-[1.5rem] border border-slate-100 items-center">
                      <textarea
                        rows={1}
                        value={newMessage}
                        onChange={(e) => setNewMessage(e.target.value)}
                        onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && (e.preventDefault(), sendMessage())}
                        placeholder="Type your message..."
-                       className="flex-1 bg-transparent border-none outline-none focus:ring-0 py-2 text-sm dark:text-white resize-none px-4"
+                       className="flex-1 bg-transparent border-none outline-none focus:ring-0 py-2 text-sm resize-none px-4"
                      />
                   </div>
                   <button 
@@ -321,11 +321,11 @@ export default function MessagesPage() {
         ) : (
           <div className="flex-1 flex flex-col items-center justify-center text-slate-400 relative">
              <div className="absolute inset-0 opacity-5 pointer-events-none" style={{ backgroundImage: "url('https://i.pinimg.com/originals/ab/ab/60/abab60f06ab52fa784665855c3ab27f4.png')" }} />
-             <div className="bg-white dark:bg-slate-900 p-12 rounded-[3rem] shadow-2xl border border-slate-100 dark:border-primary/5 flex flex-col items-center text-center max-w-md mx-6">
+             <div className="bg-white p-12 rounded-[3rem] shadow-2xl border border-slate-100 flex flex-col items-center text-center max-w-md mx-6">
                 <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-6 animate-bounce">
                   <span className="material-symbols-outlined text-4xl">forum</span>
                 </div>
-                <h3 className="text-2xl font-black text-slate-800 dark:text-white mb-2 uppercase tracking-tighter">Nithuri Messenger</h3>
+                <h3 className="text-2xl font-black text-slate-800 mb-2 uppercase tracking-tighter">Nithuri Messenger</h3>
                 <p className="text-sm font-medium text-slate-500 leading-relaxed mb-8">Send and receive messages about properties securely. Click on a conversation to start chatting.</p>
                 <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
                    <span className="material-symbols-outlined text-xs">encrypted</span>

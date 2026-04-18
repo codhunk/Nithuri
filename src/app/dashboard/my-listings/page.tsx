@@ -59,14 +59,14 @@ export default function MyListingsPage() {
       {/* Filters & Action */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 overflow-x-auto pb-4 scrollbar-hide">
         <div className="flex items-center gap-4">
-          <div className="flex gap-1 bg-slate-100 dark:bg-primary/10 p-1 rounded-xl">
+          <div className="flex gap-1 bg-slate-100 p-1 rounded-xl">
             {["All", "Pending", "Approved", "Sold"].map((f) => (
               <button
                 key={f}
                 onClick={() => setFilter(f)}
                 className={`px-5 py-2 rounded-lg text-[10px] font-black uppercase tracking-tight transition-all ${
                   filter === f
-                    ? "bg-white dark:bg-primary text-primary dark:text-white shadow-sm"
+                    ? "bg-white text-primary shadow-sm"
                     : "text-slate-500 hover:text-primary transition-colors"
                 }`}
               >
@@ -75,16 +75,16 @@ export default function MyListingsPage() {
             ))}
           </div>
 
-          <div className="hidden sm:flex items-center gap-1 bg-slate-100 dark:bg-primary/10 p-1 rounded-xl">
+          <div className="hidden sm:flex items-center gap-1 bg-slate-100 p-1 rounded-xl">
             <button 
               onClick={() => setViewMode("grid")}
-              className={`p-2 rounded-lg transition-all ${viewMode === "grid" ? "bg-white dark:bg-primary text-primary dark:text-white shadow-sm" : "text-slate-400"}`}
+              className={`p-2 rounded-lg transition-all ${viewMode === "grid" ? "bg-white text-primary shadow-sm" : "text-slate-400"}`}
             >
               <span className="material-symbols-outlined text-xl">grid_view</span>
             </button>
             <button 
               onClick={() => setViewMode("list")}
-              className={`p-2 rounded-lg transition-all ${viewMode === "list" ? "bg-white dark:bg-primary text-primary dark:text-white shadow-sm" : "text-slate-400"}`}
+              className={`p-2 rounded-lg transition-all ${viewMode === "list" ? "bg-white text-primary shadow-sm" : "text-slate-400"}`}
             >
               <span className="material-symbols-outlined text-xl">view_list</span>
             </button>
@@ -100,7 +100,7 @@ export default function MyListingsPage() {
       {isLoading ? (
         <div className={viewMode === "grid" ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" : "grid grid-cols-1 gap-4"}>
           {[1, 2, 3].map(i => (
-            <div key={i} className={`bg-white dark:bg-slate-900 rounded-2xl animate-pulse border border-slate-100 dark:border-primary/10 ${viewMode === "grid" ? "aspect-[4/5]" : "h-40"}`} />
+            <div key={i} className={`bg-white rounded-2xl animate-pulse border border-slate-100 ${viewMode === "grid" ? "aspect-[4/5]" : "h-40"}`} />
           ))}
         </div>
       ) : error ? (
@@ -109,12 +109,12 @@ export default function MyListingsPage() {
            <p className="text-red-700 font-bold">{error}</p>
         </div>
       ) : filtered.length === 0 ? (
-        <div className="bg-white dark:bg-slate-900 p-12 rounded-3xl text-center border border-slate-100 dark:border-primary/10 shadow-sm transition-colors">
-           <div className="w-20 h-20 bg-slate-50 dark:bg-primary/5 rounded-full flex items-center justify-center mx-auto mb-6">
-              <span className="material-symbols-outlined text-slate-300 dark:text-primary/20 text-4xl">inventory_2</span>
+        <div className="bg-white p-12 rounded-3xl text-center border border-slate-100 shadow-sm transition-colors">
+           <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6">
+              <span className="material-symbols-outlined text-slate-300 text-4xl">inventory_2</span>
            </div>
-           <h3 className="text-xl font-black dark:text-white mb-2 uppercase tracking-tight">No Listings Here</h3>
-           <p className="text-slate-500 dark:text-slate-400 text-sm max-w-sm mx-auto mb-8">
+           <h3 className="text-xl font-black mb-2 uppercase tracking-tight">No Listings Here</h3>
+           <p className="text-slate-500 text-sm max-w-sm mx-auto mb-8">
              {filter === "All" ? "You haven't listed any properties yet." : `No listings currently match the "${filter}" status.`}
            </p>
            {filter === "All" && (
@@ -128,7 +128,7 @@ export default function MyListingsPage() {
           {filtered.map((listing) => (
             <div 
               key={listing._id} 
-              className={`bg-white dark:bg-slate-900 border border-slate-100 dark:border-primary/10 rounded-2xl p-4 md:p-5 flex transition-all group overflow-hidden ${
+              className={`bg-white border border-slate-100 rounded-2xl p-4 md:p-5 flex transition-all group overflow-hidden ${
                 viewMode === "list" ? "flex-col lg:flex-row gap-6 hover:shadow-xl hover:shadow-primary/5" : "flex-col gap-4 hover:shadow-2xl hover:-translate-y-1"
               }`}
             >
@@ -153,26 +153,26 @@ export default function MyListingsPage() {
               <div className="flex-1 flex flex-col justify-between py-1">
                 <div>
                   <div className={`flex justify-between items-start gap-4 ${viewMode === "list" ? "mb-2" : "mb-3"}`}>
-                    <h3 className="font-black text-base dark:text-white group-hover:text-primary transition-colors line-clamp-1">{listing.title}</h3>
+                    <h3 className="font-black text-base group-hover:text-primary transition-colors line-clamp-1">{listing.title}</h3>
                     <p className="font-black text-primary text-base whitespace-nowrap">₹{(listing.price / 100000).toFixed(2)} Lac</p>
                   </div>
-                  <p className="text-slate-500 dark:text-slate-400 text-xs flex items-center gap-1 mb-4">
+                  <p className="text-slate-500 text-xs flex items-center gap-1 mb-4">
                     <span className="material-symbols-outlined text-sm">location_on</span> {formatAddress(listing.address)}
                   </p>
                 </div>
 
-                <div className="flex flex-wrap gap-4 pt-4 border-t border-slate-50 dark:border-primary/5">
+                <div className="flex flex-wrap gap-4 pt-4 border-t border-slate-50">
                   <div className="flex items-center gap-2">
                      <span className="material-symbols-outlined text-slate-400 text-lg">visibility</span>
                      <div className="leading-none">
-                       <p className="text-xs font-black dark:text-white">{listing.views || 0}</p>
+                       <p className="text-xs font-black">{listing.views || 0}</p>
                        <p className="text-[9px] text-slate-400 uppercase font-black tracking-tighter">Views</p>
                      </div>
                   </div>
                   <div className="flex items-center gap-2">
                      <span className="material-symbols-outlined text-slate-400 text-lg">event</span>
                      <div className="leading-none">
-                       <p className="text-xs font-black dark:text-white">{new Date(listing.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}</p>
+                       <p className="text-xs font-black">{new Date(listing.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}</p>
                        <p className="text-[9px] text-slate-400 uppercase font-black tracking-tighter">Listed On</p>
                      </div>
                   </div>
@@ -182,19 +182,19 @@ export default function MyListingsPage() {
               {/* Actions Section */}
               <div className={`flex lg:flex-col gap-2 justify-center ${
                 viewMode === "list" 
-                  ? "lg:border-l lg:border-slate-50 lg:dark:border-primary/5 lg:pl-6" 
-                  : "pt-4 border-t border-slate-50 dark:border-primary/5"
+                  ? "lg:border-l lg:border-slate-50 lg: lg:pl-6" 
+                  : "pt-4 border-t border-slate-50"
               }`}>
                 <button 
                   onClick={() => router.push(`/dashboard/edit-property/${listing._id}`)}
-                  className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-6 py-2.5 bg-primary/5 dark:bg-primary/20 text-primary rounded-xl font-black text-[10px] uppercase hover:bg-primary hover:text-white transition-all active:scale-95"
+                  className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-6 py-2.5 bg-primary/5 text-primary rounded-xl font-black text-[10px] uppercase hover:bg-primary hover:text-white transition-all active:scale-95"
                 >
                   <span className="material-symbols-outlined text-sm">edit</span>
                   Edit
                 </button>
                 <button 
                   onClick={() => handleDelete(listing._id)}
-                  className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-6 py-2.5 bg-red-50 dark:bg-red-900/20 text-red-500 rounded-xl font-black text-[10px] uppercase hover:bg-red-500 hover:text-white transition-all active:scale-95"
+                  className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-6 py-2.5 bg-red-50 text-red-500 rounded-xl font-black text-[10px] uppercase hover:bg-red-500 hover:text-white transition-all active:scale-95"
                 >
                   <span className="material-symbols-outlined text-sm">delete</span>
                   Remove

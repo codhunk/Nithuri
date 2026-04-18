@@ -26,7 +26,7 @@ export default function ContactPage() {
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">First Name</label>
                   <input
-                    className="bg-slate-50 dark:bg-primary/5 rounded-xl px-4 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/10 border border-transparent focus:border-primary transition-all transition-all"
+                    className="bg-slate-50 rounded-xl px-4 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/10 border border-transparent focus:border-primary transition-all transition-all"
                     placeholder="Bageshwar"
                     type="text"
                   />
@@ -34,7 +34,7 @@ export default function ContactPage() {
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Last Name</label>
                   <input
-                    className="bg-slate-50 dark:bg-primary/5 rounded-xl px-4 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/10 border border-transparent focus:border-primary transition-all transition-all"
+                    className="bg-slate-50 rounded-xl px-4 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/10 border border-transparent focus:border-primary transition-all transition-all"
                     placeholder="Singh"
                     type="text"
                   />
@@ -43,7 +43,7 @@ export default function ContactPage() {
               <div className="flex flex-col gap-1.5 mb-6">
                 <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Email Address</label>
                 <input
-                  className="bg-slate-50 dark:bg-primary/5 rounded-xl px-4 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/10 border border-transparent focus:border-primary transition-all transition-all"
+                  className="bg-slate-50 rounded-xl px-4 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/10 border border-transparent focus:border-primary transition-all transition-all"
                   placeholder="you@example.com"
                   type="email"
                 />
@@ -51,14 +51,14 @@ export default function ContactPage() {
               <div className="flex flex-col gap-1.5 mb-6">
                 <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Phone Number</label>
                 <input
-                  className="bg-slate-50 dark:bg-primary/5 rounded-xl px-4 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/10 border border-transparent focus:border-primary transition-all transition-all"
+                  className="bg-slate-50 rounded-xl px-4 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/10 border border-transparent focus:border-primary transition-all transition-all"
                   placeholder="+91 98765 43210"
                   type="tel"
                 />
               </div>
               <div className="flex flex-col gap-1.5 mb-6">
                 <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Subject</label>
-                <select className="bg-slate-50 dark:bg-primary/5 rounded-xl px-4 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/10 border border-transparent focus:border-primary transition-all transition-all text-slate-700">
+                <select className="bg-slate-50 rounded-xl px-4 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/10 border border-transparent focus:border-primary transition-all transition-all text-slate-700">
                   <option>Property Inquiry</option>
                   <option>Investment Opportunity</option>
                   <option>Legal Advisory</option>
@@ -69,7 +69,7 @@ export default function ContactPage() {
               <div className="flex flex-col gap-1.5 mb-8">
                 <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Message</label>
                 <textarea
-                  className="bg-slate-50 dark:bg-primary/5 rounded-xl px-4 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/10 border border-transparent focus:border-primary transition-all transition-all resize-none"
+                  className="bg-slate-50 rounded-xl px-4 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/10 border border-transparent focus:border-primary transition-all transition-all resize-none"
                   rows={5}
                   placeholder="How can we help you today?"
                 />

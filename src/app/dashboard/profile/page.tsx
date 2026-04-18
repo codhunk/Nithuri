@@ -47,7 +47,7 @@ export default function ProfilePage() {
   return (
     <div className="p-4 md:p-8 max-w-4xl mx-auto space-y-8 pb-12">
       {/* Profile Header */}
-      <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 shadow-sm border border-slate-100 dark:border-primary/10 relative overflow-hidden transition-colors">
+      <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 relative overflow-hidden transition-colors">
         <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16" />
         <div className="flex flex-col md:flex-row items-center gap-8 relative z-10 text-center md:text-left">
           <div className="relative group">
@@ -64,12 +64,12 @@ export default function ProfilePage() {
             {/* Future: Add input[type=file] here for avatar upload */}
           </div>
           <div className="flex-1">
-            <h2 className="text-2xl font-black dark:text-white mb-2">{user.name}</h2>
+            <h2 className="text-2xl font-black mb-2">{user.name}</h2>
             <div className="flex flex-wrap justify-center md:justify-start gap-4 mb-4">
-              <span className="text-xs font-bold px-3 py-1.5 bg-green-50 dark:bg-green-900/20 text-green-600 rounded-lg flex items-center gap-1">
+              <span className="text-xs font-bold px-3 py-1.5 bg-green-50 text-green-600 rounded-lg flex items-center gap-1">
                 <span className="material-symbols-outlined text-base">verified</span> Verified {user.role}
               </span>
-              <span className="text-xs font-bold px-3 py-1.5 bg-primary/5 dark:bg-primary/20 text-primary rounded-lg flex items-center gap-1">
+              <span className="text-xs font-bold px-3 py-1.5 bg-primary/5 text-primary rounded-lg flex items-center gap-1">
                 <span className="material-symbols-outlined text-base">person</span> Member since {new Date().getFullYear()}
               </span>
             </div>
@@ -95,27 +95,27 @@ export default function ProfilePage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Basic Info */}
-        <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 shadow-sm border border-slate-100 dark:border-primary/10 transition-colors">
-          <div className="flex items-center gap-3 mb-8 border-b border-slate-50 dark:border-primary/5 pb-4">
+        <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 transition-colors">
+          <div className="flex items-center gap-3 mb-8 border-b border-slate-50 pb-4">
             <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
               <span className="material-symbols-outlined text-xl">person</span>
             </div>
-            <h2 className="text-lg font-black dark:text-white">Basic Information</h2>
+            <h2 className="text-lg font-black">Basic Information</h2>
           </div>
 
           <div className="space-y-6">
             <div className="flex flex-col gap-2">
-              <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest pl-1">Full Name</label>
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Full Name</label>
               <input 
-                className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-xl px-4 py-3.5 text-sm outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all dark:text-white"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-sm outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
             <div className="flex flex-col gap-2">
-              <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest pl-1">Email Address</label>
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Email Address</label>
               <input 
-                className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-xl px-4 py-3.5 text-sm outline-none transition-all dark:text-white opacity-50 cursor-not-allowed"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-sm outline-none transition-all opacity-50 cursor-not-allowed"
                 value={user.email}
                 disabled
               />
@@ -125,29 +125,29 @@ export default function ProfilePage() {
         </div>
 
         {/* Extended Settings */}
-        <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 shadow-sm border border-slate-100 dark:border-primary/10 transition-colors">
-          <div className="flex items-center gap-3 mb-8 border-b border-slate-50 dark:border-primary/5 pb-4">
+        <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 transition-colors">
+          <div className="flex items-center gap-3 mb-8 border-b border-slate-50 pb-4">
             <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
               <span className="material-symbols-outlined text-xl">contact_phone</span>
             </div>
-            <h2 className="text-lg font-black dark:text-white">Contact & Bio</h2>
+            <h2 className="text-lg font-black">Contact & Bio</h2>
           </div>
 
           <div className="space-y-6">
             <div className="flex flex-col gap-2">
-              <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest pl-1">Phone Number</label>
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Phone Number</label>
               <input 
-                className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-xl px-4 py-3.5 text-sm outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all dark:text-white"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-sm outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="+91 00000 00000"
               />
             </div>
             <div className="flex flex-col gap-2">
-              <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest pl-1">Bio / Slogan</label>
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Bio / Slogan</label>
               <textarea 
                 rows={3}
-                className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-xl px-4 py-3.5 text-sm outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all dark:text-white resize-none"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-sm outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all resize-none"
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
                 placeholder="Tell users more about your business..."

@@ -25,14 +25,11 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="layout-container flex h-full grow flex-col min-h-screen dark:bg-background-dark transition-colors duration-300">
+    <div className="layout-container flex h-full grow flex-col min-h-screen transition-colors duration-300">
       <Navbar />
 
       <main>
-        {/* ... Hero and Search ... */}
-        {/* Skipping unchanged Hero and Search content for brevity in this tool call, but you'll apply it in the file. */}
-        {/* I'll use the placeholder for the hero/search part below since replace_file_content needs exact match. */}
-        {/* ── Hero Section ──────────────────────────────────────── */}
+        {/* Hero Section */}
         <section className="relative">
           <div
             className="flex min-h-[600px] flex-col gap-6 bg-cover bg-center bg-no-repeat items-center justify-center p-6 text-center"
@@ -42,7 +39,7 @@ export default function Home() {
           >
             <div className="max-w-4xl flex flex-col gap-4">
               <h1 className="text-white text-4xl md:text-6xl font-black leading-tight tracking-tight">
-                Find Land, Opportunities &amp; Guidance in One Place
+                Find Land, Opportunities & Guidance in One Place
               </h1>
               <p className="text-white/90 text-lg md:text-xl font-normal max-w-2xl mx-auto">
                 Connecting you with premium real estate, professional advisory,
@@ -56,7 +53,6 @@ export default function Home() {
               <Link
                 href="/dashboard/add-property"
                 className="flex min-w-[160px] cursor-pointer items-center justify-center rounded-lg h-12 px-6 bg-white text-primary text-base font-bold shadow-lg hover:bg-slate-50 transition-colors"
-                aria-label="Post Your Property"
               >
                 Post Your Property
               </Link>
@@ -64,41 +60,41 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── Advanced Search Bar ───────────────────────────────── */}
+        {/* Advanced Search Bar */}
         <section className="max-w-[1100px] mx-auto w-full -mt-16 relative z-10 px-4">
-          <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-2xl border border-primary/5 dark:border-primary/20 transition-colors duration-300">
-            <h2 className="text-slate-900 dark:text-white text-lg font-bold mb-4 flex items-center gap-2">
+          <div className="bg-white p-6 rounded-xl shadow-2xl border border-primary/5 transition-colors duration-300">
+            <h2 className="text-slate-900 text-lg font-bold mb-4 flex items-center gap-2">
               <span className="material-symbols-outlined text-primary">manage_search</span>
               Advanced Property Search
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div className="flex flex-col gap-1">
-                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase ml-1">Location</label>
-                <div className="flex items-center bg-primary/5 dark:bg-primary/20 rounded-lg px-3 h-12">
+                <label className="text-xs font-semibold text-slate-500 uppercase ml-1">Location</label>
+                <div className="flex items-center bg-primary/5 rounded-lg px-3 h-12">
                   <span className="material-symbols-outlined text-primary mr-2">location_on</span>
-                  <input className="bg-transparent border-none outline-none focus:ring-0 w-full text-sm dark:text-white dark:placeholder:text-slate-400" placeholder="City or Region" type="text" />
+                  <input className="bg-transparent border-none outline-none focus:ring-0 w-full text-sm" placeholder="City or Region" type="text" />
                 </div>
               </div>
               <div className="flex flex-col gap-1">
-                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase ml-1">Price Range</label>
-                <div className="flex items-center bg-primary/5 dark:bg-primary/20 rounded-lg px-3 h-12">
+                <label className="text-xs font-semibold text-slate-500 uppercase ml-1">Price Range</label>
+                <div className="flex items-center bg-primary/5 rounded-lg px-3 h-12">
                   <span className="material-symbols-outlined text-primary mr-2">payments</span>
-                  <select className="bg-transparent border-none outline-none focus:ring-0 w-full text-sm dark:text-white">
-                    <option className="dark:bg-slate-800">Any Price</option>
-                    <option className="dark:bg-slate-800">₹50k – ₹100k</option>
-                    <option className="dark:bg-slate-800">₹100k – ₹500k</option>
+                  <select className="bg-transparent border-none outline-none focus:ring-0 w-full text-sm">
+                    <option>Any Price</option>
+                    <option>₹50k – ₹100k</option>
+                    <option>₹100k – ₹500k</option>
                   </select>
                 </div>
               </div>
               <div className="flex flex-col gap-1">
-                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase ml-1">Property Type</label>
-                <div className="flex items-center bg-primary/5 dark:bg-primary/20 rounded-lg px-3 h-12">
+                <label className="text-xs font-semibold text-slate-500 uppercase ml-1">Property Type</label>
+                <div className="flex items-center bg-primary/5 rounded-lg px-3 h-12">
                   <span className="material-symbols-outlined text-primary mr-2">home_work</span>
-                  <select className="bg-transparent border-none outline-none focus:ring-0 w-full text-sm dark:text-white">
-                    <option className="dark:bg-slate-800">All Types</option>
-                    <option className="dark:bg-slate-800">Agricultural Land</option>
-                    <option className="dark:bg-slate-800">Commercial Plot</option>
-                    <option className="dark:bg-slate-800">Residential</option>
+                  <select className="bg-transparent border-none outline-none focus:ring-0 w-full text-sm">
+                    <option>All Types</option>
+                    <option>Agricultural Land</option>
+                    <option>Commercial Plot</option>
+                    <option>Residential</option>
                   </select>
                 </div>
               </div>
@@ -111,12 +107,12 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── Featured Properties ───────────────────────────────── */}
+        {/* Featured Properties */}
         <section className="py-20 px-6 md:px-20 max-w-[1400px] mx-auto">
           <div className="flex justify-between items-end mb-10">
-            <div className="dark:text-white">
+            <div>
               <p className="text-primary font-bold tracking-widest uppercase text-sm mb-2">Featured Listings</p>
-              <h2 className="text-3xl md:text-4xl font-black dark:text-white">Handpicked Properties for You</h2>
+              <h2 className="text-3xl md:text-4xl font-black">Handpicked Properties for You</h2>
             </div>
             <Link className="text-primary font-bold flex items-center gap-1 hover:underline" href="/properties">
               View All <span className="material-symbols-outlined">arrow_right_alt</span>
@@ -125,7 +121,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {loading ? (
               Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="h-96 bg-slate-100 dark:bg-slate-800 rounded-3xl animate-pulse" />
+                <div key={i} className="h-96 bg-slate-100 rounded-3xl animate-pulse" />
               ))
             ) : featured.length === 0 ? (
               <div className="col-span-full py-12 text-center text-slate-500">No properties available yet.</div>
@@ -149,12 +145,12 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── Services Section ──────────────────────────────────── */}
-        <section className="bg-primary/5 dark:bg-primary/10 py-20 px-6 md:px-20 transition-colors duration-300">
+        {/* Services Section */}
+        <section className="bg-primary/5 py-20 px-6 md:px-20 transition-colors duration-300">
           <div className="max-w-[1400px] mx-auto">
             <div className="text-center mb-16">
               <p className="text-primary font-bold tracking-widest uppercase text-sm mb-2">What We Do</p>
-              <h2 className="text-3xl md:text-5xl font-black dark:text-white">Comprehensive Expertise</h2>
+              <h2 className="text-3xl md:text-5xl font-black">Comprehensive Expertise</h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               <ServiceCard icon="real_estate_agent" title="Real Estate" desc="Full-cycle land procurement and development services tailored to your specific needs." />
@@ -165,7 +161,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── Investor Opportunities ────────────────────────────── */}
+        {/* Investor Opportunities */}
         <section className="py-20 px-6 md:px-20 max-w-[1400px] mx-auto">
           <div className="flex flex-col lg:flex-row gap-12 items-center">
             <div className="lg:w-1/2">
@@ -205,9 +201,9 @@ export default function Home() {
                 </div>
               </div>
               <div className="space-y-4 pt-8">
-                <div className="bg-slate-900 p-6 rounded-xl text-white">
-                  <p className="text-4xl font-black mb-1">12</p>
-                  <p className="text-sm opacity-80">Active Projects</p>
+                <div className="bg-primary/5 p-6 rounded-xl border border-primary/10">
+                  <p className="text-4xl font-black mb-1 text-primary">12</p>
+                  <p className="text-sm font-bold text-slate-500 uppercase tracking-tighter">Active Projects</p>
                 </div>
                 <div className="rounded-xl overflow-hidden h-64 shadow-lg">
                   <img className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWVWh301ONDY1GSlZk85eI2cwMRuWGRsbM0m4DlYyBh_NbdkWNuUXrdivaYzd7N7PAAtovrUKE11fz1V7C_Qvp_5vH0Lj_q3n7bk9cNl5qZC4QVcnM9kshMmf5DH8xWS95iuA1OoYPS4FYGGHevi1f4Vudz7CBnzB_6lIpfIgcPh53zbjMLGEPlp2pgRe_XCnDhlFqAA2RbalJUvAUjLPFOHk_X0tLtnC_r05DkBmySFakXNm2uWLUz4sWcL8gvrZlufHr7eicrG4" alt="Office" />
@@ -217,13 +213,12 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── Tourism Development ───────────────────────────────── */}
-        <section className="py-20 bg-slate-900 dark:bg-slate-950 text-white px-6 md:px-20 overflow-hidden relative transition-colors duration-300">
+        {/* Tourism Development */}
+        <section className="py-24 bg-white px-6 md:px-20 overflow-hidden relative transition-colors duration-300">
           <div className="max-w-[1400px] mx-auto relative z-10">
             <div className="text-center mb-16">
               <p className="text-primary font-bold tracking-widest uppercase text-sm mb-2">Leisure &amp; Nature</p>
-              <h2 className="text-3xl md:text-5xl font-black">Tourism Development</h2>
-              <p className="text-slate-400 mt-4 max-w-2xl mx-auto">Promoting eco-conscious travel and premium hospitality infrastructure.</p>
+              <h2 className="text-3xl md:text-5xl font-black text-slate-900">Tourism Development</h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               <TourismCard
@@ -250,8 +245,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── Founder Section ───────────────────────────────────── */}
-        <section className="py-24 px-6 md:px-20 bg-white dark:bg-slate-900 transition-colors duration-300">
+        {/* Founder Section */}
+        <section className="py-24 px-6 md:px-20 bg-white transition-colors duration-300">
           <div className="max-w-[1100px] mx-auto">
             <div className="flex flex-col md:flex-row items-center gap-12">
               <div className="md:w-2/5 relative group">
@@ -261,18 +256,15 @@ export default function Home() {
                     src="/director.png"
                     alt="Bageshwar Singh"
                   />
-                  {/* Subtle overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                 </div>
-                {/* Decorative Accents */}
                 <div className="absolute -bottom-8 -right-8 w-40 h-40 bg-primary/10 rounded-[3rem] -z-0 animate-pulse" />
                 <div className="absolute -top-8 -left-8 w-24 h-24 border-8 border-primary/10 rounded-3xl -z-0" />
               </div>
               <div className="md:w-3/5">
                 <p className="text-primary font-bold tracking-widest uppercase text-xs mb-3">Legacy & Leadership</p>
-                <h2 className="text-3xl md:text-5xl font-black mb-6 dark:text-white leading-tight">Director’s Thoughts &amp; Vision</h2>
-
-                <div className="space-y-6 text-slate-600 dark:text-slate-300 text-lg leading-relaxed italic border-l-4 border-primary pl-6 font-medium">
+                <h2 className="text-3xl md:text-5xl font-black mb-6 leading-tight">Director’s Thoughts & Vision</h2>
+                <div className="space-y-6 text-slate-600 text-lg leading-relaxed italic border-l-4 border-primary pl-6 font-medium">
                   <p>
                     &quot;I believe that true entrepreneurship is not just about building businesses; it is about building communities. Coming from a family with a 25-year legacy in real estate built by my father, <strong>Shri Nithuri Singh</strong>, I learned early on that trust and transparency are the greatest currencies in any market.&quot;
                   </p>
@@ -283,13 +275,12 @@ export default function Home() {
                     &quot;I envision a future where top-tier business consultancy, complete property solutions, and dedicated social welfare are accessible to everyone in our zone. When our youth and our laborers grow, our society thrives.&quot;
                   </p>
                 </div>
-
                 <div className="flex gap-8 mt-10">
                   <div className="pt-2">
                     <p className="text-2xl font-black">25+</p>
                     <p className="text-[10px] uppercase font-black text-slate-400 tracking-widest">Year Legacy</p>
                   </div>
-                  <div className="pt-2 border-l border-slate-200 dark:border-slate-700 pl-8">
+                  <div className="pt-2 border-l border-slate-200 pl-8">
                     <p className="text-2xl font-black">500+</p>
                     <p className="text-[10px] uppercase font-black text-slate-400 tracking-widest">Growth Partners</p>
                   </div>
@@ -298,28 +289,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-
-        {/* ── CTA Section ───────────────────────────────────────── */}
-        {/* <section className="px-6 md:px-20 mb-20 max-w-[1400px] mx-auto dark:text-white transition-colors duration-300">
-          <div className="bg-primary rounded-2xl p-12 text-center text-white relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32" />
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full -ml-24 -mb-24" />
-            <div className="relative z-10 max-w-2xl mx-auto">
-              <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Take the Next Step?</h2>
-              <p className="text-white/80 text-lg mb-10">
-                Whether you&apos;re looking to buy, sell, or invest, our experts are here to guide you through every process.
-              </p>
-              <div className="flex flex-wrap gap-4 justify-center">
-                <button className="bg-white text-primary px-8 py-4 rounded-lg font-bold text-lg hover:bg-slate-100 transition-colors">
-                  List Your Property Today
-                </button>
-                <button className="bg-transparent border-2 border-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-white/10 transition-colors">
-                  Speak to an Advisor
-                </button>
-              </div>
-            </div>
-          </div>
-        </section> */}
       </main>
 
       <Footer />
@@ -347,7 +316,7 @@ function PropertyCard({
   image: string;
 }) {
   return (
-    <div className="group bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all border border-slate-100 dark:border-slate-700">
+    <div className="group bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all border border-slate-100">
       <div
         className="h-64 bg-cover bg-center relative"
         style={{ backgroundImage: `url("${image}")` }}
@@ -360,15 +329,15 @@ function PropertyCard({
       </div>
       <div className="p-6">
         <div className="flex justify-between items-start mb-2">
-          <h3 className="text-xl font-bold group-hover:text-primary transition-colors dark:text-white line-clamp-1">{title}</h3>
+          <h3 className="text-xl font-bold group-hover:text-primary transition-colors line-clamp-1">{title}</h3>
           <p className="text-primary font-bold text-lg">{price}</p>
         </div>
-        <p className="text-slate-500 dark:text-slate-400 flex items-center gap-1 text-sm mb-4">
+        <p className="text-slate-500 flex items-center gap-1 text-sm mb-4">
           <span className="material-symbols-outlined text-sm">location_on</span> {location}
         </p>
-        <div className="flex items-center gap-4 py-4 border-t border-slate-100 dark:border-slate-700 overflow-x-auto whitespace-nowrap scrollbar-hide">
+        <div className="flex items-center gap-4 py-4 border-t border-slate-100 overflow-x-auto whitespace-nowrap scrollbar-hide">
           {features.map((f) => (
-            <div key={f.label} className="flex items-center gap-1 text-xs font-bold dark:text-slate-200 uppercase tracking-tighter">
+            <div key={f.label} className="flex items-center gap-1 text-xs font-bold uppercase tracking-tighter">
               <span className="material-symbols-outlined text-slate-400 text-sm">{f.icon}</span>
               {f.label}
             </div>
@@ -387,12 +356,12 @@ function PropertyCard({
 
 function ServiceCard({ icon, title, desc }: { icon: string; title: string; desc: string }) {
   return (
-    <div className="bg-white dark:bg-slate-800 p-8 rounded-xl shadow-sm border-b-4 border-primary hover:-translate-y-2 transition-transform">
-      <div className="w-14 h-14 bg-primary/10 dark:bg-primary/20 rounded-lg flex items-center justify-center mb-6">
+    <div className="bg-white p-8 rounded-xl shadow-sm border-b-4 border-primary hover:-translate-y-2 transition-transform">
+      <div className="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
         <span className="material-symbols-outlined text-3xl text-primary">{icon}</span>
       </div>
-      <h3 className="text-xl font-bold mb-3 dark:text-white">{title}</h3>
-      <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">{desc}</p>
+      <h3 className="text-xl font-bold mb-3">{title}</h3>
+      <p className="text-slate-600 text-sm leading-relaxed">{desc}</p>
     </div>
   );
 }

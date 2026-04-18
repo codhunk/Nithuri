@@ -124,7 +124,7 @@ export default function ChatPopup({ conversationId, onClose, receiver }: ChatPop
   if (!user || !isAuthenticated) return null;
 
   return (
-    <div className={`fixed bottom-6 right-6 w-[400px] max-w-[calc(100vw-48px)] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.7)] rounded-3xl overflow-hidden border border-white/20 dark:border-primary/20 z-50 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] transform ${isMinimized ? "h-16 translate-y-0" : "h-[550px]"} flex flex-col`}>
+    <div className={`fixed bottom-6 right-6 w-[400px] max-w-[calc(100vw-48px)] bg-white/95 backdrop-blur-xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)]] rounded-3xl overflow-hidden border border-white/20 z-50 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] transform ${isMinimized ? "h-16 translate-y-0" : "h-[550px]"} flex flex-col`}>
       {/* Header */}
       <div 
         className="bg-primary p-4 flex items-center justify-between cursor-pointer group" 
@@ -164,7 +164,7 @@ export default function ChatPopup({ conversationId, onClose, receiver }: ChatPop
         <>
           {/* Messages Area */}
           <div 
-            className="flex-1 overflow-y-auto p-5 scrollbar-hide bg-[#f0f2f5] dark:bg-slate-950/20 relative"
+            className="flex-1 overflow-y-auto p-5 scrollbar-hide bg-[#f0f2f5] relative"
             style={{
               backgroundImage: "url('https://i.pinimg.com/originals/ab/ab/60/abab60f06ab52fa784665855c3ab27f4.png')",
               backgroundSize: "280px",
@@ -186,7 +186,7 @@ export default function ChatPopup({ conversationId, onClose, receiver }: ChatPop
                       <div className={`max-w-[85%] p-3.5 rounded-2xl shadow-sm relative group/msg ${
                         isMe 
                         ? "bg-primary text-white rounded-tr-none shadow-primary/20" 
-                        : "bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-tl-none border border-black/5"
+                        : "bg-white text-slate-900 rounded-tl-none border border-black/5"
                       }`}>
                         <p className="text-[13px] leading-relaxed font-medium">{msg.message}</p>
                         <div className={`flex items-center justify-end gap-1 mt-1 opacity-60 transition-opacity group-hover/msg:opacity-100`}>
@@ -209,15 +209,15 @@ export default function ChatPopup({ conversationId, onClose, receiver }: ChatPop
           </div>
 
           {/* Input Area */}
-          <div className="p-4 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-primary/10">
-            <div className="flex gap-2 items-center bg-slate-50 dark:bg-primary/5 rounded-[1.5rem] border border-slate-200 dark:border-primary/10 p-1.5 focus-within:ring-2 focus-within:ring-primary/20 transition-all">
+          <div className="p-4 bg-white border-t border-slate-100">
+            <div className="flex gap-2 items-center bg-slate-50 rounded-[1.5rem] border border-slate-200 p-1.5 focus-within:ring-2 focus-within:ring-primary/20 transition-all">
               <input
                 type="text"
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), sendMessage())}
                 placeholder="Type a message..."
-                className="flex-1 bg-transparent border-none outline-none py-2 text-sm dark:text-white px-3"
+                className="flex-1 bg-transparent border-none outline-none py-2 text-sm px-3"
               />
               <button 
                 onClick={sendMessage}

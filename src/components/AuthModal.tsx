@@ -202,9 +202,9 @@ export default function AuthModal({ isOpen, onClose, initialMode = "login" }: Au
       <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={onClose} />
 
       {/* Modal Container */}
-      <div className={`bg-white dark:bg-slate-900 w-full max-w-md rounded-3xl overflow-hidden shadow-2xl relative z-10 border border-white/20 transition-all duration-300 transform ${isOpen ? "scale-100 translate-y-0" : "scale-95 translate-y-4"}`}>
+      <div className={`bg-white w-full max-w-md rounded-3xl overflow-hidden shadow-2xl relative z-10 border border-white/20 transition-all duration-300 transform ${isOpen ? "scale-100 translate-y-0" : "scale-95 translate-y-4"}`}>
         {/* Close */}
-        <button onClick={onClose} className="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:bg-slate-100 dark:hover:bg-primary/10 hover:text-primary transition-all z-10">
+        <button onClick={onClose} className="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:bg-slate-100 hover:text-primary transition-all z-10">
           <span className="material-symbols-outlined">close</span>
         </button>
 
@@ -231,7 +231,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = "login" }: Au
 
         {/* Tabs — hidden on OTP or Forgot step */}
         {step === "form" && (
-          <div className="flex border-b border-slate-100 dark:border-primary/5 bg-slate-50 dark:bg-primary/5">
+          <div className="flex border-b border-slate-100 bg-slate-50">
             <button onClick={() => switchMode("login")} className={`flex-1 py-4 text-sm font-bold transition-all border-b-2 ${mode === "login" ? "border-primary text-primary" : "border-transparent text-slate-400"}`}>
               Log In
             </button>
@@ -271,7 +271,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = "login" }: Au
                     value={digit}
                     onChange={(e) => handleOtpChange(i, e.target.value)}
                     onKeyDown={(e) => handleOtpKeyDown(i, e)}
-                    className="w-12 h-14 text-center text-2xl font-black border-2 rounded-2xl bg-slate-50 dark:bg-primary/5 dark:text-white outline-none transition-all focus:border-primary focus:bg-white dark:focus:bg-primary/10 focus:ring-4 focus:ring-primary/10"
+                    className="w-12 h-14 text-center text-2xl font-black border-2 rounded-2xl bg-slate-50 outline-none transition-all focus:border-primary focus:bg-white focus:ring-4 focus:ring-primary/10"
                   />
                 ))}
               </div>
@@ -308,7 +308,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = "login" }: Au
                 <div className="relative">
                   <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary/40 text-sm">mail</span>
                   <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="name@example.com"
-                    className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-100 dark:border-primary/20 rounded-xl pl-11 pr-4 py-3 text-sm outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all dark:text-white" />
+                    className="w-full bg-slate-50 border border-slate-100 rounded-xl pl-11 pr-4 py-3 text-sm outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all" />
                 </div>
               </div>
 
@@ -334,7 +334,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = "login" }: Au
                     <div className="relative">
                       <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary/40 text-sm">person</span>
                       <input type="text" required value={name} onChange={(e) => setName(e.target.value)} placeholder="Your full name"
-                        className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-100 dark:border-primary/20 rounded-xl pl-11 pr-4 py-3 text-sm outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all dark:text-white" />
+                        className="w-full bg-slate-50 border border-slate-100 rounded-xl pl-11 pr-4 py-3 text-sm outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all" />
                     </div>
                   </div>
 
@@ -358,7 +358,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = "login" }: Au
                 <div className="relative">
                   <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary/40 text-sm">mail</span>
                   <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="name@example.com"
-                    className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-100 dark:border-primary/20 rounded-xl pl-11 pr-4 py-3 text-sm outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all dark:text-white" />
+                    className="w-full bg-slate-50 border border-slate-100 rounded-xl pl-11 pr-4 py-3 text-sm outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all" />
                 </div>
               </div>
 
@@ -367,7 +367,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = "login" }: Au
                 <div className="relative">
                   <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary/40 text-sm">lock</span>
                   <input type={showPass ? "text" : "password"} required value={password} onChange={(e) => setPassword(e.target.value)} minLength={6} placeholder="••••••••"
-                    className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-100 dark:border-primary/20 rounded-xl pl-11 pr-12 py-3 text-sm outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all dark:text-white" />
+                    className="w-full bg-slate-50 border border-slate-100 rounded-xl pl-11 pr-12 py-3 text-sm outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all" />
                   <button type="button" onClick={() => setShowPass(!showPass)} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary">
                     <span className="material-symbols-outlined text-sm">{showPass ? "visibility_off" : "visibility"}</span>
                   </button>

@@ -14,29 +14,29 @@ export default function HelpPage() {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
 
   return (
-    <div className="flex flex-col min-h-screen bg-white dark:bg-background-dark transition-colors duration-300">
+    <div className="flex flex-col min-h-screen bg-white transition-colors duration-300">
       <Navbar />
       <main className="flex-1 max-w-4xl mx-auto px-6 py-20 w-full">
         <div className="text-center mb-16">
-           <h1 className="text-4xl md:text-5xl font-black mb-6 dark:text-white underline decoration-primary decoration-4 underline-offset-8">Help Center</h1>
-           <p className="text-slate-500 dark:text-slate-400 font-medium text-lg">Find answers to common questions or reach out to our professional support team.</p>
+           <h1 className="text-4xl md:text-5xl font-black mb-6 underline decoration-primary decoration-4 underline-offset-8">Help Center</h1>
+           <p className="text-slate-500 font-medium text-lg">Find answers to common questions or reach out to our professional support team.</p>
         </div>
 
         <div className="space-y-4">
            {faq.map((item, idx) => (
               <div 
                 key={idx} 
-                className="bg-slate-50 dark:bg-primary/5 border border-slate-100 dark:border-primary/10 rounded-2xl overflow-hidden transition-all"
+                className="bg-slate-50 border border-slate-100 rounded-2xl overflow-hidden transition-all"
               >
                  <button 
                    onClick={() => setOpenIdx(openIdx === idx ? null : idx)}
                    className="w-full p-6 text-left flex justify-between items-center group"
                  >
-                    <span className="font-black text-lg text-slate-900 dark:text-white group-hover:text-primary transition-colors">{item.q}</span>
+                    <span className="font-black text-lg text-slate-900 group-hover:text-primary transition-colors">{item.q}</span>
                     <span className={`material-symbols-outlined text-primary transition-transform ${openIdx === idx ? "rotate-180" : ""}`}>expand_more</span>
                  </button>
                  {openIdx === idx && (
-                    <div className="px-6 pb-6 text-slate-600 dark:text-slate-400 font-medium leading-relaxed animate-in fade-in slide-in-from-top-2 duration-300">
+                    <div className="px-6 pb-6 text-slate-600 font-medium leading-relaxed animate-in fade-in slide-in-from-top-2 duration-300">
                        {item.a}
                     </div>
                  )}

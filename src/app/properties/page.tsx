@@ -60,42 +60,42 @@ export default function PropertiesPage() {
   };
 
   return (
-    <div className="flex h-full grow flex-col min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
+    <div className="flex h-full grow flex-col min-h-screen bg-slate-50 transition-colors duration-300">
       <Navbar />
       <main>
         {/* Page Header & Search */}
-        <section className="bg-white dark:bg-slate-900 pt-16 pb-12 px-6 md:px-20 border-b border-slate-100 dark:border-primary/5">
+        <section className="bg-white pt-16 pb-12 px-6 md:px-20 border-b border-slate-100">
           <div className="max-w-[1400px] mx-auto">
             <div className="mb-12">
               <p className="text-primary font-bold tracking-widest uppercase text-xs mb-2">Advanced Search</p>
-              <h1 className="text-4xl md:text-5xl font-bold mb-4 dark:text-white leading-tight">Find Your <span className="text-primary">Perfect</span> Space</h1>
+              <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">Find Your <span className="text-primary">Perfect</span> Space</h1>
             </div>
 
             {/* Filter Bar */}
-            <form onSubmit={handleSearch} className="bg-white dark:bg-slate-800 p-4 md:p-2 rounded-[2rem] border border-slate-200 dark:border-primary/20 shadow-2xl shadow-primary/5 flex flex-col md:flex-row gap-2">
-              <div className="flex-1 flex items-center gap-3 px-6 py-3 border-r border-slate-100 dark:border-primary/10">
+            <form onSubmit={handleSearch} className="bg-white p-4 md:p-2 rounded-[2rem] border border-slate-200 shadow-2xl shadow-primary/5 flex flex-col md:flex-row gap-2">
+              <div className="flex-1 flex items-center gap-3 px-6 py-3 border-r border-slate-100">
                 <span className="material-symbols-outlined text-slate-400">search</span>
                 <input
                   type="text"
                   placeholder="Search by title or keywords..."
-                  className="w-full bg-transparent outline-none text-sm font-bold dark:text-white"
+                  className="w-full bg-transparent outline-none text-sm font-bold"
                   value={filters.search}
                   onChange={(e) => setFilters({ ...filters, search: e.target.value })}
                 />
               </div>
-              <div className="flex-1 flex items-center gap-3 px-6 py-3 border-r border-slate-100 dark:border-primary/10">
+              <div className="flex-1 flex items-center gap-3 px-6 py-3 border-r border-slate-100">
                 <span className="material-symbols-outlined text-slate-400">location_on</span>
                 <input
                   type="text"
                   placeholder="Enter City..."
-                  className="w-full bg-transparent outline-none text-sm font-bold dark:text-white"
+                  className="w-full bg-transparent outline-none text-sm font-bold"
                   value={filters.city}
                   onChange={(e) => setFilters({ ...filters, city: e.target.value })}
                 />
               </div>
               <div className="grid grid-cols-2 lg:flex items-center gap-2 p-2">
                 <select
-                  className="bg-slate-50 dark:bg-slate-900 px-4 py-3 rounded-2xl text-[10px] font-bold uppercase tracking-widest dark:text-gray-300 border-none outline-none"
+                  className="bg-slate-50 px-4 py-3 rounded-2xl text-[10px] font-bold uppercase tracking-widest border-none outline-none"
                   value={filters.type}
                   onChange={(e) => setFilters({ ...filters, type: e.target.value })}
                 >
@@ -107,7 +107,7 @@ export default function PropertiesPage() {
                   <option value="farmhouse">Farmhouse</option>
                 </select>
                 <select
-                  className="bg-slate-50 dark:bg-slate-900 px-4 py-3 rounded-2xl text-[10px] font-bold uppercase tracking-widest dark:text-gray-300 border-none outline-none"
+                  className="bg-slate-50 px-4 py-3 rounded-2xl text-[10px] font-bold uppercase tracking-widest border-none outline-none"
                   value={filters.listingType}
                   onChange={(e) => setFilters({ ...filters, listingType: e.target.value })}
                 >
@@ -125,7 +125,7 @@ export default function PropertiesPage() {
 
         {/* Listings Grid */}
         <section className="py-12 px-6 md:px-20 max-w-[1400px] mx-auto min-h-[400px]">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10 pb-6 border-b border-slate-100 dark:border-primary/5">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10 pb-6 border-b border-slate-100">
             <div>
               <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">
                 Found {properties.length} Active Listings
@@ -134,7 +134,7 @@ export default function PropertiesPage() {
             <div className="flex items-center gap-3">
               <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Sort By:</span>
               <select
-                className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-primary/20 rounded-xl px-4 py-2 text-xs font-bold text-slate-700 dark:text-gray-300 outline-none hover:border-primary transition-colors cursor-pointer"
+                className="bg-white border border-slate-200 rounded-xl px-4 py-2 text-xs font-bold text-slate-700 outline-none hover:border-primary transition-colors cursor-pointer"
                 value={filters.sort}
                 onChange={(e) => setFilters({ ...filters, sort: e.target.value })}
               >
@@ -153,13 +153,13 @@ export default function PropertiesPage() {
           ) : error ? (
             <div className="py-20 text-center">
               <span className="material-symbols-outlined text-4xl text-red-500 mb-4">error_outline</span>
-              <p className="text-slate-600 dark:text-slate-400 font-bold">{error}</p>
+              <p className="text-slate-600 font-bold">{error}</p>
             </div>
           ) : properties.length === 0 ? (
-            <div className="py-20 text-center bg-white dark:bg-slate-900 rounded-[3rem] border-2 border-dashed border-slate-100 dark:border-primary/5 shadow-sm">
+            <div className="py-20 text-center bg-white rounded-[3rem] border-2 border-dashed border-slate-100 shadow-sm">
               <span className="material-symbols-outlined text-4xl text-slate-200 mb-4">search_off</span>
-              <h3 className="text-xl font-bold dark:text-white uppercase tracking-tight">No Matching Properties</h3>
-              <p className="text-slate-500 dark:text-slate-400 mt-2 text-sm max-w-xs mx-auto">We couldn't find any listings matching your current filters. Try loosening your search criteria.</p>
+              <h3 className="text-xl font-bold uppercase tracking-tight">No Matching Properties</h3>
+              <p className="text-slate-500 mt-2 text-sm max-w-xs mx-auto">We couldn't find any listings matching your current filters. Try loosening your search criteria.</p>
               <button
                 onClick={() => setFilters({ search: "", city: "", type: "", listingType: "", minPrice: "", maxPrice: "", sort: "newest" })}
                 className="mt-6 text-primary font-bold text-xs uppercase tracking-widest hover:underline"
@@ -171,14 +171,14 @@ export default function PropertiesPage() {
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                 {properties.map((p) => (
-                  <div key={p._id} className="group bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-2xl shadow-black/5 hover:shadow-primary/10 transition-all border border-slate-100 dark:border-primary/5 flex flex-col hover:-translate-y-2 duration-500">
+                  <div key={p._id} className="group bg-white rounded-xl overflow-hidden shadow-2xl shadow-black/5 hover:shadow-primary/10 transition-all border border-slate-100 flex flex-col hover:-translate-y-2 duration-500">
                     <div className="h-64 relative overflow-hidden">
                       <img
                         src={p.images?.[0]?.url || "/placeholder.jpg"}
                         alt={p.title}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
-                      <div className="absolute top-4 left-4 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md text-slate-800 dark:text-white text-[10px] font-bold tracking-widest px-3 py-1 rounded-full uppercase">
+                      <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md text-slate-800 text-[10px] font-bold tracking-widest px-3 py-1 rounded-full uppercase">
                         {p.propertyType}
                       </div>
                       <div className="absolute top-4 right-4 bg-primary text-white text-[10px] font-bold tracking-widest px-3 py-1 rounded-full uppercase shadow-xl shadow-primary/20">
@@ -189,16 +189,16 @@ export default function PropertiesPage() {
                     <div className="p-8 flex-1 flex flex-col justify-between">
                       <div>
                         <div className="flex justify-between items-start gap-4 mb-3">
-                          <h3 className="text-xl font-bold dark:text-white group-hover:text-primary transition-colors leading-tight line-clamp-1">{p.title}</h3>
+                          <h3 className="text-xl font-bold group-hover:text-primary transition-colors leading-tight line-clamp-1">{p.title}</h3>
                           <p className="text-primary font-bold text-xl whitespace-nowrap">₹{(p.price / 10000000).toFixed(2)} Cr</p>
                         </div>
-                        <p className="text-slate-500 dark:text-slate-400 flex items-center gap-1.5 text-xs font-bold mb-6">
+                        <p className="text-slate-500 flex items-center gap-1.5 text-xs font-bold mb-6">
                           <span className="material-symbols-outlined text-primary text-base">location_on</span> {formatAddress(p.address)}
                         </p>
                       </div>
 
                       <div>
-                        <div className="flex items-center gap-6 py-4 border-y border-slate-50 dark:border-primary/5 text-[10px] font-bold uppercase text-slate-400 dark:text-slate-500 overflow-x-auto whitespace-nowrap scrollbar-hide">
+                        <div className="flex items-center gap-6 py-4 border-y border-slate-50 text-[10px] font-bold uppercase text-slate-400 overflow-x-auto whitespace-nowrap scrollbar-hide">
                           <span className="flex items-center gap-2">
                             <span className="material-symbols-outlined text-lg opacity-40">square_foot</span>
                             {p.area?.size} {p.area?.unit}
@@ -234,7 +234,7 @@ export default function PropertiesPage() {
                       onClick={() => fetchProperties(n)}
                       className={`w-12 h-12 rounded-2xl font-bold text-sm transition-all shadow-lg ${n === pagination.page
                         ? "bg-primary text-white shadow-primary/20"
-                        : "bg-white dark:bg-slate-900 border border-slate-100 dark:border-primary/10 text-slate-500 hover:border-primary hover:text-primary shadow-black/5"
+                        : "bg-white border border-slate-100 text-slate-500 hover:border-primary hover:text-primary shadow-black/5"
                         }`}
                     >
                       {n}

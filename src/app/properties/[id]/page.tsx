@@ -53,7 +53,7 @@ export default function PropertyDetailPage() {
   };
 
   if (isLoading) return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950">
+    <div className="min-h-screen flex items-center justify-center bg-slate-50">
       <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
     </div>
   );
@@ -70,7 +70,7 @@ export default function PropertyDetailPage() {
   );
 
   return (
-    <div className="flex h-full grow flex-col min-h-screen bg-white dark:bg-background-dark transition-colors duration-300">
+    <div className="flex h-full grow flex-col min-h-screen bg-white transition-colors duration-300">
       <Navbar />
       <main className="max-w-[1200px] mx-auto px-6 md:px-10 py-12 w-full">
         {/* Breadcrumb */}
@@ -79,7 +79,7 @@ export default function PropertyDetailPage() {
           <span className="material-symbols-outlined text-sm opacity-30">chevron_right</span>
           <a href="/properties" className="hover:text-primary transition-colors">Properties</a>
           <span className="material-symbols-outlined text-sm opacity-30">chevron_right</span>
-          <span className="text-slate-800 dark:text-gray-100 font-bold">{property.title}</span>
+          <span className="text-slate-800 font-bold">{property.title}</span>
         </nav>
 
         <div className="flex flex-col lg:flex-row gap-12">
@@ -87,7 +87,7 @@ export default function PropertyDetailPage() {
           <div className="lg:w-2/3 space-y-10">
             {/* Image Gallery */}
             <div className="space-y-4">
-              <div className="rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-900 aspect-[16/10] shadow-2xl shadow-primary/5 transition-transform">
+              <div className="rounded-xl overflow-hidden bg-slate-100 aspect-[16/10] shadow-2xl shadow-primary/5 transition-transform">
                 <img
                   className="w-full h-full object-cover"
                   src={property.images[0]?.url || "/placeholder.jpg"}
@@ -104,15 +104,15 @@ export default function PropertyDetailPage() {
             </div>
 
             {/* Title & Price Section */}
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-slate-100 dark:border-primary/10">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-slate-100">
               <div>
-                <h1 className="text-4xl md:text-5xl font-black tracking-tight dark:text-white leading-tight mb-3">{property.title}</h1>
-                <p className="text-slate-500 dark:text-slate-400 flex items-center gap-2 font-medium">
+                <h1 className="text-4xl md:text-5xl font-black tracking-tight leading-tight mb-3">{property.title}</h1>
+                <p className="text-slate-500 flex items-center gap-2 font-medium">
                   <span className="material-symbols-outlined text-primary">location_on</span>
                   {formatAddress(property.address)}
                 </p>
               </div>
-              <div className="md:text-right bg-primary/5 dark:bg-primary/20 p-6 rounded-3xl border border-primary/10">
+              <div className="md:text-right bg-primary/5 p-6 rounded-3xl border border-primary/10">
                 <p className="text-primary text-4xl font-black">₹{(property.price / 10000000).toFixed(2)} Cr</p>
                 <div className="flex items-center gap-2 md:justify-end mt-1">
                   <span className="w-2 h-2 rounded-full bg-green-500" />
@@ -129,23 +129,23 @@ export default function PropertyDetailPage() {
                 { icon: "bathtub", label: "Bathrooms", value: property.details?.bathrooms || 0 },
                 { icon: "home_work", label: "Type", value: property.propertyType },
               ].map((s) => (
-                <div key={s.label} className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-100 dark:border-primary/10 shadow-sm flex flex-col items-center text-center transition-all hover:scale-105 hover:shadow-primary/5">
+                <div key={s.label} className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col items-center text-center transition-all hover:scale-105 hover:shadow-primary/5">
                   <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary mb-3">
                     <span className="material-symbols-outlined">{s.icon}</span>
                   </div>
-                  <p className="font-black text-lg dark:text-white leading-tight">{s.value}</p>
+                  <p className="font-black text-lg leading-tight">{s.value}</p>
                   <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">{s.label}</p>
                 </div>
               ))}
             </div>
 
             {/* Description */}
-            <div className="bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-100 dark:border-primary/10 transition-colors">
-              <h2 className="text-2xl font-black mb-6 dark:text-white uppercase tracking-tight flex items-center gap-2">
+            <div className="bg-white rounded-3xl p-8 border border-slate-100 transition-colors">
+              <h2 className="text-2xl font-black mb-6 uppercase tracking-tight flex items-center gap-2">
                 <span className="w-2 h-8 bg-primary rounded-full" />
                 Property Description
               </h2>
-              <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-lg whitespace-pre-wrap">
+              <p className="text-slate-600 leading-relaxed text-lg whitespace-pre-wrap">
                 {property.description}
               </p>
             </div>
@@ -154,8 +154,8 @@ export default function PropertyDetailPage() {
           {/* Right Column - Sticky Sidebar */}
           <div className="lg:w-1/3">
             <div className="sticky top-28 space-y-6">
-              <div className="bg-white dark:bg-slate-900 rounded-[2rem] shadow-2xl shadow-primary/10 border border-slate-100 dark:border-primary/20 p-8 transition-colors">
-                <div className="flex items-center gap-4 mb-8 pb-8 border-b border-slate-50 dark:border-primary/5">
+              <div className="bg-white rounded-[2rem] shadow-2xl shadow-primary/10 border border-slate-100 p-8 transition-colors">
+                <div className="flex items-center gap-4 mb-8 pb-8 border-b border-slate-50">
                   <div className="w-16 h-16 rounded-2xl overflow-hidden bg-primary/10 flex items-center justify-center text-primary shadow-inner">
                     {property.owner?.avatar ? (
                       <img src={property.owner.avatar} className="w-full h-full object-cover" />
@@ -164,7 +164,7 @@ export default function PropertyDetailPage() {
                     )}
                   </div>
                   <div>
-                    <h3 className="font-black text-xl dark:text-white leading-tight">{property.owner?.name}</h3>
+                    <h3 className="font-black text-xl leading-tight">{property.owner?.name}</h3>
                     <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-0.5">Verified Property Owner</p>
                   </div>
                 </div>
@@ -185,7 +185,7 @@ export default function PropertyDetailPage() {
                 </div>
 
                 <div className="mt-8 flex flex-col gap-3">
-                  <div className="flex items-center gap-3 text-xs text-green-600 font-bold uppercase tracking-tighter bg-green-50 dark:bg-green-900/10 p-3 rounded-xl">
+                  <div className="flex items-center gap-3 text-xs text-green-600 font-bold uppercase tracking-tighter bg-green-50 p-3 rounded-xl">
                     <span className="material-symbols-outlined text-base">verified_user</span>
                     Authenticity Verified by Nithuri
                   </div>
@@ -197,12 +197,12 @@ export default function PropertyDetailPage() {
               </div>
 
               {/* Safety Tips */}
-              <div className="bg-amber-50 dark:bg-amber-900/10 rounded-[2rem] p-6 border border-amber-100 dark:border-amber-900/20">
-                <h4 className="font-black text-amber-800 dark:text-amber-400 text-sm mb-2 flex items-center gap-2">
+              <div className="bg-amber-50 rounded-[2rem] p-6 border border-amber-100">
+                <h4 className="font-black text-amber-800 text-sm mb-2 flex items-center gap-2">
                   <span className="material-symbols-outlined text-lg">gpp_maybe</span>
                   Safety Reminder
                 </h4>
-                <p className="text-amber-700/70 dark:text-amber-400/60 text-xs leading-relaxed">
+                <p className="text-amber-700/70 text-xs leading-relaxed">
                   Never share sensitive bank details or OTPs with sellers. Always visit the site before making any payments.
                 </p>
               </div>

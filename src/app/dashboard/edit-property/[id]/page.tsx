@@ -133,16 +133,16 @@ export default function EditPropertyPage() {
     <div className="p-4 md:p-8 max-w-4xl mx-auto space-y-8 pb-12">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-black dark:text-white uppercase tracking-tighter">Edit Property</h1>
+          <h1 className="text-3xl font-black uppercase tracking-tighter">Edit Property</h1>
           <p className="text-slate-500 text-sm font-medium">Update your listing information</p>
         </div>
-        <button onClick={() => router.back()} className="p-3 bg-slate-50 dark:bg-primary/5 rounded-2xl text-slate-400 hover:text-primary transition-colors">
+        <button onClick={() => router.back()} className="p-3 bg-slate-50 rounded-2xl text-slate-400 hover:text-primary transition-colors">
           <span className="material-symbols-outlined">close</span>
         </button>
       </div>
 
       {error && (
-        <div className="p-4 bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-900/20 rounded-xl text-red-700 dark:text-red-400 text-sm font-bold flex items-center gap-2">
+        <div className="p-4 bg-red-50 border border-red-100 rounded-xl text-red-700 text-sm font-bold flex items-center gap-2">
           <span className="material-symbols-outlined">error</span>
           <span>{error}</span>
         </div>
@@ -150,14 +150,14 @@ export default function EditPropertyPage() {
 
       <form onSubmit={handleSubmit} className="space-y-8">
         {/* Basics Section */}
-        <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-10 shadow-sm border border-slate-100 dark:border-primary/10">
+        <div className="bg-white rounded-3xl p-6 md:p-10 shadow-sm border border-slate-100">
           <div className="space-y-8">
             <div className="flex flex-col gap-3">
-              <label className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest pl-1 underline decoration-primary/30 underline-offset-4">Listing Title</label>
+              <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest pl-1 underline decoration-primary/30 underline-offset-4">Listing Title</label>
               <input
                 required
                 type="text"
-                className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-2xl px-5 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary transition-all dark:text-white"
+                className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary transition-all"
                 value={form.title}
                 onChange={(e) => setForm({ ...form, title: e.target.value })}
               />
@@ -165,9 +165,9 @@ export default function EditPropertyPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="flex flex-col gap-3">
-                <label className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest pl-1">Property Type</label>
+                <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest pl-1">Property Type</label>
                 <select
-                  className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-2xl px-5 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary transition-all dark:text-white"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary transition-all"
                   value={form.propertyType}
                   onChange={(e) => setForm({ ...form, propertyType: e.target.value })}
                 >
@@ -179,9 +179,9 @@ export default function EditPropertyPage() {
                 </select>
               </div>
               <div className="flex flex-col gap-3">
-                <label className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest pl-1">Listing Type</label>
+                <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest pl-1">Listing Type</label>
                 <select
-                  className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-2xl px-5 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary transition-all dark:text-white"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary transition-all"
                   value={form.listingType}
                   onChange={(e) => setForm({ ...form, listingType: e.target.value })}
                 >
@@ -194,32 +194,32 @@ export default function EditPropertyPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="flex flex-col gap-3">
-                <label className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest pl-1">Price (INR)</label>
+                <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest pl-1">Price (INR)</label>
                 <input
                   required
                   type="number"
-                  className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-2xl px-5 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary transition-all dark:text-white"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary transition-all"
                   value={form.price}
                   onChange={(e) => setForm({ ...form, price: e.target.value })}
                 />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div className="flex flex-col gap-3">
-                  <label className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest pl-1">Area Size</label>
+                  <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest pl-1">Area Size</label>
                   <input
                     required
                     type="number"
-                    className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-2xl px-5 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary transition-all dark:text-white"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary transition-all"
                     value={form.areaSize}
                     onChange={(e) => setForm({ ...form, areaSize: e.target.value })}
                   />
                 </div>
                 <div className="flex flex-col gap-3">
-                  <label className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest pl-1">Unit</label>
+                  <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest pl-1">Unit</label>
                   <input
                     required
                     type="text"
-                    className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-2xl px-5 py-4 text-sm outline-none"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm outline-none"
                     value={form.areaUnit}
                     onChange={(e) => setForm({ ...form, areaUnit: e.target.value })}
                   />
@@ -228,11 +228,11 @@ export default function EditPropertyPage() {
             </div>
 
             <div className="flex flex-col gap-3">
-              <label className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest pl-1">Description</label>
+              <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest pl-1">Description</label>
               <textarea
                 required
                 rows={5}
-                className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-3xl px-6 py-5 text-sm outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary transition-all dark:text-white resize-none"
+                className="w-full bg-slate-50 border border-slate-200 rounded-3xl px-6 py-5 text-sm outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary transition-all resize-none"
                 value={form.description}
                 onChange={(e) => setForm({ ...form, description: e.target.value })}
               />
@@ -241,8 +241,8 @@ export default function EditPropertyPage() {
         </div>
 
         {/* Media Section */}
-        <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-10 shadow-sm border border-slate-100 dark:border-primary/10">
-          <h2 className="text-xl font-black dark:text-white mb-8">Property Media</h2>
+        <div className="bg-white rounded-3xl p-6 md:p-10 shadow-sm border border-slate-100">
+          <h2 className="text-xl font-black mb-8">Property Media</h2>
           
           <div className="space-y-8">
             {/* Existing Images */}
@@ -270,7 +270,7 @@ export default function EditPropertyPage() {
             {/* New Uploads */}
             <div>
               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Upload New Images</p>
-              <label className="block border-2 border-dashed border-slate-200 dark:border-primary/20 rounded-xl p-10 text-center hover:border-primary transition-all cursor-pointer bg-slate-50/50 dark:bg-primary/5">
+              <label className="block border-2 border-dashed border-slate-200 rounded-xl p-10 text-center hover:border-primary transition-all cursor-pointer bg-slate-50/50">
                 <input type="file" multiple accept="image/*" className="hidden" onChange={handleFileChange} />
                 <span className="material-symbols-outlined text-3xl text-primary mb-2">add_a_photo</span>
                 <p className="text-xs font-bold text-slate-500">Click to add more images</p>
@@ -298,36 +298,36 @@ export default function EditPropertyPage() {
         </div>
 
         {/* Location Section */}
-        <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-10 shadow-sm border border-slate-100 dark:border-primary/10">
-          <h2 className="text-xl font-black dark:text-white mb-8">Location</h2>
+        <div className="bg-white rounded-3xl p-6 md:p-10 shadow-sm border border-slate-100">
+          <h2 className="text-xl font-black mb-8">Location</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="flex flex-col gap-3">
-              <label className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest pl-1">City</label>
+              <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest pl-1">City</label>
               <input
                 required
                 type="text"
-                className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-2xl px-5 py-4 text-sm outline-none"
+                className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm outline-none"
                 value={form.city}
                 onChange={(e) => setForm({ ...form, city: e.target.value })}
               />
             </div>
             <div className="flex flex-col gap-3">
-              <label className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest pl-1">State</label>
+              <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest pl-1">State</label>
               <input
                 required
                 type="text"
-                className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-2xl px-5 py-4 text-sm outline-none"
+                className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm outline-none"
                 value={form.state}
                 onChange={(e) => setForm({ ...form, state: e.target.value })}
               />
             </div>
           </div>
           <div className="flex flex-col gap-3 mt-8">
-            <label className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest pl-1">Street / Address</label>
+            <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest pl-1">Street / Address</label>
             <input
               required
               type="text"
-              className="w-full bg-slate-50 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-2xl px-5 py-4 text-sm outline-none"
+              className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm outline-none"
               value={form.address}
               onChange={(e) => setForm({ ...form, address: e.target.value })}
             />
