@@ -38,10 +38,10 @@ export default function Home() {
             }}
           >
             <div className="max-w-4xl flex flex-col gap-4">
-              <h1 className="text-white text-4xl md:text-6xl font-black leading-tight tracking-tight">
+              <h1 className="text-white text-3xl md:text-5xl font-black leading-tight tracking-tight">
                 Find Land, Opportunities & Guidance in One Place
               </h1>
-              <p className="text-white/90 text-lg md:text-xl font-normal max-w-2xl mx-auto">
+              <p className="text-white/90 text-base md:text-lg font-normal max-w-2xl mx-auto">
                 Connecting you with premium real estate, professional advisory,
                 and sustainable investment opportunities.
               </p>

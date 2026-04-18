@@ -20,7 +20,7 @@ export default function Navbar() {
         {/* Brand */}
         <div className="flex items-center gap-3 text-primary">
           <Link href="/">
-            <img src="/logo-bg.png" alt="Logo" className="w-full h-20" />
+            <img src="/logo1.png" alt="Logo" className="w-full h-20" />
           </Link>
         </div>
 
@@ -150,13 +150,13 @@ export default function Navbar() {
                   <>
                     <button
                       onClick={() => { setMenuOpen(false); openLogin(); }}
-                      className="w-full text-slate-700 text-sm font-bold py-3 px-4 hover:text-primary transition-colors text-left border border-slate-100 rounded-xl"
+                      className="w-full text-slate-700 text-sm font-bold py-3 px-4 hover:text-primary transition-colors text-center border border-slate-300 rounded-xl"
                     >
                       Login Account
                     </button>
                     <button
                       onClick={() => { setMenuOpen(false); openSignup(); }}
-                      className="w-full bg-primary/10 text-primary py-3 rounded-xl text-sm font-bold hover:bg-primary hover:text-white transition-all text-center"
+                      className="w-full bg-primary/10 text-primary py-3 rounded-xl text-sm font-bold hover:bg-primary hover:text-white border border-slate-500 transition-all text-center"
                     >
                       Create Account
                     </button>

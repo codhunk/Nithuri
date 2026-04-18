@@ -36,7 +36,7 @@ export default function Footer() {
           <div className="space-y-8">
             <div className="flex items-center gap-3">
               <Link href="/">
-                <img src="/logo.jpeg" alt="Logo" className="w-40 h-20 rounded-xl" />
+                <img src="/logo1.png" alt="Logo" className="w-32 h-32 rounded-xl" />
               </Link>
             </div>
             <p className="text-sm leading-relaxed max-w-xs font-medium text-slate-200">
