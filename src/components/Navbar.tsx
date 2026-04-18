@@ -92,11 +92,14 @@ export default function Navbar() {
         {/* Mobile Header */}
         <div className="flex lg:hidden items-center gap-3">
           <button
-            className="text-primary"
+            className="group w-12 h-10 flex flex-col items-end justify-center space-y-1 focus:outline-none hover:bg-primary/10 active:scale-95 transition-all px-3"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle menu"
           >
-            <span className="material-symbols-outlined">{menuOpen ? "close" : "menu"}</span>
+            <div className={`h-0.5 bg-primary rounded-full transition-all duration-300 ${menuOpen ? "w-7 rotate-45 translate-y-2.5" : "w-7"}`} />
+            <div className={`h-0.5 bg-primary rounded-full transition-all duration-300 ${menuOpen ? "w-0 opacity-0" : "w-5"}`} />
+            <div className={`h-0.5 bg-primary rounded-full transition-all duration-300 ${menuOpen ? "w-0 opacity-0" : "w-7"}`} />
+            <div className={`h-0.5 bg-primary rounded-full transition-all duration-300 ${menuOpen ? "w-7 -rotate-45 -translate-y-2" : "w-3"}`} />
           </button>
         </div>
 

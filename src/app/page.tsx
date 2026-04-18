@@ -246,7 +246,7 @@ export default function Home() {
         </section>
 
         {/* Founder Section */}
-        <section className="py-24 px-6 md:px-20 bg-white transition-colors duration-300">
+        <section className="py-24 px-6 md:px-20 bg-white transition-colors duration-300 overflow-hidden">
           <div className="max-w-[1100px] mx-auto">
             <div className="flex flex-col md:flex-row items-center gap-12">
               <div className="md:w-2/5 relative group">
