@@ -212,10 +212,10 @@ export default function PropertyDetailPage() {
       </main>
       <Footer />
       {showChat && activeConversationId && (
-        <ChatPopup 
-          conversationId={activeConversationId} 
-          receiver={property.owner} 
-          onClose={() => setShowChat(false)} 
+        <ChatPopup
+          conversationId={activeConversationId}
+          receiver={property.owner}
+          onClose={() => setShowChat(false)}
         />
       )}
     </div>

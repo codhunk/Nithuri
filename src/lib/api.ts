@@ -6,6 +6,7 @@ interface ApiOptions {
   method?: Method;
   body?: Record<string, unknown>;
   formData?: FormData;
+  headers?: Record<string, string>;
 }
 
 class ApiError extends Error {
@@ -29,6 +30,11 @@ export async function api<T = any>(endpoint: string, options: ApiOptions = {}): 
   if (typeof window !== "undefined") {
     const token = localStorage.getItem("accessToken");
     if (token) headers["Authorization"] = `Bearer ${token}`;
+  }
+
+  // Override with custom headers
+  if (options.headers) {
+    Object.assign(headers, options.headers);
   }
 
   const res = await fetch(`${API_BASE}${endpoint}`, {
@@ -116,6 +122,49 @@ export const adminApi = {
   getProperties: (status?: string) => api(`/admin/properties${status ? `?status=${status}` : ""}`),
   approveProperty: (id: string, payload: { status: "approved" | "rejected"; rejectionReason?: string }) =>
     api(`/admin/properties/${id}/approve`, { method: "PUT", body: payload }),
+};
+
+// ─── Labour API ───────────────────────────────────────────────────────────────
+export const labourApi = {
+  register: (formData: FormData) => api("/labour/register", { method: "POST", formData }),
+  login: (payload: { phone: string; password: string }) => api("/labour/login", { method: "POST", body: payload }),
+  getList: (params?: Record<string, string>) => {
+    const q = params ? "?" + new URLSearchParams(params).toString() : "";
+    return api<{ success: boolean; data: any[] }>(`/labour/list${q}`);
+  },
+  getById: (id: string) => api(`/labour/${id}`),
+  update: (id: string, body: any) => api(`/labour/update/${id}`, { method: "PUT", body }),
+  delete: (id: string) => api(`/labour/${id}`, { method: "DELETE" }),
+  
+  // Assignment & Projects
+  getAllProjects: () => api<{ success: boolean; data: any[] }>("/labour/projects"),
+  getApplications: () => api<{ success: boolean; count: number; data: any[] }>("/labour/applications"),
+  getMyAssignments: (token: string) => 
+    api<{ success: boolean; data: any[] }>("/labour/my-assignments", {
+      headers: { "Authorization": `Bearer ${token}` }
+    }),
+  createProject: (payload: any) => api("/labour/project", { method: "POST", body: payload }),
+  applyForProject: (projectId: string, token: string) => 
+    api("/labour/apply", { 
+      method: "POST", 
+      body: { project_id: projectId },
+      // Custom auth header for labour token
+    }).catch(async (e) => {
+      // Manual fetch with token since api wrapper uses standard accessToken
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/v1"}/labour/apply`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+        body: JSON.stringify({ project_id: projectId })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Failed to apply");
+      return data;
+    }),
+  assignLabour: (payload: { project_id?: string; manual_labour_id?: string }) => 
+    api("/labour/assign-labour", { method: "POST", body: payload }),
+  getAssignedLabours: (projectId: string) => api(`/labour/project/${projectId}/labours`),
+  updateAssignmentStatus: (id: string, status: string) => 
+    api(`/labour/assignment/status/${id}`, { method: "PUT", body: { status } }),
 };
 
 // ─── Types ────────────────────────────────────────────────────────────────────

@@ -20,6 +20,7 @@ const propertyRoutes = require("./modules/property/property.routes");
 const inquiryRoutes = require("./modules/inquiry/inquiry.routes");
 const chatRoutes = require("./modules/chat/chat.routes");
 const adminRoutes = require("./modules/admin/admin.routes");
+const labourRoutes = require("./modules/labour/labour.routes");
 
 // Connect to DB and seed admin
 connectDB().then(seedAdmin);
@@ -62,6 +63,7 @@ app.use("/api/v1/properties", propertyRoutes);
 app.use("/api/v1/inquiries", inquiryRoutes);
 app.use("/api/v1/chat", chatRoutes);
 app.use("/api/v1/admin", adminRoutes);
+app.use("/api/v1/labour", labourRoutes);
 
 // Health check
 app.get("/api/health", (req, res) => {

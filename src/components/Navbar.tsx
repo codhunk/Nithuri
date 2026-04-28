@@ -1,18 +1,22 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-import { useTheme } from "./ThemeProvider";
 import AuthModal from "./AuthModal";
+import LabourAuthModal from "./LabourAuthModal";
 import { useAuth } from "@/contexts/AuthContext";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [authModal, setAuthModal] = useState({ isOpen: false, mode: "login" as "login" | "signup" });
+  const [labourModal, setLabourModal] = useState({ isOpen: false, mode: "login" as "login" | "signup" });
   const { user, logout } = useAuth();
 
   const openLogin = () => setAuthModal({ isOpen: true, mode: "login" });
   const openSignup = () => setAuthModal({ isOpen: true, mode: "signup" });
   const closeAuth = () => setAuthModal({ ...authModal, isOpen: false });
+  
+  const openLabourPortal = () => setLabourModal({ isOpen: true, mode: "login" });
+  const closeLabour = () => setLabourModal({ ...labourModal, isOpen: false });
 
   return (
     <>
@@ -28,6 +32,7 @@ export default function Navbar() {
         <div className="hidden lg:flex flex-1 justify-end items-center gap-6">
           <nav className="flex items-center gap-8">
             {[
+              { label: "Find Work", href: "/work" },
               { label: "Properties", href: "/properties" },
               { label: "Services", href: "/services" },
               { label: "Invest", href: "/invest" },
@@ -42,6 +47,12 @@ export default function Navbar() {
                 {item.label}
               </Link>
             ))}
+            <button
+              onClick={openLabourPortal}
+              className="text-slate-700 text-sm font-medium hover:text-primary transition-colors"
+            >
+              Labour
+            </button>
           </nav>
 
           <div className="flex items-center gap-3">
@@ -108,6 +119,7 @@ export default function Navbar() {
           <div className="absolute top-full left-0 w-full bg-white border-b border-primary/10 shadow-md lg:hidden z-50">
             <div className="flex flex-col p-6 gap-4">
               {[
+                { label: "Find Work", href: "/work" },
                 { label: "Properties", href: "/properties" },
                 { label: "Services", href: "/services" },
                 { label: "Invest", href: "/invest" },
@@ -123,6 +135,12 @@ export default function Navbar() {
                   {item.label}
                 </Link>
               ))}
+              <button
+                className="text-slate-700 text-sm font-medium hover:text-primary text-left"
+                onClick={() => { setMenuOpen(false); openLabourPortal(); }}
+              >
+                Labour
+              </button>
               <hr className="border-slate-100" />
               <div className="flex flex-col gap-3">
                 {user ? (
@@ -180,6 +198,13 @@ export default function Navbar() {
         isOpen={authModal.isOpen}
         onClose={closeAuth}
         initialMode={authModal.mode}
+      />
+      
+      {/* Labour Authentication Modal */}
+      <LabourAuthModal
+        isOpen={labourModal.isOpen}
+        onClose={closeLabour}
+        initialMode={labourModal.mode}
       />
     </>
   );

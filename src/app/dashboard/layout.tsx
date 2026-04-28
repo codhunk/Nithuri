@@ -3,6 +3,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useSocket } from "@/contexts/SocketContext";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { user, isLoading, logout } = useAuth();
@@ -10,11 +11,27 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
+  const { socket } = useSocket();
+  const [notification, setNotification] = useState<{title: string, message: string} | null>(null);
+
   useEffect(() => {
     if (!isLoading && !user) {
       router.push("/");
     }
   }, [user, isLoading, router]);
+
+  useEffect(() => {
+    if (socket) {
+      socket.on("labour_notification", (data: any) => {
+        setNotification(data);
+        // Auto dismiss after 5 seconds
+        setTimeout(() => setNotification(null), 5000);
+      });
+    }
+    return () => {
+      if (socket) socket.off("labour_notification");
+    }
+  }, [socket]);
 
   if (isLoading) {
     return (
@@ -33,6 +50,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     { icon: "dashboard", label: "Dashboard", href: "/dashboard" },
     { icon: "add_box", label: "Add Property", href: "/dashboard/add-property" },
     { icon: "list_alt", label: "My Listings", href: "/dashboard/my-listings" },
+    { icon: "engineering", label: "Hire Labour", href: "/dashboard/labour-request" },
     { icon: "chat_bubble", label: "Messages", href: "/dashboard/messages" },
     { icon: "person", label: "Profile", href: "/dashboard/profile" },
   ];
@@ -85,7 +103,23 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </aside>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col overflow-hidden relative">
+        {/* Notification Toast */}
+        {notification && (
+          <div className="absolute top-4 right-4 z-50 bg-white border-l-4 border-primary shadow-xl rounded-xl p-4 min-w-[300px] animate-slide-in-right">
+            <div className="flex justify-between items-start mb-1">
+              <h4 className="font-black text-slate-800 text-sm uppercase tracking-tight flex items-center gap-2">
+                <span className="material-symbols-outlined text-primary text-sm">notifications_active</span>
+                {notification.title}
+              </h4>
+              <button onClick={() => setNotification(null)} className="text-slate-400 hover:text-slate-600">
+                <span className="material-symbols-outlined text-sm">close</span>
+              </button>
+            </div>
+            <p className="text-slate-600 text-xs font-medium">{notification.message}</p>
+          </div>
+        )}
+
         {/* Top Bar */}
         <header className="bg-primary px-6 py-3 flex items-center justify-between text-white shadow-lg relative z-40">
           <div>
