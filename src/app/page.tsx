@@ -38,7 +38,7 @@ export default function Home() {
             }}
           >
             <div className="max-w-4xl flex flex-col gap-4">
-              <h1 className="text-white text-3xl md:text-5xl font-black leading-tight tracking-tight">
+              <h1 className="text-white text-3xl md:text-5xl font-bold leading-tight tracking-tight">
                 Find Land, Opportunities & Guidance in One Place
               </h1>
               <p className="text-white/90 text-base md:text-lg font-normal max-w-2xl mx-auto">
@@ -112,7 +112,7 @@ export default function Home() {
           <div className="flex justify-between items-end mb-10">
             <div>
               <p className="text-primary font-bold tracking-widest uppercase text-sm mb-2">Featured Listings</p>
-              <h2 className="text-3xl md:text-4xl font-black">Handpicked Properties for You</h2>
+              <h2 className="text-3xl md:text-4xl font-bold">Handpicked Properties for You</h2>
             </div>
             <Link className="text-primary font-bold flex items-center gap-1 hover:underline" href="/properties">
               View All <span className="material-symbols-outlined">arrow_right_alt</span>
@@ -150,7 +150,7 @@ export default function Home() {
           <div className="max-w-[1400px] mx-auto">
             <div className="text-center mb-16">
               <p className="text-primary font-bold tracking-widest uppercase text-sm mb-2">What We Do</p>
-              <h2 className="text-3xl md:text-5xl font-black">Comprehensive Expertise</h2>
+              <h2 className="text-3xl md:text-5xl font-bold">Comprehensive Expertise</h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               <ServiceCard icon="real_estate_agent" title="Real Estate" desc="Full-cycle land procurement and development services tailored to your specific needs." />
@@ -166,7 +166,7 @@ export default function Home() {
           <div className="flex flex-col lg:flex-row gap-12 items-center">
             <div className="lg:w-1/2">
               <p className="text-primary font-bold tracking-widest uppercase text-sm mb-2">High-Yield Projects</p>
-              <h2 className="text-3xl md:text-5xl font-black mb-6">Investor Opportunities</h2>
+              <h2 className="text-3xl md:text-5xl font-bold mb-6">Investor Opportunities</h2>
               <p className="text-slate-600 text-lg mb-8 leading-relaxed">
                 Join our mission to transform under-utilized land into high-value assets. We offer structured investment opportunities in land banking, commercial hubs, and green-energy projects.
               </p>
@@ -196,13 +196,13 @@ export default function Home() {
                   <img className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBE8tOOBHXLb6T1Q1LTBlj-XoI9fbMbS6zrJGboT2gqxo8KEwsdVHXRzEDiVQz6ZhJiKKbBB6VmTpMeVnVviulZ4A7NoS5GTGCEd-MWGZ3aXzJaHddBhSo42wOF6hYdDpGaedb9QRlSRMd5flWyOtdl9_yi0WXVpDyrDyFYroJ2oJTnREYYyVMUdqkJyr9HK3dSnt-tGEVgdDsq5pjqhf_Ha0r30KUWmXrNmIl4Co3jSVxQYGwhaw7I4p3ucfEI-UbudrhD7ba__Ls" alt="Construction" />
                 </div>
                 <div className="bg-primary p-6 rounded-xl text-white">
-                  <p className="text-4xl font-black mb-1">15%+</p>
+                  <p className="text-4xl font-bold mb-1">15%+</p>
                   <p className="text-sm opacity-80">Average Annual ROI</p>
                 </div>
               </div>
               <div className="space-y-4 pt-8">
                 <div className="bg-primary/5 p-6 rounded-xl border border-primary/10">
-                  <p className="text-4xl font-black mb-1 text-primary">12</p>
+                  <p className="text-4xl font-bold mb-1 text-primary">12</p>
                   <p className="text-sm font-bold text-slate-500 uppercase tracking-tighter">Active Projects</p>
                 </div>
                 <div className="rounded-xl overflow-hidden h-64 shadow-lg">
@@ -218,7 +218,7 @@ export default function Home() {
           <div className="max-w-[1400px] mx-auto relative z-10">
             <div className="text-center mb-16">
               <p className="text-primary font-bold tracking-widest uppercase text-sm mb-2">Leisure &amp; Nature</p>
-              <h2 className="text-3xl md:text-5xl font-black text-slate-900">Tourism Development</h2>
+              <h2 className="text-3xl md:text-5xl font-bold text-slate-900">Tourism Development</h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               <TourismCard
@@ -263,7 +263,7 @@ export default function Home() {
               </div>
               <div className="md:w-3/5">
                 <p className="text-primary font-bold tracking-widest uppercase text-xs mb-3">Legacy & Leadership</p>
-                <h2 className="text-3xl md:text-5xl font-black mb-6 leading-tight">Director’s Thoughts & Vision</h2>
+                <h2 className="text-3xl md:text-5xl font-bold mb-6 leading-tight">Director’s Thoughts & Vision</h2>
                 <div className="space-y-6 text-slate-600 text-lg leading-relaxed italic border-l-4 border-primary pl-6 font-medium">
                   <p>
                     &quot;I believe that true entrepreneurship is not just about building businesses; it is about building communities. Coming from a family with a 25-year legacy in real estate built by my father, <strong>Shri Nithuri Singh</strong>, I learned early on that trust and transparency are the greatest currencies in any market.&quot;
@@ -277,12 +277,12 @@ export default function Home() {
                 </div>
                 <div className="flex gap-8 mt-10">
                   <div className="pt-2">
-                    <p className="text-2xl font-black">25+</p>
-                    <p className="text-[10px] uppercase font-black text-slate-400 tracking-widest">Year Legacy</p>
+                    <p className="text-2xl font-bold">25+</p>
+                    <p className="text-[10px] uppercase font-bold text-slate-400 tracking-widest">Year Legacy</p>
                   </div>
                   <div className="pt-2 border-l border-slate-200 pl-8">
-                    <p className="text-2xl font-black">500+</p>
-                    <p className="text-[10px] uppercase font-black text-slate-400 tracking-widest">Growth Partners</p>
+                    <p className="text-2xl font-bold">500+</p>
+                    <p className="text-[10px] uppercase font-bold text-slate-400 tracking-widest">Growth Partners</p>
                   </div>
                 </div>
               </div>
@@ -322,19 +322,20 @@ function PropertyCard({
         style={{ backgroundImage: `url("${image}")` }}
       >
         {tag && (
-          <div className="absolute top-4 right-4 bg-primary text-white text-[10px] font-black tracking-widest px-3 py-1 rounded-full uppercase">
+          <div className="absolute top-4 right-4 bg-primary text-white text-[10px] font-bold tracking-widest px-3 py-1 rounded-full uppercase">
             {tag}
           </div>
         )}
       </div>
       <div className="p-6">
         <div className="flex justify-between items-start mb-2">
-          <h3 className="text-xl font-bold group-hover:text-primary transition-colors line-clamp-1">{title}</h3>
+          <h3 className="text-base font-bold group-hover:text-primary transition-colors line-clamp-1">{title}</h3>
           <p className="text-primary font-bold text-lg">{price}</p>
         </div>
-        <p className="text-slate-500 flex items-center gap-1 text-sm mb-4">
-          <span className="material-symbols-outlined text-sm">location_on</span> {location}
-        </p>
+        <div className="text-slate-500 flex items-start gap-1 text-sm mb-4">
+          <span className="material-symbols-outlined text-sm shrink-0 mt-0.5">location_on</span>
+          <span className="line-clamp-2">{location}</span>
+        </div>
         <div className="flex items-center gap-4 py-4 border-t border-slate-100 overflow-x-auto whitespace-nowrap scrollbar-hide">
           {features.map((f) => (
             <div key={f.label} className="flex items-center gap-1 text-xs font-bold uppercase tracking-tighter">
@@ -345,7 +346,7 @@ function PropertyCard({
         </div>
         <Link
           href={`/properties/${id}`}
-          className="block w-full mt-2 py-3 border-2 border-primary text-primary text-center font-black text-sm rounded-lg hover:bg-primary hover:text-white transition-colors uppercase tracking-widest"
+          className="block w-full mt-2 py-3 border-2 border-primary text-primary text-center font-bold text-sm rounded-lg hover:bg-primary hover:text-white transition-colors uppercase tracking-widest"
         >
           View Details
         </Link>
